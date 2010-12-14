@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		493383BB12B433F000FBE23C /* GHUnitIOSTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */; };
+		4933846812B4366E00FBE23C /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933846712B4366E00FBE23C /* GHUnitIOS.framework */; };
+		4933848612B4373600FBE23C /* TScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933848512B4373600FBE23C /* TScriptObject.m */; };
+		4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933848B12B437CD00FBE23C /* CoreGraphics.framework */; };
+		493385BA12B5559B00FBE23C /* libGAJavaScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC07E0554694100DB518D /* libGAJavaScript.a */; };
+		493386AC12B582A300FBE23C /* NSObject+GAJavaScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 493386AA12B582A300FBE23C /* NSObject+GAJavaScript.h */; };
+		493386AD12B582A300FBE23C /* NSObject+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 493386AB12B582A300FBE23C /* NSObject+GAJavaScript.m */; };
+		4933871412B58C9E00FBE23C /* TWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933870F12B58C5700FBE23C /* TWebView.m */; };
+		49F1DBDE12A3F64A004C8736 /* GAScriptObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */; };
+		49F1DBDF12A3F64A004C8736 /* GAScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */; };
+		49F1DBE512A3F67A004C8736 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49F1DBE412A3F67A004C8736 /* UIKit.framework */; };
+		49F1DC8F12A3F7E2004C8736 /* UIWebView+GAJavaScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */; };
+		49F1DC9012A3F7E2004C8736 /* UIWebView+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F1DC8E12A3F7E2004C8736 /* UIWebView+GAJavaScript.m */; };
+		49F51D8412B6C64700F91142 /* ga-js-runtime.js in Resources */ = {isa = PBXBuildFile; fileRef = 49F51D8212B6BDFD00F91142 /* ga-js-runtime.js */; };
+		AA747D9F0F9514B9006C5449 /* GAJavaScript_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* GAJavaScript_Prefix.pch */; };
+		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		493383A412B4339300FBE23C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = GAJavaScript;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4933839E12B4338200FBE23C /* GAJavaScriptTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAJavaScriptTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GAJavaScriptTests-Info.plist"; sourceTree = "<group>"; };
+		493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GHUnitIOSTestMain.m; path = Tests/GHUnitIOSTestMain.m; sourceTree = "<group>"; };
+		4933846712B4366E00FBE23C /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = /Users/andrew/Dev/ThirdParty/GHUnitIOS.framework; sourceTree = "<absolute>"; };
+		4933848412B4373600FBE23C /* TScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptObject.h; path = Tests/TScriptObject.h; sourceTree = "<group>"; };
+		4933848512B4373600FBE23C /* TScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptObject.m; path = Tests/TScriptObject.m; sourceTree = "<group>"; };
+		4933848B12B437CD00FBE23C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		493386AA12B582A300FBE23C /* NSObject+GAJavaScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+GAJavaScript.h"; path = "Classes/NSObject+GAJavaScript.h"; sourceTree = "<group>"; };
+		493386AB12B582A300FBE23C /* NSObject+GAJavaScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+GAJavaScript.m"; path = "Classes/NSObject+GAJavaScript.m"; sourceTree = "<group>"; };
+		4933870E12B58C5700FBE23C /* TWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWebView.h; path = Tests/TWebView.h; sourceTree = "<group>"; };
+		4933870F12B58C5700FBE23C /* TWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TWebView.m; path = Tests/TWebView.m; sourceTree = "<group>"; };
+		49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptObject.h; path = Classes/GAScriptObject.h; sourceTree = "<group>"; };
+		49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptObject.m; path = Classes/GAScriptObject.m; sourceTree = "<group>"; };
+		49F1DBE412A3F67A004C8736 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWebView+GAJavaScript.h"; path = "Classes/UIWebView+GAJavaScript.h"; sourceTree = "<group>"; };
+		49F1DC8E12A3F7E2004C8736 /* UIWebView+GAJavaScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+GAJavaScript.m"; path = "Classes/UIWebView+GAJavaScript.m"; sourceTree = "<group>"; };
+		49F51D8212B6BDFD00F91142 /* ga-js-runtime.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "ga-js-runtime.js"; sourceTree = "<group>"; };
+		AA747D9E0F9514B9006C5449 /* GAJavaScript_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAJavaScript_Prefix.pch; sourceTree = SOURCE_ROOT; };
+		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D2AAC07E0554694100DB518D /* libGAJavaScript.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGAJavaScript.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4933839C12B4338200FBE23C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4933846812B4366E00FBE23C /* GHUnitIOS.framework in Frameworks */,
+				4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */,
+				493385BA12B5559B00FBE23C /* libGAJavaScript.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC07C0554694100DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				49F1DBE512A3F67A004C8736 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC07E0554694100DB518D /* libGAJavaScript.a */,
+				4933839E12B4338200FBE23C /* GAJavaScriptTests.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* GAJavaScript */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
+				034768DFFF38A50411DB9C8B /* Products */,
+				493383BC12B4362F00FBE23C /* Tests */,
+			);
+			name = GAJavaScript;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				49F1DBE412A3F67A004C8736 /* UIKit.framework */,
+				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				4933846712B4366E00FBE23C /* GHUnitIOS.framework */,
+				4933848B12B437CD00FBE23C /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */,
+				49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */,
+				493386AA12B582A300FBE23C /* NSObject+GAJavaScript.h */,
+				493386AB12B582A300FBE23C /* NSObject+GAJavaScript.m */,
+				49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */,
+				49F1DC8E12A3F7E2004C8736 /* UIWebView+GAJavaScript.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */,
+				AA747D9E0F9514B9006C5449 /* GAJavaScript_Prefix.pch */,
+				49F51D8212B6BDFD00F91142 /* ga-js-runtime.js */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		493383BC12B4362F00FBE23C /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */,
+				4933848412B4373600FBE23C /* TScriptObject.h */,
+				4933848512B4373600FBE23C /* TScriptObject.m */,
+				4933870E12B58C5700FBE23C /* TWebView.h */,
+				4933870F12B58C5700FBE23C /* TWebView.m */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2AAC07A0554694100DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA747D9F0F9514B9006C5449 /* GAJavaScript_Prefix.pch in Headers */,
+				49F1DBDE12A3F64A004C8736 /* GAScriptObject.h in Headers */,
+				49F1DC8F12A3F7E2004C8736 /* UIWebView+GAJavaScript.h in Headers */,
+				493386AC12B582A300FBE23C /* NSObject+GAJavaScript.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4933839D12B4338200FBE23C /* GAJavaScriptTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 493383A312B4338300FBE23C /* Build configuration list for PBXNativeTarget "GAJavaScriptTests" */;
+			buildPhases = (
+				4933839A12B4338200FBE23C /* Resources */,
+				4933839B12B4338200FBE23C /* Sources */,
+				4933839C12B4338200FBE23C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				493383A512B4339300FBE23C /* PBXTargetDependency */,
+			);
+			name = GAJavaScriptTests;
+			productName = GAJavaScriptTests;
+			productReference = 4933839E12B4338200FBE23C /* GAJavaScriptTests.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D2AAC07D0554694100DB518D /* GAJavaScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "GAJavaScript" */;
+			buildPhases = (
+				D2AAC07A0554694100DB518D /* Headers */,
+				D2AAC07B0554694100DB518D /* Sources */,
+				D2AAC07C0554694100DB518D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GAJavaScript;
+			productName = GAJavaScript;
+			productReference = D2AAC07E0554694100DB518D /* libGAJavaScript.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "GAJavaScript" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* GAJavaScript */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC07D0554694100DB518D /* GAJavaScript */,
+				4933839D12B4338200FBE23C /* GAJavaScriptTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4933839A12B4338200FBE23C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49F51D8412B6C64700F91142 /* ga-js-runtime.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4933839B12B4338200FBE23C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				493383BB12B433F000FBE23C /* GHUnitIOSTestMain.m in Sources */,
+				4933848612B4373600FBE23C /* TScriptObject.m in Sources */,
+				4933871412B58C9E00FBE23C /* TWebView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC07B0554694100DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49F1DBDF12A3F64A004C8736 /* GAScriptObject.m in Sources */,
+				49F1DC9012A3F7E2004C8736 /* UIWebView+GAJavaScript.m in Sources */,
+				493386AD12B582A300FBE23C /* NSObject+GAJavaScript.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		493383A512B4339300FBE23C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC07D0554694100DB518D /* GAJavaScript */;
+			targetProxy = 493383A412B4339300FBE23C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB921F08733DC00010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/GAJavaScript.dst;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GAJavaScript_Prefix.pch;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../ThirdParty/GHUnitIOS.framework\"",
+				);
+				PRODUCT_NAME = GAJavaScript;
+			};
+			name = Debug;
+		};
+		1DEB922008733DC00010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/GAJavaScript.dst;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GAJavaScript_Prefix.pch;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../ThirdParty/GHUnitIOS.framework\"",
+				);
+				PRODUCT_NAME = GAJavaScript;
+			};
+			name = Release;
+		};
+		1DEB922308733DC00010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				SDKROOT = iphoneos4.1;
+			};
+			name = Debug;
+		};
+		1DEB922408733DC00010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				SDKROOT = iphoneos4.1;
+			};
+			name = Release;
+		};
+		493383A112B4338300FBE23C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../ThirdParty\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "GAJavaScriptTests-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../ThirdParty/GHUnitIOS.framework\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = GAJavaScriptTests;
+				SDKROOT = iphoneos4.1;
+			};
+			name = Debug;
+		};
+		493383A212B4338300FBE23C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../ThirdParty\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "GAJavaScriptTests-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../ThirdParty/GHUnitIOS.framework\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = GAJavaScriptTests;
+				SDKROOT = iphoneos4.1;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "GAJavaScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB921F08733DC00010E9CD /* Debug */,
+				1DEB922008733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "GAJavaScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB922308733DC00010E9CD /* Debug */,
+				1DEB922408733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		493383A312B4338300FBE23C /* Build configuration list for PBXNativeTarget "GAJavaScriptTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				493383A112B4338300FBE23C /* Debug */,
+				493383A212B4338300FBE23C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
