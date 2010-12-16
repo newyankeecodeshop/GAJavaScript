@@ -155,7 +155,8 @@ static NSNumberFormatter* kNumFormatter = nil;
 	}
 	else if ([jstype isEqualToString:@"date"])
 	{
-		return [NSDate date];
+		NSNumber* timeVal = [kNumFormatter numberFromString:result];
+		return [NSDate dateWithTimeIntervalSince1970:[timeVal doubleValue]];
 	}
 	else if ([jstype isEqualToString:@"number"])
 	{
@@ -181,15 +182,24 @@ static NSNumberFormatter* kNumFormatter = nil;
 	NSString* typeofjs = [NSString stringWithFormat:@"GAJavaScript.typeOf(%@.%@)", m_objReference, key];
 	NSString* jstype = [m_webView stringByEvaluatingJavaScriptFromString:typeofjs];
 
+	NSString* js, * result;
+	
 	if ([jstype isEqualToString:@"undefined"])
 	{
 		// This seems like the right way to deal with this...
 		//
 		return [self valueForUndefinedKey:key];
 	}
-	
-	NSString* js = [NSString stringWithFormat:@"%@.%@", m_objReference, key];
-	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
+	else if ([jstype isEqualToString:@"date"])
+	{
+		js = [NSString stringWithFormat:@"%@.%@.getTime()", m_objReference, key];
+		result = [m_webView stringByEvaluatingJavaScriptFromString:js];			
+	}
+	else
+	{
+		js = [NSString stringWithFormat:@"%@.%@", m_objReference, key];
+		result = [m_webView stringByEvaluatingJavaScriptFromString:js];			
+	}
 	
 	return [self convertScriptResult:result scriptType:jstype reference:js];
 }
