@@ -71,13 +71,13 @@
 - (void)finishKeyValueCoding
 {
 	NSArray* kTestValues = [NSArray arrayWithObjects:
-							@"abcd", 
-							@"string 'with' quotes",
-							[NSNumber numberWithInt:400000],
-							[NSNumber numberWithFloat:0.55555],
-							[NSNull null],
-							[NSNumber numberWithBool:YES],
-							[NSDate date],
+							@"abcd",							// String
+							@"string 'with' quotes",			// String that needs escaping
+							[NSNumber numberWithInt:400000],	// Number (Integer)
+							[NSNumber numberWithFloat:0.55555],	// Number (Float)
+							[NSNull null],						// Null
+							[NSNumber numberWithBool:YES],		// Boolean
+							[NSDate date],						// Date
 							nil];
 	
 	NSInteger status = kGHUnitWaitStatusSuccess;
@@ -100,6 +100,8 @@
 		}
 		else if ([testValue isKindOfClass:[NSDate class]])
 		{
+			// There will be a sub-second difference between the values due to rounding of NSTimeInterval
+			// when it's passed into JavaScript. So we validate that the times are within 1 second.
 			if ([testValue timeIntervalSinceDate:gotValue] >= 1.0)
 				status = kGHUnitWaitStatusFailure;		
 		}
