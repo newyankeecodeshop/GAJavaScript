@@ -43,7 +43,16 @@ typedef struct /* GAScriptObjectEnumState */
 
 @interface GAScriptObject ()
 
-- (id)convertScriptResult:(NSString *)result scriptType:(NSString *)jstype reference:(NSString *)reference;
+/*
+ * Returns the name of a "slot" in the reference map for storing JS objects across UIWebView calls.
+ */
+- (NSString *)makeReference;
+
+- (void)releaseReference;
+
+- (id)convertScriptResult:(NSString *)result reference:(NSString *)reference;
+
+- (NSArray *)arrayFromJavaScript:(NSString *)result reference:(NSString *)reference;
 
 @end
 
@@ -51,7 +60,9 @@ typedef struct /* GAScriptObjectEnumState */
 
 @implementation GAScriptObject
 
-static NSNumberFormatter* kNumFormatter = nil; 
+static NSNumberFormatter* kNumFormatter = nil;
+
+static NSUInteger s_refNum = 0;
 
 - (id)initForReference:(NSString *)reference view:(UIWebView *)webView
 {
@@ -69,6 +80,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 
 - (void)dealloc
 {
+	[self releaseReference];
 	[m_objReference release];
 	
 	[super dealloc];
@@ -131,83 +143,28 @@ static NSNumberFormatter* kNumFormatter = nil;
 }
 
 - (id)invokeMethod:(NSString *)methodName withObject:(id)argument
-{
-	NSString* varName = @"ref1";
-	
-	NSString* js = [NSString stringWithFormat:@"var %@ = %@.%@(%@)", 
-					varName, m_objReference, methodName, [argument stringForJavaScript]];
+{	
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@(%@))", 
+					m_objReference, methodName, [argument stringForJavaScript]];
 	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
-
-	// Ask for the type so we can convert properly
-	js = [NSString stringWithFormat:@"GAJavaScript.typeOf(%@)", varName];
-	NSString* jstype = [m_webView stringByEvaluatingJavaScriptFromString:js];
-
-	return [self convertScriptResult:result scriptType:jstype reference:varName];
-}
-
-- (id)convertScriptResult:(NSString *)result scriptType:(NSString *)jstype reference:(NSString *)reference
-{
-	// Objects don't serialize to a string above.		
-	if ([jstype isEqualToString:@"object"])
-	{
-		GAScriptObject* subObj = [[GAScriptObject alloc] initForReference:reference view:m_webView];
-		return [subObj autorelease];
-	}
-	else if ([jstype isEqualToString:@"date"])
-	{
-		NSNumber* timeVal = [kNumFormatter numberFromString:result];
-		return [NSDate dateWithTimeIntervalSince1970:[timeVal doubleValue]];
-	}
-	else if ([jstype isEqualToString:@"number"])
-	{
-		return [kNumFormatter numberFromString:result];
-	}
-	else if ([jstype isEqualToString:@"boolean"])
-	{
-		return [NSNumber numberWithBool:[result isEqualToString:@"true"]];
-	}
-	else if ([jstype isEqualToString:@"null"])
-	{
-		return [NSNull null];
-	}
 	
-	return result;	
+	return [self convertScriptResult:result reference:m_objReference];
 }
 
 #pragma mark GAScriptObject (NSKeyValueCoding)
 
 - (id)valueForKey:(NSString *)key
-{
-	// Ask for the type so we can convert properly
-	NSString* typeofjs = [NSString stringWithFormat:@"GAJavaScript.typeOf(%@.%@)", m_objReference, key];
-	NSString* jstype = [m_webView stringByEvaluatingJavaScriptFromString:typeofjs];
-
-	NSString* js, * result;
+{	
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@)", m_objReference, key];
+	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
 	
-	if ([jstype isEqualToString:@"undefined"])
-	{
-		// This seems like the right way to deal with this...
-		//
-		return [self valueForUndefinedKey:key];
-	}
-	else if ([jstype isEqualToString:@"date"])
-	{
-		js = [NSString stringWithFormat:@"%@.%@.getTime()", m_objReference, key];
-		result = [m_webView stringByEvaluatingJavaScriptFromString:js];			
-	}
-	else
-	{
-		js = [NSString stringWithFormat:@"%@.%@", m_objReference, key];
-		result = [m_webView stringByEvaluatingJavaScriptFromString:js];			
-	}
-	
-	return [self convertScriptResult:result scriptType:jstype reference:js];
+	return [self convertScriptResult:result reference:key];	
 }
 
 - (void)setValue:(id)value forKey:(NSString *)key
 {
 	if (value == nil)
-		value = @"null";		
+		value = [[NSNull null] stringForJavaScript];		
 	else 
 		value = [value stringForJavaScript];
 	
@@ -221,6 +178,77 @@ static NSNumberFormatter* kNumFormatter = nil;
 - (id)valueForUndefinedKey:(NSString *)key
 {
 	return @"undefined";
+}
+
+#pragma mark Private
+
+/*
+ * Returns the name of a "slot" in the reference map for storing JS objects across UIWebView calls.
+ */
+- (NSString *)makeReference
+{
+	return [NSString stringWithFormat:@"GAJavaScript.refMap['ref%d']", ++s_refNum];	
+}
+
+- (void)releaseReference
+{
+	if ([m_objReference length] < 22)
+		return;
+	
+	if ([[m_objReference substringToIndex:12] isEqualToString:@"GAJavaScript"])
+	{
+		NSString* js = [NSString stringWithFormat:@"%@ = null", m_objReference];
+		[m_webView stringByEvaluatingJavaScriptFromString:js];
+	}
+}
+
+- (id)convertScriptResult:(NSString *)result reference:(NSString *)reference
+{
+	unichar jstype = [result characterAtIndex:0];
+	result = [result substringFromIndex:2];
+	
+	// Objects don't serialize to a string above.		
+	if (jstype == 'o')
+	{
+		GAScriptObject* subObj = [[GAScriptObject alloc] initForReference:reference view:m_webView];
+		return [subObj autorelease];
+	}
+	else if (jstype == 'd')
+	{
+		NSNumber* timeVal = [kNumFormatter numberFromString:result];
+		return [NSDate dateWithTimeIntervalSince1970:[timeVal doubleValue]];
+	}
+	else if (jstype == 'n')
+	{
+		return [kNumFormatter numberFromString:result];
+	}
+	else if (jstype == 'b')
+	{
+		return [NSNumber numberWithBool:[result isEqualToString:@"true"]];
+	}
+	else if (jstype == 'a')
+	{		
+		return [self arrayFromJavaScript:result reference:reference];
+	}
+	else if (jstype == 'x')
+	{
+		return [NSNull null];
+	}
+	
+	return result;	
+}
+
+- (NSArray *)arrayFromJavaScript:(NSString *)result reference:(NSString *)reference
+{
+	NSArray* components = [result componentsSeparatedByString:@","];
+	NSMutableArray* retVal = [NSMutableArray arrayWithCapacity:[components count]];
+	
+	for (NSString* jsvalue in components)
+	{
+		[retVal addObject:[self convertScriptResult:jsvalue reference:reference]];
+	}
+	
+	return retVal;
 }
 
 #pragma mark NSFastEnumeration

@@ -52,6 +52,32 @@
 	[m_webView loadHTMLString:@"<html><body><p>Hello World</p></body></html>" baseURL:nil];
 }
 
+- (BOOL)compareValues:(id)gotValue testValue:(id)testValue
+{	
+	// I don't know why regular isEqual: and compare: don't work for floating point numbers,
+	// so I need to compare the decimal values specifically. Weird.
+	if ([testValue isKindOfClass:[NSNumber class]])
+	{
+		NSDecimal dec1 = [testValue decimalValue];
+		NSDecimal dec2 = [gotValue decimalValue];
+		
+		return (NSDecimalCompare(&dec1, &dec2) == NSOrderedSame);
+	}
+	else if ([testValue isKindOfClass:[NSDate class]])
+	{
+		// There will be a sub-second difference between the values due to rounding of NSTimeInterval
+		// when it's passed into JavaScript. So we validate that the times are within 1 second.
+		return ([testValue timeIntervalSinceDate:gotValue] < 1.0);		
+	}
+	else if (![gotValue isEqual:testValue])
+	{
+		GHTestLog(@"get/setValue failed for %@", testValue);
+		return NO;
+	}	
+	
+	return YES;
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	// Load the GAJavaScript runtime here
@@ -88,33 +114,52 @@
 		[jsObject setValue:testValue forKey:@"js_test"];
 		id gotValue = [jsObject valueForKey:@"js_test"];
 		
-		// I don't know why regular isEqual: and compare: don't work for floating point numbers,
-		// so I need to compare the decimal values specifically. Weird.
-		if ([testValue isKindOfClass:[NSNumber class]])
-		{
-			NSDecimal dec1 = [testValue decimalValue];
-			NSDecimal dec2 = [gotValue decimalValue];
-			
-			if (NSDecimalCompare(&dec1, &dec2) != NSOrderedSame)
-				status = kGHUnitWaitStatusFailure;
-		}
-		else if ([testValue isKindOfClass:[NSDate class]])
-		{
-			// There will be a sub-second difference between the values due to rounding of NSTimeInterval
-			// when it's passed into JavaScript. So we validate that the times are within 1 second.
-			if ([testValue timeIntervalSinceDate:gotValue] >= 1.0)
-				status = kGHUnitWaitStatusFailure;		
-		}
-		else if (![gotValue isEqual:testValue])
-		{
-			status = kGHUnitWaitStatusFailure;		
-			GHTestLog(@"get/setValue failed for %@", testValue);
-		}
+		if (![self compareValues:gotValue testValue:testValue])
+			status = kGHUnitWaitStatusFailure;
 	}
 	
 	[self notify:status forSelector:@selector(testKeyValueCoding)];	
 	[jsObject release];
 }
+
+- (void)testKeyValueCodingWithArrays
+{
+	[self prepare];
+	m_curTest = @selector(finishKeyValueCodingWithArrays);
+	
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];
+}
+
+- (void)finishKeyValueCodingWithArrays
+{
+	NSArray* kTestValues = [NSArray arrayWithObjects:
+							@"abcd",							// String
+							@"string 'with' quotes",			// String that needs escaping
+							[NSNumber numberWithInt:400000],	// Number (Integer)
+							[NSNumber numberWithFloat:0.55555],	// Number (Float)
+							[NSNull null],						// Null
+							[NSNumber numberWithBool:YES],		// Boolean
+							[NSDate date],						// Date
+							nil];
+	
+	NSInteger status = kGHUnitWaitStatusSuccess;
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"location" view:m_webView];
+	
+	[jsObject setValue:kTestValues forKey:@"js_test"];
+	NSArray* gotValue = [jsObject valueForKey:@"js_test"];
+		
+	if (![gotValue isKindOfClass:[NSArray class]])
+		status = kGHUnitWaitStatusFailure;
+
+	for (NSInteger i = 0; i < [gotValue count]; ++i)
+	{
+		if (![self compareValues:[gotValue objectAtIndex:i] testValue:[kTestValues objectAtIndex:i]])
+			status = kGHUnitWaitStatusFailure;
+	}
+	
+	[self notify:status forSelector:@selector(testKeyValueCodingWithArrays)];	
+	[jsObject release];
+}	
 
 - (void)testAllKeys
 {

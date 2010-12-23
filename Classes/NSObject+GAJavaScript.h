@@ -70,6 +70,14 @@
 
 #pragma mark -
 
+@interface NSArray (GAJavaScript)
+
+- (NSString *)stringForJavaScript;
+
+@end
+
+#pragma mark -
+
 @interface NSNull (GAJavaScript)
 
 - (NSString *)stringForJavaScript;

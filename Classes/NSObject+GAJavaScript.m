@@ -126,6 +126,29 @@
 
 #pragma mark -
 
+@implementation NSArray (GAJavaScript)
+
+- (NSString *)stringForJavaScript
+{
+	NSMutableString* target = [[NSMutableString alloc] initWithCapacity:64];
+	[target appendString:@"new Array("];
+
+	for (id elem in self)
+	{
+		if ([target length] > 10)
+			[target appendString:@", "];
+		
+		[target appendString:[elem stringForJavaScript]];
+	}
+	
+	[target appendString:@")"];
+	return target;
+}
+
+@end
+
+#pragma mark -
+
 @implementation NSNull (GAJavaScript)
 
 - (NSString *)stringForJavaScript

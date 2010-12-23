@@ -43,6 +43,12 @@ GAJavaScript = {
 				t = 'null';
 			}
 		}
+		else if (t === 'function') {
+			// Not sure why this is the case, but we want an object for NodeLists.
+			if (value instanceof NodeList) {
+				t = 'object';
+			}
+		}
 		return t;
 	},
 	
@@ -59,5 +65,37 @@ GAJavaScript = {
 		} 
 		
 		return a.toString();
-	}
+	},
+		
+	valueToString: function (value) {
+		var type = GAJavaScript.typeOf(value);
+		
+		if (type === 'undefined')
+			return 'u:';
+		else if (type === 'date')
+			return 'd:' + value.getTime();
+		else if (type === 'array')
+			return 'a:' + GAJavaScript.arrayToString(value);
+		else if (type === 'object')
+			return 'o:';
+		else if (type === 'null')
+			return 'x:';
+		else
+			return type.charAt(0) + ':' + value;		
+	},
+	
+	arrayToString: function (a) {
+		var result = '';
+		
+		for (var i = 0; i < a.length; ++i) {
+			if (i > 0)
+				result += ',';
+			
+			result += GAJavaScript.valueToString(a[i]);
+		}
+		
+		return result;
+	},
+	
+	refMap: new Object()
 };
