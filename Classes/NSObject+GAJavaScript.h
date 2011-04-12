@@ -64,12 +64,19 @@
 
 @interface NSDate (GAJavaScript)
 
+/*
+ * Returns a date object using "new Date(time)".
+ */
 - (NSString *)stringForJavaScript;
 
 @end
 
 #pragma mark -
 
+/*
+ * Returns an array object using the constructor that takes the list of values.
+ * For each object in the array, we call stringForJavaScript to get the literal value.
+ */
 @interface NSArray (GAJavaScript)
 
 - (NSString *)stringForJavaScript;

@@ -319,7 +319,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -332,7 +332,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -366,7 +366,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = GAJavaScriptTests;
-				SDKROOT = iphoneos4.1;
 			};
 			name = Debug;
 		};
@@ -400,7 +399,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = GAJavaScriptTests;
-				SDKROOT = iphoneos4.1;
 				ZERO_LINK = NO;
 			};
 			name = Release;

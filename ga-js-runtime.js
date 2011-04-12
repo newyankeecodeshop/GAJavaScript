@@ -28,6 +28,10 @@
 
 GAJavaScript = {
 
+	ref: { 
+		index: 0
+	},
+	
 	typeOf: function (value) {
 		var t = typeof value;
 		
@@ -68,16 +72,16 @@ GAJavaScript = {
 	},
 		
 	valueToString: function (value) {
-		var type = GAJavaScript.typeOf(value);
+		var type = this.typeOf(value);
 		
 		if (type === 'undefined')
 			return 'u:';
 		else if (type === 'date')
 			return 'd:' + value.getTime();
 		else if (type === 'array')
-			return 'a:' + GAJavaScript.arrayToString(value);
+			return 'a:' + this.arrayToString(value);
 		else if (type === 'object')
-			return 'o:';
+			return 'o:' + this.makeReference(value);
 		else if (type === 'null')
 			return 'x:';
 		else
@@ -91,11 +95,16 @@ GAJavaScript = {
 			if (i > 0)
 				result += ',';
 			
-			result += GAJavaScript.valueToString(a[i]);
+			result += this.valueToString(a[i]);
 		}
 		
 		return result;
 	},
 	
-	refMap: new Object()
+	makeReference: function (obj) {
+		var key = '_r' + this.ref.index++;
+		
+		this.ref[key] = obj;
+		return "GAJavaScript.ref['" + key + "']";
+	}
 };

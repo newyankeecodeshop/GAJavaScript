@@ -43,11 +43,6 @@ typedef struct /* GAScriptObjectEnumState */
 
 @interface GAScriptObject ()
 
-/*
- * Returns the name of a "slot" in the reference map for storing JS objects across UIWebView calls.
- */
-- (NSString *)makeReference;
-
 - (void)releaseReference;
 
 - (id)convertScriptResult:(NSString *)result reference:(NSString *)reference;
@@ -61,8 +56,6 @@ typedef struct /* GAScriptObjectEnumState */
 @implementation GAScriptObject
 
 static NSNumberFormatter* kNumFormatter = nil;
-
-static NSUInteger s_refNum = 0;
 
 - (id)initForReference:(NSString *)reference view:(UIWebView *)webView
 {
@@ -182,14 +175,6 @@ static NSUInteger s_refNum = 0;
 
 #pragma mark Private
 
-/*
- * Returns the name of a "slot" in the reference map for storing JS objects across UIWebView calls.
- */
-- (NSString *)makeReference
-{
-	return [NSString stringWithFormat:@"GAJavaScript.refMap['ref%d']", ++s_refNum];	
-}
-
 - (void)releaseReference
 {
 	if ([m_objReference length] < 22)
@@ -210,7 +195,7 @@ static NSUInteger s_refNum = 0;
 	// Objects don't serialize to a string above.		
 	if (jstype == 'o')
 	{
-		GAScriptObject* subObj = [[GAScriptObject alloc] initForReference:reference view:m_webView];
+		GAScriptObject* subObj = [[GAScriptObject alloc] initForReference:result view:m_webView];
 		return [subObj autorelease];
 	}
 	else if (jstype == 'd')

@@ -27,6 +27,7 @@
 */
 
 #import "TWebView.h"
+#import "GAScriptObject.h"
 #import "UIWebView+GAJavaScript.h"
 
 @implementation TWebView
@@ -83,6 +84,36 @@
 		status = kGHUnitWaitStatusFailure;
 	
 	[self notify:status forSelector:@selector(testDefaultObjects)];	
+}
+
+- (void)testGetElements
+{
+	[self prepare];
+	m_curTest = @selector(finishGetElements);
+	
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];		
+}
+
+- (void)finishGetElements
+{
+	NSInteger status = kGHUnitWaitStatusSuccess;
+	GAScriptObject* document = [m_webView documentObject];
+
+	GAScriptObject* nodeList = [document invokeMethod:@"getElementsByTagName" withObject:@"p"];
+	NSNumber* length = [nodeList valueForKey:@"length"];
+	
+	if ([length intValue] != 1)
+		status = kGHUnitWaitStatusFailure;
+	
+	GAScriptObject* node = [nodeList invokeMethod:@"item" withObject:[NSNumber numberWithInt:0]];
+	
+	NSString* tagName = [node valueForKey:@"tagName"];
+	NSString* innerText = [node valueForKey:@"innerText"];
+
+	if (![tagName isEqualToString:@"P"] || ![innerText isEqualToString:@"Hello World"])
+		status = kGHUnitWaitStatusFailure;
+
+	[self notify:status forSelector:@selector(testGetElements)];	
 }
 
 @end
