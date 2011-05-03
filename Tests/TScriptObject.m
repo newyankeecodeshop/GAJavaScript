@@ -44,12 +44,18 @@
 	UIWindow* mainWindow = app.keyWindow;
 	CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
 	
-	m_webView = [[UIWebView alloc] initWithFrame:webFrame];
-	m_webView.delegate = self;
-	m_webView.hidden = YES;
-	[mainWindow addSubview:m_webView];	
-
-	[m_webView loadHTMLString:@"<html><body><p>Hello World</p></body></html>" baseURL:nil];
+	m_webView = (UIWebView *) [mainWindow viewWithTag:9999];
+	
+	if (m_webView == nil)
+	{
+		m_webView = [[UIWebView alloc] initWithFrame:webFrame];
+		m_webView.tag = 9999;
+		m_webView.delegate = self;
+		m_webView.hidden = YES;
+		[mainWindow addSubview:m_webView];	
+	}
+	
+	[m_webView loadHTMLString:@"<html><body><p>Hello World</p></body></html>" baseURL:nil];		
 }
 
 - (BOOL)compareValues:(id)gotValue testValue:(id)testValue
@@ -118,6 +124,15 @@
 			status = kGHUnitWaitStatusFailure;
 	}
 	
+	// Test with a character that cannot be in an identifier
+	//
+	id testValue = @"rgb(1, 2, 3)";
+	[jsObject setValue:testValue forKey:@"background-color"];
+	id gotValue = [jsObject valueForKey:@"background-color"];
+	
+	if (![self compareValues:gotValue testValue:testValue])
+		status = kGHUnitWaitStatusFailure;	
+	
 	[self notify:status forSelector:@selector(testKeyValueCoding)];	
 	[jsObject release];
 }
@@ -158,6 +173,45 @@
 	}
 	
 	[self notify:status forSelector:@selector(testKeyValueCodingWithArrays)];	
+	[jsObject release];
+}	
+
+- (void)testKeyValueCodingWithDictionary
+{
+	[self prepare];
+	m_curTest = @selector(finishKeyValueCodingWithDictionary);
+	
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];
+}
+
+- (void)finishKeyValueCodingWithDictionary
+{
+	NSDictionary* kTestDict = [NSDictionary dictionaryWithObjectsAndKeys:
+							   @"abcd", @"string",							
+							   @"string 'with' quotes", @"string_with_quotes",
+							   [NSNumber numberWithInt:400000],	    @"integer",
+							   [NSNumber numberWithFloat:0.55555],	@"float",
+							   [NSNull null],						@"nullprop",
+							   [NSNumber numberWithBool:YES],		@"boolprop",
+							   [NSDate date],						@"dateprop",
+							   nil];
+	
+	NSInteger status = kGHUnitWaitStatusSuccess;
+	GAScriptObject* jsObject = [m_webView newScriptObject];
+	
+	[jsObject setValue:kTestDict forKey:@"js_test"];
+	GAScriptObject* gotValue = [jsObject valueForKey:@"js_test"];
+	
+	if (![gotValue isKindOfClass:[GAScriptObject class]])
+		status = kGHUnitWaitStatusFailure;
+	
+	for (NSString* key in kTestDict)
+	{
+		if (![self compareValues:[gotValue valueForKey:key] testValue:[kTestDict objectForKey:key]])
+			status = kGHUnitWaitStatusFailure;
+	}
+	
+	[self notify:status forSelector:@selector(testKeyValueCodingWithDictionary)];	
 	[jsObject release];
 }	
 
@@ -211,25 +265,25 @@
 	[jsObject release];
 }
 
-- (void)testInvokeMethod
+- (void)testCallFunction
 {
 	[self prepare];
-	m_curTest = @selector(finishInvokeMethod);
+	m_curTest = @selector(finishCallFunction);
 	
 	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];		
 }
 
-- (void)finishInvokeMethod
+- (void)finishCallFunction
 {
 	NSInteger status = kGHUnitWaitStatusSuccess;
 
 	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"document" view:m_webView];
-	id retVal = [jsObject invokeMethod:@"createElement" withObject:@"strong"];
+	id retVal = [jsObject callFunction:@"createElement" withObject:@"strong"];
 
 	if (![retVal isKindOfClass:[GAScriptObject class]])
 		status = kGHUnitWaitStatusFailure;
 	
-	[self notify:status forSelector:@selector(testInvokeMethod)];	
+	[self notify:status forSelector:@selector(testCallFunction)];	
 	[jsObject release];
 }
 

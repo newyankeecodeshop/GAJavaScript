@@ -46,4 +46,9 @@
  */
 - (GAScriptObject *)newScriptObject;
 
+/*
+ * Call a function at global (window) scope.
+ */
+- (id)callFunction:(NSString *)functionName;
+
 @end

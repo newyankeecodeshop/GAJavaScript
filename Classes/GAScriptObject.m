@@ -41,6 +41,8 @@ typedef struct /* GAScriptObjectEnumState */
     unsigned long	extra_4;
 } GAScriptObjectEnumState;
 
+NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
+
 @interface GAScriptObject ()
 
 - (void)releaseReference;
@@ -77,6 +79,18 @@ static NSNumberFormatter* kNumFormatter = nil;
 	[m_objReference release];
 	
 	[super dealloc];
+}
+
+- (void)releaseReference
+{
+	if ([m_objReference length] < 18)
+		return;
+	
+	if ([[m_objReference substringToIndex:17] isEqualToString:@"GAJavaScript.ref["])
+	{
+		NSString* js = [NSString stringWithFormat:@"delete %@", m_objReference];
+		[m_webView stringByEvaluatingJavaScriptFromString:js];
+	}
 }
 
 /*
@@ -135,20 +149,46 @@ static NSNumberFormatter* kNumFormatter = nil;
 	return [result componentsSeparatedByString:@","];	
 }
 
-- (id)invokeMethod:(NSString *)methodName withObject:(id)argument
+- (id)callFunction:(NSString *)functionName
 {	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@(%@))", 
-					m_objReference, methodName, [argument stringForJavaScript]];
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@())", 
+					m_objReference, functionName];
 	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
 	
 	return [self convertScriptResult:result reference:m_objReference];
 }
 
+- (id)callFunction:(NSString *)functionName withObject:(id)argument
+{	
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@(%@))", 
+					m_objReference, functionName, [argument stringForJavaScript]];
+	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
+	
+	return [self convertScriptResult:result reference:m_objReference];
+}
+
+- (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments
+{
+	NSString* strArgs = [arguments stringForJavaScript];	// "new Array(a,b,c)"
+	strArgs = [strArgs substringWithRange:NSMakeRange(10, [strArgs length] - 11)];
+	
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@(%@))", 
+					m_objReference, functionName, strArgs];
+	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
+	
+	return [self convertScriptResult:result reference:m_objReference];	
+}
+
 #pragma mark GAScriptObject (NSKeyValueCoding)
 
+/*
+ * We use the bracket syntax because it supports a wider range of characters in the key names.
+ */
 - (id)valueForKey:(NSString *)key
 {	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@)", m_objReference, key];
+	key = [key stringForJavaScript];
+	
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@[%@])", m_objReference, key];
 	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
 	
 	return [self convertScriptResult:result reference:key];	
@@ -156,13 +196,23 @@ static NSNumberFormatter* kNumFormatter = nil;
 
 - (void)setValue:(id)value forKey:(NSString *)key
 {
+	key = [key stringForJavaScript];
+
 	if (value == nil)
 		value = [[NSNull null] stringForJavaScript];		
 	else 
 		value = [value stringForJavaScript];
 	
-	NSString* js = [NSString stringWithFormat:@"%@.%@ = %@", m_objReference, key, value];
+	NSString* js = [NSString stringWithFormat:@"%@[%@] = %@", m_objReference, key, value];
 	[m_webView stringByEvaluatingJavaScriptFromString:js];
+}
+
+- (id)valueForKeyPath:(NSString *)keyPath
+{
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@)", m_objReference, keyPath];
+	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
+	
+	return [self convertScriptResult:result reference:keyPath];		
 }
 
 /*
@@ -175,20 +225,12 @@ static NSNumberFormatter* kNumFormatter = nil;
 
 #pragma mark Private
 
-- (void)releaseReference
-{
-	if ([m_objReference length] < 22)
-		return;
-	
-	if ([[m_objReference substringToIndex:12] isEqualToString:@"GAJavaScript"])
-	{
-		NSString* js = [NSString stringWithFormat:@"%@ = null", m_objReference];
-		[m_webView stringByEvaluatingJavaScriptFromString:js];
-	}
-}
-
 - (id)convertScriptResult:(NSString *)result reference:(NSString *)reference
 {
+	// An empty result means a syntax error or JS exception was thrown.
+	if ([result length] == 0)
+		return [NSError errorWithDomain:GAJavaScriptErrorDomain code:101 userInfo:nil];
+	
 	unichar jstype = [result characterAtIndex:0];
 	result = [result substringFromIndex:2];
 	

@@ -42,6 +42,14 @@
 
 #pragma mark -
 
+@interface NSNull (GAJavaScript)
+
+- (NSString *)stringForJavaScript;
+
+@end
+
+#pragma mark -
+
 @interface NSNumber (GAJavaScript)
 
 - (NSString *)stringForJavaScript;
@@ -85,8 +93,12 @@
 
 #pragma mark -
 
-@interface NSNull (GAJavaScript)
+/*
+ * Returns an object based on the key/value pairs in the dictionary.
+ */
+@interface NSDictionary (GAJavaScript)
 
 - (NSString *)stringForJavaScript;
 
 @end
+

@@ -26,9 +26,13 @@
  or implied, of Andrew Goodale.
 */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
+NSString* const GAJavaScriptErrorDomain;
 
+/*
+ * This class provides an Objective-C interface to a JavaScript Object.
+ */
 @interface GAScriptObject : NSObject 
 	<NSFastEnumeration>
 {
@@ -50,9 +54,19 @@
 - (NSArray *)allKeys;
 
 /*
- * Call a method on this object, with a single argument.
+ * Call a function with no arguments on this object.
  */
-- (id)invokeMethod:(NSString *)methodName withObject:(id)argument;
+- (id)callFunction:(NSString *)functionName;
+
+/*
+ * Call a function on this object, with a single argument.
+ */
+- (id)callFunction:(NSString *)functionName withObject:(id)argument;
+
+/*
+ * Call a function on this object, with a single argument.
+ */
+- (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments;
 
 @end
 
@@ -62,6 +76,7 @@
 
 /*
  * Read a value (or object) with the given name.
+ * If the value cannot be retrieved because of a JS syntax error or exception, an NSError value is returned.
  */
 - (id)valueForKey:(NSString *)key;
 
@@ -69,5 +84,10 @@
  * Used for assignment
  */
 - (void)setValue:(id)value forKey:(NSString *)key;
+
+/*
+ * Read a value from an object using a property path.
+ */
+- (id)valueForKeyPath:(NSString *)keyPath;
 
 @end

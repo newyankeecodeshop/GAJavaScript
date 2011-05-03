@@ -54,10 +54,15 @@
 
 - (GAScriptObject *)newScriptObject
 {
-	[self stringByEvaluatingJavaScriptFromString:@"var ref1 = new Object()"];
+	NSString* objRef = [self stringByEvaluatingJavaScriptFromString:@"GAJavaScript.makeReference(new Object())"];
 	
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"ref1" view:self];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:objRef view:self];
 	return jsObject;	
+}
+
+- (id)callFunction:(NSString *)functionName
+{
+	return [self.windowObject callFunction:functionName];
 }
 
 @end

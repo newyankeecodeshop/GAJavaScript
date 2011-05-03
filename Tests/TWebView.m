@@ -99,13 +99,13 @@
 	NSInteger status = kGHUnitWaitStatusSuccess;
 	GAScriptObject* document = [m_webView documentObject];
 
-	GAScriptObject* nodeList = [document invokeMethod:@"getElementsByTagName" withObject:@"p"];
+	GAScriptObject* nodeList = [document callFunction:@"getElementsByTagName" withObject:@"p"];
 	NSNumber* length = [nodeList valueForKey:@"length"];
 	
 	if ([length intValue] != 1)
 		status = kGHUnitWaitStatusFailure;
 	
-	GAScriptObject* node = [nodeList invokeMethod:@"item" withObject:[NSNumber numberWithInt:0]];
+	GAScriptObject* node = [nodeList callFunction:@"item" withObject:[NSNumber numberWithInt:0]];
 	
 	NSString* tagName = [node valueForKey:@"tagName"];
 	NSString* innerText = [node valueForKey:@"innerText"];

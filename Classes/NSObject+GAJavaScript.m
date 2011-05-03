@@ -54,8 +54,17 @@
 	
 	[target appendFormat:@"%c", '}'];
 	return [target autorelease];
-	
-//	return [[self description] stringForJavaScript];
+}
+
+@end
+
+#pragma mark -
+
+@implementation NSNull (GAJavaScript)
+
+- (NSString *)stringForJavaScript
+{
+	return @"null";
 }
 
 @end
@@ -149,11 +158,28 @@
 
 #pragma mark -
 
-@implementation NSNull (GAJavaScript)
+@implementation NSDictionary (GAJavaScript)
 
 - (NSString *)stringForJavaScript
 {
-	return @"null";
+	NSArray* allKeys = [self allKeys];
+	
+	NSMutableString* target = [[NSMutableString alloc] initWithCapacity:64];
+	[target appendFormat:@"%c", '{'];
+	
+	for (NSString* key in allKeys)
+	{
+		id propValue = [self objectForKey:key];
+		[target appendFormat:@"%@: %@, ", key, [propValue stringForJavaScript]];
+	}
+	
+	// Remove the trailing comma
+	if ([target characterAtIndex:[target length] - 2] == ',')
+		[target deleteCharactersInRange:NSMakeRange([target length] - 2, 2)];
+	
+	[target appendFormat:@"%c", '}'];
+	return [target autorelease];	
 }
 
 @end
+
