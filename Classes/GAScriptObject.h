@@ -28,7 +28,7 @@
 
 #import <UIKit/UIKit.h>
 
-NSString* const GAJavaScriptErrorDomain;
+static NSString* const GAJavaScriptErrorDomain;
 
 /*
  * This class provides an Objective-C interface to a JavaScript Object.

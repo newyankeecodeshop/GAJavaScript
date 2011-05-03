@@ -41,7 +41,7 @@ typedef struct /* GAScriptObjectEnumState */
     unsigned long	extra_4;
 } GAScriptObjectEnumState;
 
-NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
+static NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
 
 @interface GAScriptObject ()
 
