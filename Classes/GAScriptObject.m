@@ -51,6 +51,8 @@ static NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
 
 - (NSArray *)arrayFromJavaScript:(NSString *)result reference:(NSString *)reference;
 
+- (NSError *)errorFromJavaScript:(NSString *)result;
+
 @end
 
 #pragma mark -
@@ -151,8 +153,8 @@ static NSNumberFormatter* kNumFormatter = nil;
 
 - (id)callFunction:(NSString *)functionName
 {	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@())", 
-					m_objReference, functionName];
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.callFunction(%@.%@, %@)", 
+					m_objReference, functionName, m_objReference];
 	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
 	
 	return [self convertScriptResult:result reference:m_objReference];
@@ -160,8 +162,8 @@ static NSNumberFormatter* kNumFormatter = nil;
 
 - (id)callFunction:(NSString *)functionName withObject:(id)argument
 {	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@(%@))", 
-					m_objReference, functionName, [argument stringForJavaScript]];
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, [%@])", 
+					m_objReference, functionName, m_objReference, [argument stringForJavaScript]];
 	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
 	
 	return [self convertScriptResult:result reference:m_objReference];
@@ -170,10 +172,9 @@ static NSNumberFormatter* kNumFormatter = nil;
 - (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments
 {
 	NSString* strArgs = [arguments stringForJavaScript];	// "new Array(a,b,c)"
-	strArgs = [strArgs substringWithRange:NSMakeRange(10, [strArgs length] - 11)];
 	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@(%@))", 
-					m_objReference, functionName, strArgs];
+	NSString* js = [NSString stringWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, %@)", 
+					m_objReference, functionName, m_objReference, strArgs];
 	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
 	
 	return [self convertScriptResult:result reference:m_objReference];	
@@ -216,11 +217,14 @@ static NSNumberFormatter* kNumFormatter = nil;
 }
 
 /*
- * Return a marker value for 'undefined'
+ * Return a true nil value for 'undefined', so that code like this can work:
+ *
+ * if ([obj valueForKey:@"prop"])
+ *     [do something with the value];
  */
 - (id)valueForUndefinedKey:(NSString *)key
 {
-	return @"undefined";
+	return nil;
 }
 
 #pragma mark Private
@@ -259,7 +263,15 @@ static NSNumberFormatter* kNumFormatter = nil;
 	}
 	else if (jstype == 'x')
 	{
-		return [NSNull null];
+		return [NSNull null];	// Because 'nil' is for 'undefined'
+	}
+	else if (jstype == 'u')
+	{
+		return [self valueForUndefinedKey:result];
+	}
+	else if (jstype == 'e')		// JavaScript exception
+	{
+		return [self errorFromJavaScript:result];
 	}
 	
 	return result;	
@@ -276,6 +288,16 @@ static NSNumberFormatter* kNumFormatter = nil;
 	}
 	
 	return retVal;
+}
+
+- (NSError *)errorFromJavaScript:(NSString *)result
+{
+	GAScriptObject* errObj = [[GAScriptObject alloc] initForReference:result view:m_webView];
+	NSArray* errProps = [NSArray arrayWithObjects:@"message", @"sourceURL", @"line", nil];
+	NSDictionary* dict = [errObj dictionaryWithValuesForKeys:errProps];
+	[errObj release];
+	
+	return [NSError errorWithDomain:GAJavaScriptErrorDomain code:101 userInfo:dict];	
 }
 
 #pragma mark NSFastEnumeration

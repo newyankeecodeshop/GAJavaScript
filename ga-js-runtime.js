@@ -101,8 +101,17 @@ GAJavaScript = {
 		return result;
 	},
 	
+	callFunction: function (func, scope, argsArray) {
+		try {
+			return this.valueToString(func.apply(scope, argsArray));
+		}
+		catch (err) {
+			return 'e:' + this.makeReference(err);
+		}
+	},
+	
 	makeReference: function (obj) {
-		var key = '_r' + this.ref.index++;
+		var key = 'r' + this.ref.index++;
 		
 		this.ref[key] = obj;
 		return "GAJavaScript.ref['" + key + "']";
