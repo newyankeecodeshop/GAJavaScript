@@ -56,6 +56,11 @@
 	return [target autorelease];
 }
 
+- (BOOL)isJavaScriptTrue
+{
+	return YES;
+}
+
 @end
 
 #pragma mark -
@@ -65,6 +70,11 @@
 - (NSString *)stringForJavaScript
 {
 	return @"null";
+}
+
+- (BOOL)isJavaScriptTrue
+{
+	return NO;
 }
 
 @end
@@ -84,6 +94,13 @@
 		return [self stringValue]; 
 }
 
+- (BOOL)isJavaScriptTrue
+{
+	// This handles booleans, integers and floats.
+	//
+	return [self intValue] != 0;
+}
+
 @end
 
 #pragma mark -
@@ -95,6 +112,11 @@
 	if ([self length] == 0)
 		return @"''";
 	
+	NSCharacterSet* charsToEscape = [NSCharacterSet escapeForJavaScriptSet];
+	
+	if ([self rangeOfCharacterFromSet:charsToEscape].location == NSNotFound)
+		return [NSString stringWithFormat:@"'%@'", self];
+	
 	NSMutableString* target = [[NSMutableString alloc] initWithCapacity:[self length] + 4];
 	[target appendFormat:@"%c", '\''];
 	
@@ -102,22 +124,19 @@
 	{
 		unichar ch = [self characterAtIndex:i];
 		
-		switch (ch) 
-		{
-			case '\'':
-			case '"':
-			case '\\':
-				[target appendFormat:@"\\%C", ch];
-				break;
-				
-			default:
-				[target appendFormat:@"%C", ch];
-				break;
-		}
+		if ([charsToEscape characterIsMember:ch])
+			[target appendFormat:@"\\%C", ch];
+		else 
+			[target appendFormat:@"%C", ch];
 	}
 	
 	[target appendFormat:@"%c", '\''];
 	return [target autorelease];	
+}
+
+- (BOOL)isJavaScriptTrue
+{
+	return [self length] != 0;
 }
 
 @end
@@ -182,4 +201,32 @@
 }
 
 @end
+
+#pragma mark -
+
+@implementation NSError (GAJavaScript)
+
+- (BOOL)isJavaScriptTrue
+{
+	return NO;
+}
+
+@end
+
+#pragma mark -
+
+@implementation NSCharacterSet (GAJavaScript)
+
+static NSCharacterSet* kNeedsEscapingSet = nil;
+
++ (id)escapeForJavaScriptSet
+{
+	if (kNeedsEscapingSet == nil)
+		kNeedsEscapingSet = [[NSCharacterSet characterSetWithCharactersInString:@"\'\"\\"] retain];
+	
+	return kNeedsEscapingSet;
+}
+
+@end
+
 

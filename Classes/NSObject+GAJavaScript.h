@@ -38,6 +38,12 @@
  */
 - (NSString *)stringForJavaScript;
 
+/*
+ * Returns YES if the object would evaluate to "true" in a JavaScript statement.
+ * This means NO is returned if the value is NSNull, empty string, the number zero, or a BOOL NO.
+ */
+- (BOOL)isJavaScriptTrue;
+
 @end
 
 #pragma mark -
@@ -99,6 +105,28 @@
 @interface NSDictionary (GAJavaScript)
 
 - (NSString *)stringForJavaScript;
+
+@end
+
+#pragma mark -
+
+/*
+ * Returns NO so that errors can be checked via an "if" statement.
+ */
+@interface NSError (GAJavaScript)
+
+- (BOOL)isJavaScriptTrue;
+
+@end
+
+#pragma mark -
+
+/*
+ * The set of characters that need to be quoted in JavaScript strings.
+ */
+@interface NSCharacterSet (GAJavaScript)
+
++ (id)escapeForJavaScriptSet;
 
 @end
 
