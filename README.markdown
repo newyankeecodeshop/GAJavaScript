@@ -20,8 +20,16 @@ This object provides a wrapper around a JavaScript object in a UIWebView. It pro
 
 GAScriptObject handles marshaling of data between the languages. It will handle quoting strings, passing dates as "time_t" values, and dealing with sub-objects and arrays.
 
+If you have a namespace object in JavaScript (e.g. "mycompany.lib"), you can create a GAJavaScript wrapper for it by using the GAJavaScript initializer: [[GAJavaScript alloc] initWithReference:@"mycompany.lib" view:myWebView];
+
 There are three "callFunction" methods that can be used to call a Function on the object with either no arguments, one argument, or an array of arguments. All the data types supported by the KVC code are supported as function arguments and return types.
 
 # Using it
 
 There are unit tests in the /Tests folder that show how to use various features (and they make sure the features work!).
+
+A simple way to get started is to:
+1. In your project, add "ga-js-runtime.js" as a bundle resource. This file contains the JavaScript code needed by this library.
+2. Create a hidden UIWebView. It can be parented to the app's UIWindow, or a view in a UIViewController. You should load an HTML document that contains/includes all the JavaScript you want to make available to Objective-C code.
+3. In the [webViewDidFinishLoad:] method of your delegate, call [webView loadJavaScriptRuntime]. This will load "ga-js-runtime.js" into the webView.
+4. Now you can access the "document" or "window" object, or start accessing your own global objects.
