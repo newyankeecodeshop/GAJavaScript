@@ -28,6 +28,7 @@
 
 #import "TScriptObject.h"
 #import "GAScriptObject.h"
+#import "NSObject+GAJavaScript.h"
 #import "UIWebView+GAJavaScript.h"
 
 @implementation TScriptObject
@@ -42,20 +43,8 @@
 {
 	UIApplication* app = [UIApplication sharedApplication];
 	UIWindow* mainWindow = app.keyWindow;
-	CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
 	
-	m_webView = (UIWebView *) [mainWindow viewWithTag:9999];
-	
-	if (m_webView == nil)
-	{
-		m_webView = [[UIWebView alloc] initWithFrame:webFrame];
-		m_webView.tag = 9999;
-		m_webView.delegate = self;
-		m_webView.hidden = YES;
-		[mainWindow addSubview:m_webView];	
-	}
-	
-	[m_webView loadHTMLString:@"<html><body><p>Hello World</p></body></html>" baseURL:nil];		
+	m_webView = (UIWebView *) [mainWindow viewWithTag:9999];	
 }
 
 - (BOOL)compareValues:(id)gotValue testValue:(id)testValue
@@ -84,23 +73,7 @@
 	return YES;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-	// Load the GAJavaScript runtime here
-	[webView loadScriptRuntime];
-	
-	[self performSelector:m_curTest];
-}
-
 - (void)testKeyValueCoding
-{
-	[self prepare];
-	m_curTest = @selector(finishKeyValueCoding);
-	
-	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];
-}
-
-- (void)finishKeyValueCoding
 {
 	NSArray* kTestValues = [NSArray arrayWithObjects:
 							@"abcd",							// String
@@ -112,16 +85,14 @@
 							[NSDate date],						// Date
 							nil];
 	
-	NSInteger status = kGHUnitWaitStatusSuccess;
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"location" view:m_webView];
+	GAScriptObject* jsObject = [m_webView newScriptObject];
 
 	for (id testValue in kTestValues)
 	{
 		[jsObject setValue:testValue forKey:@"js_test"];
 		id gotValue = [jsObject valueForKey:@"js_test"];
 		
-		if (![self compareValues:gotValue testValue:testValue])
-			status = kGHUnitWaitStatusFailure;
+		GHAssertTrue([self compareValues:gotValue testValue:testValue], nil);
 	}
 	
 	// Test with a character that cannot be in an identifier
@@ -130,22 +101,12 @@
 	[jsObject setValue:testValue forKey:@"background-color"];
 	id gotValue = [jsObject valueForKey:@"background-color"];
 	
-	if (![self compareValues:gotValue testValue:testValue])
-		status = kGHUnitWaitStatusFailure;	
+	GHAssertTrue([self compareValues:gotValue testValue:testValue], nil);	
 	
-	[self notify:status forSelector:@selector(testKeyValueCoding)];	
 	[jsObject release];
 }
 
 - (void)testKeyValueCodingWithArrays
-{
-	[self prepare];
-	m_curTest = @selector(finishKeyValueCodingWithArrays);
-	
-	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];
-}
-
-- (void)finishKeyValueCodingWithArrays
 {
 	NSArray* kTestValues = [NSArray arrayWithObjects:
 							@"abcd",							// String
@@ -157,34 +118,22 @@
 							[NSDate date],						// Date
 							nil];
 	
-	NSInteger status = kGHUnitWaitStatusSuccess;
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"location" view:m_webView];
+	GAScriptObject* jsObject = [m_webView newScriptObject];
 	
 	[jsObject setValue:kTestValues forKey:@"js_test"];
 	NSArray* gotValue = [jsObject valueForKey:@"js_test"];
 		
-	if (![gotValue isKindOfClass:[NSArray class]])
-		status = kGHUnitWaitStatusFailure;
+	GHAssertTrue([gotValue isKindOfClass:[NSArray class]], nil);
 
 	for (NSInteger i = 0; i < [gotValue count]; ++i)
 	{
-		if (![self compareValues:[gotValue objectAtIndex:i] testValue:[kTestValues objectAtIndex:i]])
-			status = kGHUnitWaitStatusFailure;
+		GHAssertTrue([self compareValues:[gotValue objectAtIndex:i] testValue:[kTestValues objectAtIndex:i]], nil);
 	}
 	
-	[self notify:status forSelector:@selector(testKeyValueCodingWithArrays)];	
 	[jsObject release];
 }	
 
 - (void)testKeyValueCodingWithDictionary
-{
-	[self prepare];
-	m_curTest = @selector(finishKeyValueCodingWithDictionary);
-	
-	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];
-}
-
-- (void)finishKeyValueCodingWithDictionary
 {
 	NSDictionary* kTestDict = [NSDictionary dictionaryWithObjectsAndKeys:
 							   @"abcd", @"string",							
@@ -196,94 +145,72 @@
 							   [NSDate date],						@"dateprop",
 							   nil];
 	
-	NSInteger status = kGHUnitWaitStatusSuccess;
 	GAScriptObject* jsObject = [m_webView newScriptObject];
 	
 	[jsObject setValue:kTestDict forKey:@"js_test"];
 	GAScriptObject* gotValue = [jsObject valueForKey:@"js_test"];
 	
-	if (![gotValue isKindOfClass:[GAScriptObject class]])
-		status = kGHUnitWaitStatusFailure;
+	GHAssertTrue([gotValue isKindOfClass:[GAScriptObject class]], nil);
 	
 	for (NSString* key in kTestDict)
 	{
-		if (![self compareValues:[gotValue valueForKey:key] testValue:[kTestDict objectForKey:key]])
-			status = kGHUnitWaitStatusFailure;
+		GHAssertTrue([self compareValues:[gotValue valueForKey:key] testValue:[kTestDict objectForKey:key]], nil);
 	}
 	
-	[self notify:status forSelector:@selector(testKeyValueCodingWithDictionary)];	
 	[jsObject release];
 }	
 
 - (void)testAllKeys
 {
-	[self prepare];
-	m_curTest = @selector(finishAllKeys);
-
-	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];
-}
-
-- (void)finishAllKeys
-{
-	NSInteger status = kGHUnitWaitStatusSuccess;
-
 	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"location" view:m_webView];
 	NSArray* allKeys = [jsObject allKeys];
 		
-	if (allKeys == nil)
-		status = kGHUnitWaitStatusFailure;
-	if ([allKeys count] == 0)
-		status = kGHUnitWaitStatusFailure;
-	if ([allKeys containsObject:@"hostname"] == NO)
-		status = kGHUnitWaitStatusFailure;
+	GHAssertNotNil(allKeys, nil);
+	GHAssertTrue([allKeys count] != 0, nil);
+	GHAssertTrue([allKeys containsObject:@"hostname"], nil);
 	
-	[self notify:status forSelector:@selector(testAllKeys)];	
 	[jsObject release];
 }
 
 - (void)testFastEnumeration
 {
-	[self prepare];
-	m_curTest = @selector(finishFastEnumeration);
-	
-	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];	
-}
-
-- (void)finishFastEnumeration
-{
-	NSInteger status = kGHUnitWaitStatusFailure;
-	
 	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"location" view:m_webView];
-
+	BOOL foundHostName = NO;
+	
 	for (id key in jsObject)
 	{
 		if ([key isEqual:@"hostname"])
-			status = kGHUnitWaitStatusSuccess;
+			foundHostName = YES;
 	}
 
-	[self notify:status forSelector:@selector(testFastEnumeration)];	
+	GHAssertTrue(foundHostName, nil);
 	[jsObject release];
 }
 
 - (void)testCallFunction
 {
-	[self prepare];
-	m_curTest = @selector(finishCallFunction);
-	
-	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];		
-}
-
-- (void)finishCallFunction
-{
-	NSInteger status = kGHUnitWaitStatusSuccess;
-
 	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"document" view:m_webView];
 	id retVal = [jsObject callFunction:@"createElement" withObject:@"strong"];
 
-	if (![retVal isKindOfClass:[GAScriptObject class]])
-		status = kGHUnitWaitStatusFailure;
+	GHAssertTrue([retVal isKindOfClass:[GAScriptObject class]], nil);
 	
-	[self notify:status forSelector:@selector(testCallFunction)];	
+	[jsObject release];
+}
+
+- (void)testJavaScriptTrue
+{
+	GAScriptObject* jsObject = [m_webView newScriptObject];
+	
+	[jsObject setValue:[NSNull null] forKey:@"prop-null"];
+	[jsObject setValue:[NSNumber numberWithFloat:0.0] forKey:@"prop-num"];
+	[jsObject setValue:[NSNumber numberWithBool:YES] forKey:@"prop-bool"];
+	[jsObject setValue:@"" forKey:@"prop-str"];
+	
+	GHAssertFalse([[jsObject valueForKey:@"prop-null"] isJavaScriptTrue], @"NSNull failed");
+	GHAssertFalse([[jsObject valueForKey:@"prop-num"] isJavaScriptTrue], @"NSNumber failed");
+	GHAssertTrue([[jsObject valueForKey:@"prop-bool"] isJavaScriptTrue], @"BOOL failed");
+	GHAssertFalse([[jsObject valueForKey:@"prop-str"] isJavaScriptTrue], @"NSString failed");
+	
 	[jsObject release];
 }
 

@@ -15,6 +15,7 @@
 		493386AC12B582A300FBE23C /* NSObject+GAJavaScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 493386AA12B582A300FBE23C /* NSObject+GAJavaScript.h */; };
 		493386AD12B582A300FBE23C /* NSObject+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 493386AB12B582A300FBE23C /* NSObject+GAJavaScript.m */; };
 		4933871412B58C9E00FBE23C /* TWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933870F12B58C5700FBE23C /* TWebView.m */; };
+		4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4983385E13782DFC0006B26A /* ApplicationDelegate.m */; };
 		49F1DBDE12A3F64A004C8736 /* GAScriptObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */; };
 		49F1DBDF12A3F64A004C8736 /* GAScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */; };
 		49F1DBE512A3F67A004C8736 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49F1DBE412A3F67A004C8736 /* UIKit.framework */; };
@@ -39,7 +40,7 @@
 		4933839E12B4338200FBE23C /* GAJavaScriptTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAJavaScriptTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GAJavaScriptTests-Info.plist"; sourceTree = "<group>"; };
 		493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GHUnitIOSTestMain.m; path = Tests/GHUnitIOSTestMain.m; sourceTree = "<group>"; };
-		4933846712B4366E00FBE23C /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = /Users/andrew/Dev/ThirdParty/GHUnitIOS.framework; sourceTree = "<absolute>"; };
+		4933846712B4366E00FBE23C /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = "/Volumes/Disc-1/Users/andrew/Development/ThirdParty/GHUnitIOS.framework"; sourceTree = "<absolute>"; };
 		4933848412B4373600FBE23C /* TScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptObject.h; path = Tests/TScriptObject.h; sourceTree = "<group>"; };
 		4933848512B4373600FBE23C /* TScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptObject.m; path = Tests/TScriptObject.m; sourceTree = "<group>"; };
 		4933848B12B437CD00FBE23C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -47,6 +48,8 @@
 		493386AB12B582A300FBE23C /* NSObject+GAJavaScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+GAJavaScript.m"; path = "Classes/NSObject+GAJavaScript.m"; sourceTree = "<group>"; };
 		4933870E12B58C5700FBE23C /* TWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWebView.h; path = Tests/TWebView.h; sourceTree = "<group>"; };
 		4933870F12B58C5700FBE23C /* TWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TWebView.m; path = Tests/TWebView.m; sourceTree = "<group>"; };
+		4983385D13782DFC0006B26A /* ApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplicationDelegate.h; path = Tests/ApplicationDelegate.h; sourceTree = "<group>"; };
+		4983385E13782DFC0006B26A /* ApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApplicationDelegate.m; path = Tests/ApplicationDelegate.m; sourceTree = "<group>"; };
 		49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptObject.h; path = Classes/GAScriptObject.h; sourceTree = "<group>"; };
 		49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptObject.m; path = Classes/GAScriptObject.m; sourceTree = "<group>"; };
 		49F1DBE412A3F67A004C8736 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -144,6 +147,8 @@
 				4933848512B4373600FBE23C /* TScriptObject.m */,
 				4933870E12B58C5700FBE23C /* TWebView.h */,
 				4933870F12B58C5700FBE23C /* TWebView.m */,
+				4983385D13782DFC0006B26A /* ApplicationDelegate.h */,
+				4983385E13782DFC0006B26A /* ApplicationDelegate.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 				493383BB12B433F000FBE23C /* GHUnitIOSTestMain.m in Sources */,
 				4933848612B4373600FBE23C /* TScriptObject.m in Sources */,
 				4933871412B58C9E00FBE23C /* TWebView.m in Sources */,
+				4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -42,78 +42,39 @@
 {
 	UIApplication* app = [UIApplication sharedApplication];
 	UIWindow* mainWindow = app.keyWindow;
-	CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
 	
-	m_webView = [[UIWebView alloc] initWithFrame:webFrame];
-	m_webView.delegate = self;
-	m_webView.hidden = YES;
-	[mainWindow addSubview:m_webView];	
-	
-	[m_webView loadHTMLString:@"<html><head><title>Test Title</title></head><body><p>Hello World</p></body></html>" 
-					  baseURL:nil];
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-	[webView loadScriptRuntime];
-	
-	[self performSelector:m_curTest];
+	m_webView = (UIWebView *) [mainWindow viewWithTag:9999];	
 }
 
 - (void)testDefaultObjects
 {
-	[self prepare];
-	m_curTest = @selector(finishDefaultObjects);
-	
-	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];	
-}
-
-- (void)finishDefaultObjects
-{
-	NSInteger status = kGHUnitWaitStatusSuccess;
 	GAScriptObject* document = [m_webView documentObject];
 	
 	NSString* title = [document valueForKey:@"title"];
 	
-	if (![title isEqualToString:@"Test Title"])
-		status = kGHUnitWaitStatusFailure;
+	GHAssertTrue([title isEqualToString:@"Test Title"], @"Wrong title");
 	
 	GAScriptObject* window = [m_webView windowObject];
 	
-	if (![document isEqual:[window valueForKey:@"document"]])
-		status = kGHUnitWaitStatusFailure;
-	
-	[self notify:status forSelector:@selector(testDefaultObjects)];	
+	GHAssertTrue([document isEqual:[window valueForKey:@"document"]], @"window.document failed");
 }
 
 - (void)testGetElements
 {
-	[self prepare];
-	m_curTest = @selector(finishGetElements);
-	
-	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:3.0];		
-}
-
-- (void)finishGetElements
-{
-	NSInteger status = kGHUnitWaitStatusSuccess;
 	GAScriptObject* document = [m_webView documentObject];
 
 	GAScriptObject* nodeList = [document callFunction:@"getElementsByTagName" withObject:@"p"];
 	NSNumber* length = [nodeList valueForKey:@"length"];
 	
-	if ([length intValue] != 1)
-		status = kGHUnitWaitStatusFailure;
+	GHAssertTrue([length intValue] == 1, @"NodeList is not object");
 	
 	GAScriptObject* node = [nodeList callFunction:@"item" withObject:[NSNumber numberWithInt:0]];
 	
 	NSString* tagName = [node valueForKey:@"tagName"];
 	NSString* innerText = [node valueForKey:@"innerText"];
 
-	if (![tagName isEqualToString:@"P"] || ![innerText isEqualToString:@"Hello World"])
-		status = kGHUnitWaitStatusFailure;
-
-	[self notify:status forSelector:@selector(testGetElements)];	
+	GHAssertTrue([tagName isEqualToString:@"P"] && [innerText isEqualToString:@"Hello World"],
+				 @"Did not get node element");
 }
 
 @end

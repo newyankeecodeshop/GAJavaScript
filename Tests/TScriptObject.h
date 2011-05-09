@@ -29,12 +29,9 @@
 #import <GHUnitIOS/GHUnit.h>
 
 
-@interface TScriptObject : GHAsyncTestCase
-	<UIWebViewDelegate>
+@interface TScriptObject : GHTestCase
 {
 	UIWebView*	m_webView;
-	
-	SEL			m_curTest;
 }
 
 @end
