@@ -60,6 +60,21 @@
 	return jsObject;	
 }
 
+- (GAScriptObject *)newScriptObject:(NSString *)constructorName
+{
+    NSString* js = [NSString stringWithFormat:@"GAJavaScript.makeReference(new %@())", constructorName];
+	NSString* objRef = [self stringByEvaluatingJavaScriptFromString:js];
+	
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:objRef view:self];
+	return jsObject;	
+}
+
+- (GAScriptObject *)scriptObjectWithReference:(NSString *)reference
+{
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:reference view:self];
+	return [jsObject autorelease];	
+}
+
 - (id)callFunction:(NSString *)functionName
 {
 	return [self.windowObject callFunction:functionName];

@@ -39,12 +39,27 @@
 @property (nonatomic, readonly) GAScriptObject* documentObject;
 @property (nonatomic, readonly) GAScriptObject* windowObject;
 
+/*
+ * Loads the GAJavaScript runtime into this webview. This method should be called in the
+ * UIWebViewDelegate webViewDidFinishLoad: method.
+ */
 - (void)loadScriptRuntime;
 
 /*
  * Creates a new (empty) object 
  */
 - (GAScriptObject *)newScriptObject;
+
+/*
+ * Creates a new object using the constructor function.
+ */
+- (GAScriptObject *)newScriptObject:(NSString *)constructorName;
+
+/*
+ * Returns a script object bound to the given reference. The script object will have 
+ * a "weak" reference to the JavaScript object
+ */
+- (GAScriptObject *)scriptObjectWithReference:(NSString *)reference;
 
 /*
  * Call a function at global (window) scope.
