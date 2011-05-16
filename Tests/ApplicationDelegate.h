@@ -9,9 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <GHUnitIOS/GHUnitIPhoneAppDelegate.h>
 
+@class GAScriptEngine;
+
 @interface ApplicationDelegate : GHUnitIPhoneAppDelegate
-	<UIWebViewDelegate>
-{ 
+{
+    GAScriptEngine*     _scriptEngine;
 }
+
+@property (nonatomic, readonly) GAScriptEngine*     scriptEngine;
 
 @end

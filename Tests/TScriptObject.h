@@ -28,10 +28,11 @@
 
 #import <GHUnitIOS/GHUnit.h>
 
+@class GAScriptEngine;
 
 @interface TScriptObject : GHTestCase
 {
-	UIWebView*	m_webView;
+    GAScriptEngine*     _engine;
 }
 
 @end

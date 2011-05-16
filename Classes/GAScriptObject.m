@@ -352,4 +352,58 @@ static NSNumberFormatter* kNumFormatter = nil;
     return count;
 }
 
+#pragma mark NSObject Forwarding
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+{
+    return [NSObject findInAllClassesMethodSignatureForSelector:aSelector];
+}
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation
+{
+    NSString* selectorName = NSStringFromSelector([anInvocation selector]);
+    NSString* functionName;
+    NSRange range = [selectorName rangeOfString:@":"];
+    
+    if (range.length == 0)
+        functionName = selectorName;
+    else
+        functionName = [selectorName substringToIndex:range.location];
+        
+    NSMethodSignature* methodSig = [anInvocation methodSignature];
+    NSUInteger numberOfArgs = [methodSig numberOfArguments];
+    id retVal = nil;
+    
+    if (numberOfArgs == 2)     // Really means zero, since "self" and "_cmd" are the first two.
+    {
+        retVal = [self callFunction:functionName];
+    }
+    else if (numberOfArgs == 3)
+    {
+        id singleArg;   // TODO: Handle non-Object types
+        
+        [anInvocation getArgument:&singleArg atIndex:2];
+        retVal = [self callFunction:functionName withObject:singleArg];
+    }
+    else if (numberOfArgs > 3)
+    {
+        id singleArg;
+        NSMutableArray* arguments = [[NSMutableArray alloc] initWithCapacity:numberOfArgs];
+        
+        for (int i = 2; i < numberOfArgs; ++i)
+        {
+            [anInvocation getArgument:&singleArg atIndex:i];
+            [arguments addObject:singleArg];
+        }
+        
+        retVal = [self callFunction:functionName withArguments:arguments];
+        [arguments release];
+    }
+    
+    //TODO: Handle non-Object types.
+    //
+    if (retVal != nil && [methodSig methodReturnLength] > 0)
+        [anInvocation setReturnValue:retVal];
+}
+
 @end

@@ -29,7 +29,36 @@
 #import "NSObject+GAJavaScript.h"
 #import <objc/runtime.h>
 
+static int      s_numClasses = 0;
+static Class*   s_classList = NULL;
+
 @implementation NSObject (GAJavaScript)
+
++ (NSMethodSignature *)findInAllClassesMethodSignatureForSelector:(SEL)aSelector
+{
+    if (s_classList == NULL)
+    {
+        int numClasses = objc_getClassList(NULL, 0);
+        
+        if (numClasses > 0 )
+        {
+            s_classList = malloc(sizeof(Class) * numClasses);
+            s_numClasses = objc_getClassList(s_classList, numClasses);
+        }
+    }
+    
+    // If performance becomes a concern, we can build a cache of these mappings.
+    //
+    for (int i = 0; i < s_numClasses; ++i)
+    {
+        Class aClass = s_classList[i];
+        
+        if ([aClass instancesRespondToSelector:aSelector])
+            return [aClass instanceMethodSignatureForSelector:aSelector];
+    }
+
+    return nil;
+}
 
 - (NSString *)stringForJavaScript
 {

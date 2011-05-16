@@ -28,8 +28,8 @@
 
 #import "TScriptObject.h"
 #import "GAScriptObject.h"
+#import "GAScriptEngine.h"
 #import "NSObject+GAJavaScript.h"
-#import "UIWebView+GAJavaScript.h"
 
 @implementation TScriptObject
 
@@ -41,10 +41,9 @@
 
 - (void)setUp
 {
-	UIApplication* app = [UIApplication sharedApplication];
-	UIWindow* mainWindow = app.keyWindow;
-	
-	m_webView = (UIWebView *) [mainWindow viewWithTag:9999];	
+	id appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    _engine = [appDelegate valueForKey:@"scriptEngine"];
 }
 
 - (BOOL)compareValues:(id)gotValue testValue:(id)testValue
@@ -85,7 +84,7 @@
 							[NSDate date],						// Date
 							nil];
 	
-	GAScriptObject* jsObject = [m_webView newScriptObject];
+	GAScriptObject* jsObject = [_engine newScriptObject];
 
 	for (id testValue in kTestValues)
 	{
@@ -118,7 +117,7 @@
 							[NSDate date],						// Date
 							nil];
 	
-	GAScriptObject* jsObject = [m_webView newScriptObject];
+	GAScriptObject* jsObject = [_engine newScriptObject];
 	
 	[jsObject setValue:kTestValues forKey:@"js_test"];
 	NSArray* gotValue = [jsObject valueForKey:@"js_test"];
@@ -145,7 +144,7 @@
 							   [NSDate date],						@"dateprop",
 							   nil];
 	
-	GAScriptObject* jsObject = [m_webView newScriptObject];
+	GAScriptObject* jsObject = [_engine newScriptObject];
 	
 	[jsObject setValue:kTestDict forKey:@"js_test"];
 	GAScriptObject* gotValue = [jsObject valueForKey:@"js_test"];
@@ -162,19 +161,17 @@
 
 - (void)testAllKeys
 {
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"location" view:m_webView];
+	GAScriptObject* jsObject = [_engine scriptObjectWithReference:@"location"];
 	NSArray* allKeys = [jsObject allKeys];
 		
 	GHAssertNotNil(allKeys, nil);
 	GHAssertTrue([allKeys count] != 0, nil);
 	GHAssertTrue([allKeys containsObject:@"hostname"], nil);
-	
-	[jsObject release];
 }
 
 - (void)testFastEnumeration
 {
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"location" view:m_webView];
+	GAScriptObject* jsObject = [_engine scriptObjectWithReference:@"location"];
 	BOOL foundHostName = NO;
 	
 	for (id key in jsObject)
@@ -184,22 +181,19 @@
 	}
 
 	GHAssertTrue(foundHostName, nil);
-	[jsObject release];
 }
 
 - (void)testCallFunction
 {
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"document" view:m_webView];
+	GAScriptObject* jsObject = [_engine scriptObjectWithReference:@"document"];
 	id retVal = [jsObject callFunction:@"createElement" withObject:@"strong"];
 
 	GHAssertTrue([retVal isKindOfClass:[GAScriptObject class]], nil);
-	
-	[jsObject release];
 }
 
 - (void)testJavaScriptTrue
 {
-	GAScriptObject* jsObject = [m_webView newScriptObject];
+	GAScriptObject* jsObject = [_engine newScriptObject];
 	
 	[jsObject setValue:[NSNull null] forKey:@"prop-null"];
 	[jsObject setValue:[NSNumber numberWithFloat:0.0] forKey:@"prop-num"];
@@ -212,6 +206,24 @@
 	GHAssertFalse([[jsObject valueForKey:@"prop-str"] isJavaScriptTrue], @"NSString failed");
 	
 	[jsObject release];
+}
+
+/**
+ * This test verifies that our message forwarding support works. The CustomTestObject has an "addObject" method.
+ * We validate that invoking the addObject: selector gets forwarded to the JavaScript object, which adds the object
+ * to the "stuff" member variable.
+ */
+- (void)testForwarding
+{
+    id jsObject = [_engine newScriptObject:@"CustomTestObject"];
+    
+    [jsObject addObject:@"foo"];
+    [jsObject addObject:@"foo2"];
+    [jsObject addObject:@"foo3"];
+    [jsObject addObject:@"foo4"];
+    
+    NSNumber* numObjects = [jsObject valueForKeyPath:@"stuff.length"];
+    GHAssertTrue([numObjects intValue] == 4, @"Strings didn't get added.");
 }
 
 @end

@@ -7,9 +7,18 @@
 //
 
 #import "ApplicationDelegate.h"
-#import "UIWebView+GAJavaScript.h"
+#import "GAScriptEngine.h"
 
 @implementation ApplicationDelegate
+
+@synthesize scriptEngine = _scriptEngine;
+
+- (void)dealloc
+{
+    [_scriptEngine release];
+    
+    [super dealloc];
+}
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
@@ -18,19 +27,17 @@
 	CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
 	UIWebView* webView = [[UIWebView alloc] initWithFrame:webFrame];
 	webView.tag = 9999;
-	webView.delegate = self;
 	webView.hidden = YES;
 	
 	[window_ addSubview:webView];	
 
-	[webView loadHTMLString:@"<html><head><title>Test Title</title></head><body><p>Hello World</p></body></html>" 
-					baseURL:nil];
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-	// Load the GAJavaScript runtime here
-	[webView loadScriptRuntime];
+    _scriptEngine = [[GAScriptEngine alloc] initWithWebView:webView];
+    
+    NSString* filePath = [[NSBundle mainBundle] pathForResource:@"TestWebViewContent" ofType:@"html"];
+    NSString* html = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+	[webView loadHTMLString:html baseURL:nil];
+    
+    [html release];
 }
 
 @end

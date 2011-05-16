@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010 Andrew Goodale. All rights reserved.
+ Copyright (c) 2011 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -24,21 +24,46 @@
  The views and conclusions contained in the software and documentation are those of the
  authors and should not be interpreted as representing official policies, either expressed
  or implied, of Andrew Goodale.
-*/ 
+ */
 
 #import <UIKit/UIKit.h>
 
 @class GAScriptObject;
 
-/*
- * This category adds accessors to UIWebView for the primary JavaScript objects
- * in an HTML document.
+/**
+ * The primary interface for interacting with JavaScript, via a UIWebView. The web view's delegate will
+ * be set to the script engine, to facilitate the loading of the required JavaScript.
  */
-@interface UIWebView (GAJavaScript) 
+@interface GAScriptEngine : NSObject <UIWebViewDelegate>
+{
+@private
+    UIWebView*      m_webView;
+}
 
-@property (nonatomic, readonly) GAScriptObject* documentObject;
+/**
+ * The designated initializer.
+ */
+- (id)initWithWebView:(UIWebView *)webView;
 
-@property (nonatomic, readonly) GAScriptObject* windowObject;
+/*
+ * Creates a new (empty) object 
+ */
+- (GAScriptObject *)newScriptObject;
 
+/*
+ * Creates a new object using the constructor function.
+ */
+- (GAScriptObject *)newScriptObject:(NSString *)constructorName;
+
+/*
+ * Returns a script object bound to the given reference. The script object will have 
+ * a "weak" reference to the JavaScript object
+ */
+- (GAScriptObject *)scriptObjectWithReference:(NSString *)reference;
+
+/*
+ * Call a function at global (window) scope.
+ */
+- (id)callFunction:(NSString *)functionName;
 
 @end
