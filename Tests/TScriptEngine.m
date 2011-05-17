@@ -47,27 +47,45 @@
 
 - (void)testCallback
 {
+	[self prepare:@selector(callbackNoArgs)];
     [_engine callFunction:@"testCallback"];
+	
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];	
 }
 
 - (void)testCallbackOneArg
 {
+	[self prepare:@selector(callbackOneArg)];
     [_engine callFunction:@"testCallbackOneArg"];
+
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];	
 }
 
 - (void)testMultipleCallbacks
 {
+    // Multiple callbacks will be invoked, so I'm specifying the last one.
+    //
+	[self prepare:@selector(callbackOneArg)];
     [_engine callFunction:@"testMultipleCallbacks"];
+
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];	
 }
 
 - (void)callbackNoArgs
 {
-    NSLog(@"Callback() from JavaScript");
+//    NSLog(@"Callback() from JavaScript");
+    
+    [self notify:kGHUnitWaitStatusSuccess];
 }
 
 - (void)callbackOneArg:(NSString *)theArgument
 {
-    NSLog(@"Callback(%@) from JavaScript", theArgument);
+//    NSLog(@"Callback(%@) from JavaScript", theArgument);
+
+    NSInteger status = ([theArgument isKindOfClass:[NSString class]]) 
+        ? kGHUnitWaitStatusSuccess 
+        : kGHUnitWaitStatusFailure;
+    [self notify:status];
 }
 
 @end

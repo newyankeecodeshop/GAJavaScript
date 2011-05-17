@@ -30,7 +30,7 @@
 
 @class GAScriptEngine;
 
-@interface TScriptEngine : GHTestCase 
+@interface TScriptEngine : GHAsyncTestCase 
 {
     GAScriptEngine*     _engine;    
 }
