@@ -37,11 +37,17 @@
  */
 - (void)loadScriptRuntime;
 
+- (void)makeLotsaCalls;
+
+- (void)callReceiversForSelector:(SEL)theSelector withArguments:(NSArray *)arguments;
+
 @end
 
 #pragma mark -
 
 @implementation GAScriptEngine
+
+@synthesize receivers = m_receivers;
 
 - (id)initWithWebView:(UIWebView *)webView
 {
@@ -49,6 +55,8 @@
     {
         m_webView = [webView retain];
         m_webView.delegate = self;
+        
+        m_receivers = [[NSMutableArray alloc] initWithCapacity:4];
     }
     
     return self;
@@ -57,6 +65,7 @@
 - (void)dealloc
 {
     [m_webView release];
+    [m_receivers release];
     
     [super dealloc];
 }
@@ -97,6 +106,51 @@
 	[m_webView stringByEvaluatingJavaScriptFromString:scriptData];	
 }
 
+- (void)makeLotsaCalls
+{
+    id calls = [self scriptObjectWithReference:@"GAJavaScript.calls"];
+    NSNumber* numCalls = [calls valueForKey:@"length"];
+    calls = [calls callFunction:@"splice" 
+                  withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:0], numCalls, nil]];
+    
+    for (NSInteger i = 0; i < [calls count]; ++i)
+    {
+        id call = [calls objectAtIndex:i];
+        
+        NSString* selName = [call valueForKey:@"sel"];
+        NSArray* arguments = [call valueForKey:@"args"];
+        SEL theSelector = NSSelectorFromString(selName);
+       
+        [self callReceiversForSelector:theSelector withArguments:arguments];
+    }    
+}
+
+- (void)callReceiversForSelector:(SEL)theSelector withArguments:(NSArray *)arguments
+{
+    // The first argument is the selector name, so ignore it
+    //
+    arguments = [arguments subarrayWithRange:NSMakeRange(1, [arguments count] - 1)];
+    
+    for (id receiver in self.receivers)
+    {
+        if (![receiver respondsToSelector:theSelector])
+            continue;
+        
+        NSMethodSignature* methodSig = [receiver methodSignatureForSelector:theSelector];
+        NSInvocation* inv = [NSInvocation invocationWithMethodSignature:methodSig];
+        NSInteger argIndex = 2;
+        
+        for (id arg in arguments)
+            [inv setArgument:&arg atIndex:argIndex++];
+        
+        [inv setSelector:theSelector];
+        [inv invokeWithTarget:receiver];
+        
+        // Ignore return values...
+        break;
+    }    
+}
+
 #pragma mark UIWebViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
@@ -108,6 +162,19 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
                                                  navigationType:(UIWebViewNavigationType)navigationType
 {
+    NSURL* theUrl = [request URL];
+    
+    if ([[theUrl scheme] isEqualToString:@"ga-js"])
+    {
+        if ([[theUrl resourceSpecifier] isEqualToString:@"makeLotsaCalls"])
+        {
+            [self makeLotsaCalls];
+        }
+        
+        return NO;
+    }
+    
+    // TODO: Only YES for the inital HTML page
     return YES;
 }
 

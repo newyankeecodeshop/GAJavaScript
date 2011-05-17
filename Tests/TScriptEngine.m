@@ -26,51 +26,48 @@
  or implied, of Andrew Goodale.
  */
 
-#import <UIKit/UIKit.h>
+#import "TScriptEngine.h"
+#import "GAScriptEngine.h"
 
-@class GAScriptObject;
+@implementation TScriptEngine
 
-/**
- * The primary interface for interacting with JavaScript, via a UIWebView. The web view's delegate will
- * be set to the script engine, to facilitate the loading of the required JavaScript.
- */
-@interface GAScriptEngine : NSObject <UIWebViewDelegate>
+- (BOOL)shouldRunOnMainThread 
 {
-@private
-    UIWebView*      m_webView;
-    
-    NSMutableArray* m_receivers;
+	// By default NO, but if you have a UI test or test dependent on running on the main thread return YES
+	return YES;
 }
 
-/**
- * An array of objects that take callbacks from JavaScript code.
- */
-@property (nonatomic, retain) NSMutableArray*   receivers;
+- (void)setUp
+{
+	id appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    _engine = [appDelegate valueForKey:@"scriptEngine"];
+    [_engine.receivers addObject:self];
+}
 
-/**
- * The designated initializer.
- */
-- (id)initWithWebView:(UIWebView *)webView;
+- (void)testCallback
+{
+    [_engine callFunction:@"testCallback"];
+}
 
-/*
- * Creates a new (empty) object 
- */
-- (GAScriptObject *)newScriptObject;
+- (void)testCallbackOneArg
+{
+    [_engine callFunction:@"testCallbackOneArg"];
+}
 
-/*
- * Creates a new object using the constructor function.
- */
-- (GAScriptObject *)newScriptObject:(NSString *)constructorName;
+- (void)testMultipleCallbacks
+{
+    [_engine callFunction:@"testMultipleCallbacks"];
+}
 
-/*
- * Returns a script object bound to the given reference. The script object will have 
- * a "weak" reference to the JavaScript object
- */
-- (GAScriptObject *)scriptObjectWithReference:(NSString *)reference;
+- (void)callbackNoArgs
+{
+    NSLog(@"Callback() from JavaScript");
+}
 
-/*
- * Call a function at global (window) scope.
- */
-- (id)callFunction:(NSString *)functionName;
+- (void)callbackOneArg:(NSString *)theArgument
+{
+    NSLog(@"Callback(%@) from JavaScript", theArgument);
+}
 
 @end

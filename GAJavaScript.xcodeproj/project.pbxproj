@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5994861382B0F0006B728D /* TScriptEngine.m */; };
 		2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D8500AC1381647F00758EA2 /* GAScriptEngine.h */; };
 		2D8500AF1381647F00758EA2 /* GAScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8500AD1381647F00758EA2 /* GAScriptEngine.m */; };
 		2D8500B213816B2100758EA2 /* TestWebViewContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D8500B113816B2100758EA2 /* TestWebViewContent.html */; };
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D5994851382B0F0006B728D /* TScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptEngine.h; path = Tests/TScriptEngine.h; sourceTree = "<group>"; };
+		2D5994861382B0F0006B728D /* TScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptEngine.m; path = Tests/TScriptEngine.m; sourceTree = "<group>"; };
 		2D8500AC1381647F00758EA2 /* GAScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptEngine.h; path = Classes/GAScriptEngine.h; sourceTree = "<group>"; };
 		2D8500AD1381647F00758EA2 /* GAScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptEngine.m; path = Classes/GAScriptEngine.m; sourceTree = "<group>"; };
 		2D8500B113816B2100758EA2 /* TestWebViewContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = TestWebViewContent.html; path = Tests/TestWebViewContent.html; sourceTree = "<group>"; };
@@ -154,6 +157,8 @@
 				4983385E13782DFC0006B26A /* ApplicationDelegate.m */,
 				4933848412B4373600FBE23C /* TScriptObject.h */,
 				4933848512B4373600FBE23C /* TScriptObject.m */,
+				2D5994851382B0F0006B728D /* TScriptEngine.h */,
+				2D5994861382B0F0006B728D /* TScriptEngine.m */,
 				4933870E12B58C5700FBE23C /* TWebView.h */,
 				4933870F12B58C5700FBE23C /* TWebView.m */,
 				493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */,
@@ -262,6 +267,7 @@
 				4933848612B4373600FBE23C /* TScriptObject.m in Sources */,
 				4933871412B58C9E00FBE23C /* TWebView.m in Sources */,
 				4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */,
+				2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

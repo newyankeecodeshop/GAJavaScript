@@ -5,12 +5,31 @@
         
         function CustomTestObject () {
             this.prop1 = "prop1";
+            this.length = 29;
             this.stuff = [];
         }
         
         CustomTestObject.prototype.addObject = function (add) {
             this.stuff.push(add);
         };
+    </script>
+    <script type="text/javascript">
+        
+        // Unit Test functions
+        
+        // This tests a simple call with no arguments
+        function testCallback () {
+            GAJavaScript.performSelector('callbackNoArgs');
+        }
+        
+        function testCallbackOneArg () {
+            GAJavaScript.performSelector('callbackOneArg:', "Hello World");            
+        }
+        
+        function testMultipleCallbacks () {
+            GAJavaScript.performSelector('callbackNoArgs');
+            GAJavaScript.performSelector('callbackOneArg:', "2nd call in testMultipleCallbacks");                        
+        }
     </script>
 </head>
 <body>

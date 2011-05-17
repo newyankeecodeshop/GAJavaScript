@@ -26,51 +26,13 @@
  or implied, of Andrew Goodale.
  */
 
-#import <UIKit/UIKit.h>
+#import <GHUnitIOS/GHUnit.h>
 
-@class GAScriptObject;
+@class GAScriptEngine;
 
-/**
- * The primary interface for interacting with JavaScript, via a UIWebView. The web view's delegate will
- * be set to the script engine, to facilitate the loading of the required JavaScript.
- */
-@interface GAScriptEngine : NSObject <UIWebViewDelegate>
+@interface TScriptEngine : GHTestCase 
 {
-@private
-    UIWebView*      m_webView;
-    
-    NSMutableArray* m_receivers;
+    GAScriptEngine*     _engine;    
 }
-
-/**
- * An array of objects that take callbacks from JavaScript code.
- */
-@property (nonatomic, retain) NSMutableArray*   receivers;
-
-/**
- * The designated initializer.
- */
-- (id)initWithWebView:(UIWebView *)webView;
-
-/*
- * Creates a new (empty) object 
- */
-- (GAScriptObject *)newScriptObject;
-
-/*
- * Creates a new object using the constructor function.
- */
-- (GAScriptObject *)newScriptObject:(NSString *)constructorName;
-
-/*
- * Returns a script object bound to the given reference. The script object will have 
- * a "weak" reference to the JavaScript object
- */
-- (GAScriptObject *)scriptObjectWithReference:(NSString *)reference;
-
-/*
- * Call a function at global (window) scope.
- */
-- (id)callFunction:(NSString *)functionName;
 
 @end

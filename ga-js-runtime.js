@@ -31,6 +31,8 @@ GAJavaScript = {
 	ref: { 
 		index: 0
 	},
+    
+    calls: [],
 	
 	typeOf: function (value) {
 		var t = typeof value;
@@ -115,5 +117,15 @@ GAJavaScript = {
 		
 		this.ref[key] = obj;
 		return "GAJavaScript.ref['" + key + "']";
-	}
+	},
+    
+    performSelector: function (selName) {
+        var newCall = {
+            sel: selName,
+            args: Array.prototype.slice.call(arguments)     // Converts it to a true Array
+        }
+        this.calls.push(newCall);
+        
+        location.replace("ga-js:makeLotsaCalls");
+    }
 };
