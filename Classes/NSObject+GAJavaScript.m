@@ -53,6 +53,9 @@ static Class*   s_classList = NULL;
     {
         Class aClass = s_classList[i];
         
+		if (aClass == [NSProxy class])		// Throws an exception
+			continue;
+		
         if ([aClass instancesRespondToSelector:aSelector])
             return [aClass instanceMethodSignatureForSelector:aSelector];
     }
