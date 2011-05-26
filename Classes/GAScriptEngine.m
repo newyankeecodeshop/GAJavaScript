@@ -54,6 +54,7 @@
     if ((self = [super init]))
     {
         m_webView = [webView retain];
+		m_delegate = [webView delegate];
         m_webView.delegate = self;
         
         m_receivers = [[NSMutableArray alloc] initWithCapacity:4];
@@ -153,10 +154,18 @@
 
 #pragma mark UIWebViewDelegate
 
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+	[m_delegate webViewDidStartLoad:webView];
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	// Load the GAJavaScript runtime here
+	// Load the GAJavaScript runtime before calling the delegate, because the delegate may
+	// want to use features of the library.
 	[self loadScriptRuntime];
+	
+	[m_delegate webViewDidFinishLoad:webView];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
@@ -174,9 +183,17 @@
         return NO;
     }
     
+	// Let the delegate handle it if we have one.
+	if (m_delegate)
+		return [m_delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+	
     // TODO: Only YES for the inital HTML page
     return YES;
 }
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+	[m_delegate webView:webView didFailLoadWithError:error];
+}
 
 @end

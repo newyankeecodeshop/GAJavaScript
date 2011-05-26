@@ -37,7 +37,8 @@
 @interface GAScriptEngine : NSObject <UIWebViewDelegate>
 {
 @private
-    UIWebView*      m_webView;
+    UIWebView*				m_webView;
+	id<UIWebViewDelegate>	m_delegate;
     
     NSMutableArray* m_receivers;
 }
