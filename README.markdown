@@ -10,9 +10,15 @@ GAJavaScript is a Cocoa Touch library that makes working with JavaScript easier 
 
 JavaScript is accessed from Cocoa Touch using UIWebView. To that end, the main entry point of this library is a category on UIWebView. 
 
+## GAScriptEngine
+
+This class is the main interface to the library. It takes a UIWebView and prepares it for use with the library. It implements UIWebViewDelegate so that it can load the library's JavaScript file when the WebView is loaded, and it implements support for calling Objective-C methods from JavaScript. It also adds methods to create new objects, either a simple "new Object" or using a constructor function. When you create a new object this way, it's lifetime is tied to the lifetime of the GAScriptObject that is returned, unless you assign the object as a property of another object.
+
+TODO: Aggregate any existing UIWebViewDelegate so developers can control other aspects such as error handling and navigation.
+
 ## UIWebView+GAJavaScript
 
-This category adds accessors to access the "document" and "window" objects of the HTML document loaded in the WebView. It also adds methods to create new objects, either a simple "new Object" or using a constructor function. When you create a new object this way, it's lifetime is tied to the lifetime of the GAScriptObject that is returned, unless you assign the object as a property of another object.
+This category adds accessors to access the "document" and "window" objects of the HTML document loaded in the WebView. You can then use any GAScriptObject functionality on them.
 
 ## GAScriptObject
 
@@ -30,6 +36,7 @@ There are unit tests in the /Tests folder that show how to use various features 
 
 A simple way to get started is to:
 1. In your project, add "ga-js-runtime.js" as a bundle resource. This file contains the JavaScript code needed by this library.
-2. Create a hidden UIWebView. It can be parented to the app's UIWindow, or a view in a UIViewController. You should load an HTML document that contains/includes all the JavaScript you want to make available to Objective-C code.
-3. In the [webViewDidFinishLoad:] method of your delegate, call [webView loadJavaScriptRuntime]. This will load "ga-js-runtime.js" into the webView.
-4. Now you can access the "document" or "window" object, or start accessing your own global objects.
+2. Create a hidden UIWebView. It can be parented to the app's UIWindow, or a view in a UIViewController.
+3. Create a GAScriptEngine and pass the UIWebView to [GAScriptEngine initWithWebView:].
+4. Load your HTML+JavaScript into the view. You should load an HTML document that contains/includes all the JavaScript you want to make available to Objective-C code.
+5. Now you can access the "document" or "window" object via the UIWebView category, or start accessing your own global objects using GAScriptEngine methods.
