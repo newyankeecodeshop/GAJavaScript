@@ -127,5 +127,15 @@ GAJavaScript = {
         this.calls.push(newCall);
         
         location.replace("ga-js:makeLotsaCalls");
-    }
+    },
+	
+	invocation: function (invocationHash, callArguments) {
+        var newCall = {
+			inv: invocationHash,
+			args: Array.prototype.slice.call(callArguments)     // Converts it to a true Array
+        }
+        this.calls.push(newCall);
+		
+		location.replace("ga-js:makeLotsaCalls");
+	}
 };

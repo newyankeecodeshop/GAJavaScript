@@ -29,39 +29,7 @@
 #import "NSObject+GAJavaScript.h"
 #import <objc/runtime.h>
 
-static int      s_numClasses = 0;
-static Class*   s_classList = NULL;
-
 @implementation NSObject (GAJavaScript)
-
-+ (NSMethodSignature *)findInAllClassesMethodSignatureForSelector:(SEL)aSelector
-{
-    if (s_classList == NULL)
-    {
-        int numClasses = objc_getClassList(NULL, 0);
-        
-        if (numClasses > 0 )
-        {
-            s_classList = malloc(sizeof(Class) * numClasses);
-            s_numClasses = objc_getClassList(s_classList, numClasses);
-        }
-    }
-    
-    // If performance becomes a concern, we can build a cache of these mappings.
-    //
-    for (int i = 0; i < s_numClasses; ++i)
-    {
-        Class aClass = s_classList[i];
-        
-		if (aClass == [NSProxy class])		// Throws an exception
-			continue;
-		
-        if ([aClass instancesRespondToSelector:aSelector])
-            return [aClass instanceMethodSignatureForSelector:aSelector];
-    }
-
-    return nil;
-}
 
 - (NSString *)stringForJavaScript
 {
@@ -179,7 +147,7 @@ static Class*   s_classList = NULL;
 
 - (NSString *)stringForJavaScript
 {
-	return [NSString stringWithFormat:@"new Date(%.0f)", [self timeIntervalSince1970]];
+	return [NSString stringWithFormat:@"new Date(%.0f)", [self timeIntervalSince1970] * 1000];
 }
 
 @end
@@ -230,6 +198,29 @@ static Class*   s_classList = NULL;
 	
 	[target appendFormat:@"%c", '}'];
 	return [target autorelease];	
+}
+
+@end
+
+#pragma mark -
+
+@implementation NSInvocation (GAJavaScript)
+
+- (NSString *)stringForJavaScript
+{	
+	return [NSString stringWithFormat:@"function () { GAJavaScript.invocation(%u, arguments); }", [self hash]];	
+}
+
+- (void)setArgumentsFromJavaScript:(NSArray *)arguments
+{
+	NSInteger argIndex = 2;
+	
+	for (id arg in arguments)
+	{
+		// TODO: Need to get the address right based on types...
+		//
+		[self setArgument:&arg atIndex:argIndex++];			
+	}
 }
 
 @end

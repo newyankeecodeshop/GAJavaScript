@@ -40,7 +40,8 @@
     UIWebView*				m_webView;
 	id<UIWebViewDelegate>	m_delegate;
     
-    NSMutableArray* m_receivers;
+    NSMutableArray*			m_receivers;
+	NSMutableDictionary*	m_invocations;
 }
 
 /**
@@ -73,5 +74,10 @@
  * Call a function at global (window) scope.
  */
 - (id)callFunction:(NSString *)functionName;
+
+/*
+ * Call a function on this object, with a single argument.
+ */
+- (id)callFunction:(NSString *)functionName withObject:(id)argument;
 
 @end

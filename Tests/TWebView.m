@@ -28,6 +28,7 @@
 
 #import "TWebView.h"
 #import "GAScriptObject.h"
+#import "GAScriptMethodSignatures.h"
 #import "UIWebView+GAJavaScript.h"
 
 @implementation TWebView
@@ -61,9 +62,9 @@
 
 - (void)testGetElements
 {
-	GAScriptObject* document = [m_webView documentObject];
+	id document = [m_webView documentObject];
 
-	GAScriptObject* nodeList = [document callFunction:@"getElementsByTagName" withObject:@"p"];
+	GAScriptObject* nodeList = [document getElementsByTagName:@"p"];
 	NSNumber* length = [nodeList valueForKey:@"length"];
 	
 	GHAssertTrue([length intValue] == 1, @"NodeList is not object");

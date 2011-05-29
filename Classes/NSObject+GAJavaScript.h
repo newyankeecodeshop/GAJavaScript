@@ -33,11 +33,6 @@
  */
 @interface NSObject (GAJavaScript)
 
-/**
- * Used by the script object to find a method signature for the given selector.
- */
-+ (NSMethodSignature *)findInAllClassesMethodSignatureForSelector:(SEL)aSelector;
-
 /*
  * The default implementation for all objects is to return [self description] quoted for JS.
  */
@@ -110,6 +105,19 @@
 @interface NSDictionary (GAJavaScript)
 
 - (NSString *)stringForJavaScript;
+
+@end
+
+#pragma mark -
+
+/*
+ * Returns a callback closure for this invocation.
+ */
+@interface NSInvocation (GAJavaScript)
+
+- (NSString *)stringForJavaScript;
+
+- (void)setArgumentsFromJavaScript:(NSArray *)arguments;
 
 @end
 

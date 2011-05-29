@@ -28,14 +28,20 @@
 
 #import "GAScriptEngine.h"
 #import "GAScriptObject.h"
+#import "NSObject+GAJavaScript.h"
 
 @interface GAScriptEngine ()
 
-/*
+/**
  * Loads the GAJavaScript runtime into this webview. This method should be called in the
  * UIWebViewDelegate webViewDidFinishLoad: method.
  */
 - (void)loadScriptRuntime;
+
+/**
+ * Saves (retains) the given argument if it's needed for an asynchronous callback.
+ */
+- (void)retainCallArgumentIfNecessary:(id)argument;
 
 - (void)makeLotsaCalls;
 
@@ -58,6 +64,8 @@
         m_webView.delegate = self;
         
         m_receivers = [[NSMutableArray alloc] initWithCapacity:4];
+		
+		m_invocations = [[NSMutableDictionary alloc] initWithCapacity:4];
     }
     
     return self;
@@ -67,6 +75,7 @@
 {
     [m_webView release];
     [m_receivers release];
+	[m_invocations release];
     
     [super dealloc];
 }
@@ -99,12 +108,25 @@
 	return [[self scriptObjectWithReference:@"window"] callFunction:functionName];
 }
 
+- (id)callFunction:(NSString *)functionName withObject:(id)argument
+{
+	return [[self scriptObjectWithReference:@"window"] callFunction:functionName withObject:argument];
+}
+
+#pragma mark Private
+
 - (void)loadScriptRuntime
 {
 	NSString* scriptFile = [[NSBundle mainBundle] pathForResource:@"ga-js-runtime" ofType:@"js"];
 	NSString* scriptData = [NSString stringWithContentsOfFile:scriptFile encoding:NSUTF8StringEncoding error:nil];
 	
 	[m_webView stringByEvaluatingJavaScriptFromString:scriptData];	
+}
+
+- (void)retainCallArgumentIfNecessary:(id)argument
+{
+	if ([argument isKindOfClass:[NSInvocation class]])
+		[m_invocations setObject:argument forKey:[NSNumber numberWithUnsignedInt:[argument hash]]];
 }
 
 - (void)makeLotsaCalls
@@ -119,10 +141,22 @@
         id call = [calls objectAtIndex:i];
         
         NSString* selName = [call valueForKey:@"sel"];
+		NSNumber* invName = [call valueForKey:@"inv"];
         NSArray* arguments = [call valueForKey:@"args"];
-        SEL theSelector = NSSelectorFromString(selName);
-       
-        [self callReceiversForSelector:theSelector withArguments:arguments];
+		
+		if (selName != nil)
+		{
+			SEL theSelector = NSSelectorFromString(selName);
+			[self callReceiversForSelector:theSelector withArguments:arguments];
+		}
+		else if (invName != nil)
+		{
+			NSInvocation* invocation = [m_invocations objectForKey:invName];			
+			[invocation setArgumentsFromJavaScript:arguments];
+			[invocation invoke];
+			
+			[m_invocations removeObjectForKey:invName];
+		}
     }    
 }
 
@@ -139,12 +173,9 @@
         
         NSMethodSignature* methodSig = [receiver methodSignatureForSelector:theSelector];
         NSInvocation* inv = [NSInvocation invocationWithMethodSignature:methodSig];
-        NSInteger argIndex = 2;
-        
-        for (id arg in arguments)
-            [inv setArgument:&arg atIndex:argIndex++];
         
         [inv setSelector:theSelector];
+		[inv setArgumentsFromJavaScript:arguments];
         [inv invokeWithTarget:receiver];
         
         // Ignore return values...

@@ -30,6 +30,10 @@
             GAJavaScript.performSelector('callbackNoArgs');
             GAJavaScript.performSelector('callbackOneArg:', "2nd call in testMultipleCallbacks");                        
         }
+		
+		function testCallbackAsArgument (callback) {			
+			callback('arg1', 'arg2', new Date());
+		}
     </script>
 </head>
 <body>

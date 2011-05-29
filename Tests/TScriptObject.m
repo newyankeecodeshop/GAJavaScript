@@ -29,6 +29,7 @@
 #import "TScriptObject.h"
 #import "GAScriptObject.h"
 #import "GAScriptEngine.h"
+#import "GAScriptMethodSignatures.h"
 #import "NSObject+GAJavaScript.h"
 
 @implementation TScriptObject
@@ -215,6 +216,8 @@
  */
 - (void)testForwarding
 {
+	[GAScriptMethodSignatures addMethodSignaturesForClass:[NSMutableArray class]];
+	
     id jsObject = [_engine newScriptObject:@"CustomTestObject"];
     
     [jsObject addObject:@"foo"];

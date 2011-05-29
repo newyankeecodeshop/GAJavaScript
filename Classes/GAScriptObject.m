@@ -27,6 +27,7 @@
 */ 
 
 #import "GAScriptObject.h"
+#import "GAScriptMethodSignatures.h"
 #import "NSObject+GAJavaScript.h"
 
 typedef struct /* GAScriptObjectEnumState */
@@ -164,7 +165,10 @@ static NSNumberFormatter* kNumFormatter = nil;
 {	
 	NSString* js = [NSString stringWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, [%@])", 
 					m_objReference, functionName, m_objReference, [argument stringForJavaScript]];
-	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
+	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
+	
+	id scriptEngine = m_webView.delegate;
+	[scriptEngine retainCallArgumentIfNecessary:argument];
 	
 	return [self convertScriptResult:result reference:m_objReference];
 }
@@ -246,8 +250,8 @@ static NSNumberFormatter* kNumFormatter = nil;
 	}
 	else if (jstype == 'd')
 	{
-		NSNumber* timeVal = [kNumFormatter numberFromString:result];
-		return [NSDate dateWithTimeIntervalSince1970:[timeVal doubleValue]];
+		NSNumber* millisecsSince1970 = [kNumFormatter numberFromString:result];
+		return [NSDate dateWithTimeIntervalSince1970:[millisecsSince1970 doubleValue] / 1000];
 	}
 	else if (jstype == 'n')
 	{
@@ -356,7 +360,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {
-    return [NSObject findInAllClassesMethodSignatureForSelector:aSelector];
+    return [GAScriptMethodSignatures findMethodSignatureForSelector:aSelector];
 }
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation
@@ -402,8 +406,8 @@ static NSNumberFormatter* kNumFormatter = nil;
     
     //TODO: Handle non-Object types.
     //
-    if (retVal != nil && [methodSig methodReturnLength] > 0)
-        [anInvocation setReturnValue:retVal];
+    if ([methodSig methodReturnLength] > 0)
+        [anInvocation setReturnValue:&retVal];
 }
 
 @end

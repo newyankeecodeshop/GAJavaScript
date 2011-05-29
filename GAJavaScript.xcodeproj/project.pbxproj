@@ -20,6 +20,9 @@
 		493386AD12B582A300FBE23C /* NSObject+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 493386AB12B582A300FBE23C /* NSObject+GAJavaScript.m */; };
 		4933871412B58C9E00FBE23C /* TWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933870F12B58C5700FBE23C /* TWebView.m */; };
 		4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4983385E13782DFC0006B26A /* ApplicationDelegate.m */; };
+		49839832138C7CFA003A23D6 /* TScriptObjectBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 49839831138C7CFA003A23D6 /* TScriptObjectBlocks.m */; };
+		498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */; };
+		498A2C5113928F6600B95CC9 /* GAScriptMethodSignatures.m in Sources */ = {isa = PBXBuildFile; fileRef = 498A2C4F13928F6600B95CC9 /* GAScriptMethodSignatures.m */; };
 		49F1DBDE12A3F64A004C8736 /* GAScriptObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */; };
 		49F1DBDF12A3F64A004C8736 /* GAScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */; };
 		49F1DBE512A3F67A004C8736 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49F1DBE412A3F67A004C8736 /* UIKit.framework */; };
@@ -59,6 +62,10 @@
 		4933870F12B58C5700FBE23C /* TWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TWebView.m; path = Tests/TWebView.m; sourceTree = "<group>"; };
 		4983385D13782DFC0006B26A /* ApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplicationDelegate.h; path = Tests/ApplicationDelegate.h; sourceTree = "<group>"; };
 		4983385E13782DFC0006B26A /* ApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApplicationDelegate.m; path = Tests/ApplicationDelegate.m; sourceTree = "<group>"; };
+		49839830138C7CFA003A23D6 /* TScriptObjectBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptObjectBlocks.h; path = Tests/TScriptObjectBlocks.h; sourceTree = "<group>"; };
+		49839831138C7CFA003A23D6 /* TScriptObjectBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptObjectBlocks.m; path = Tests/TScriptObjectBlocks.m; sourceTree = "<group>"; };
+		498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptMethodSignatures.h; path = Classes/GAScriptMethodSignatures.h; sourceTree = "<group>"; };
+		498A2C4F13928F6600B95CC9 /* GAScriptMethodSignatures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptMethodSignatures.m; path = Classes/GAScriptMethodSignatures.m; sourceTree = "<group>"; };
 		49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptObject.h; path = Classes/GAScriptObject.h; sourceTree = "<group>"; };
 		49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptObject.m; path = Classes/GAScriptObject.m; sourceTree = "<group>"; };
 		49F1DBE412A3F67A004C8736 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -132,6 +139,8 @@
 				2D8500AD1381647F00758EA2 /* GAScriptEngine.m */,
 				49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */,
 				49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */,
+				498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */,
+				498A2C4F13928F6600B95CC9 /* GAScriptMethodSignatures.m */,
 				493386AA12B582A300FBE23C /* NSObject+GAJavaScript.h */,
 				493386AB12B582A300FBE23C /* NSObject+GAJavaScript.m */,
 				49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */,
@@ -155,10 +164,12 @@
 			children = (
 				4983385D13782DFC0006B26A /* ApplicationDelegate.h */,
 				4983385E13782DFC0006B26A /* ApplicationDelegate.m */,
-				4933848412B4373600FBE23C /* TScriptObject.h */,
-				4933848512B4373600FBE23C /* TScriptObject.m */,
 				2D5994851382B0F0006B728D /* TScriptEngine.h */,
 				2D5994861382B0F0006B728D /* TScriptEngine.m */,
+				4933848412B4373600FBE23C /* TScriptObject.h */,
+				4933848512B4373600FBE23C /* TScriptObject.m */,
+				49839830138C7CFA003A23D6 /* TScriptObjectBlocks.h */,
+				49839831138C7CFA003A23D6 /* TScriptObjectBlocks.m */,
 				4933870E12B58C5700FBE23C /* TWebView.h */,
 				4933870F12B58C5700FBE23C /* TWebView.m */,
 				493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */,
@@ -179,6 +190,7 @@
 				49F1DC8F12A3F7E2004C8736 /* UIWebView+GAJavaScript.h in Headers */,
 				493386AC12B582A300FBE23C /* NSObject+GAJavaScript.h in Headers */,
 				2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */,
+				498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +280,7 @@
 				4933871412B58C9E00FBE23C /* TWebView.m in Sources */,
 				4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */,
 				2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */,
+				49839832138C7CFA003A23D6 /* TScriptObjectBlocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +292,7 @@
 				49F1DC9012A3F7E2004C8736 /* UIWebView+GAJavaScript.m in Sources */,
 				493386AD12B582A300FBE23C /* NSObject+GAJavaScript.m in Sources */,
 				2D8500AF1381647F00758EA2 /* GAScriptEngine.m in Sources */,
+				498A2C5113928F6600B95CC9 /* GAScriptMethodSignatures.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

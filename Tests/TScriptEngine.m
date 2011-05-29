@@ -71,6 +71,19 @@
 	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];	
 }
 
+- (void)testCallbackAsArgument
+{
+	[self prepare:@selector(invocationCallback:andString:andDate:)];
+	
+	NSMethodSignature* sig = [self methodSignatureForSelector:@selector(invocationCallback:andString:andDate:)];
+	NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:sig];
+	[invocation setSelector:@selector(invocationCallback:andString:andDate:)];
+	[invocation setTarget:self];
+	[_engine callFunction:@"testCallbackAsArgument" withObject:invocation];
+	
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];
+}
+
 - (void)callbackNoArgs
 {
 //    NSLog(@"Callback() from JavaScript");
@@ -86,6 +99,13 @@
         ? kGHUnitWaitStatusSuccess 
         : kGHUnitWaitStatusFailure;
     [self notify:status];
+}
+
+- (void)invocationCallback:(NSString *)arg1 andString:(NSString *)arg2 andDate:(NSDate *)arg3
+{
+//	NSLog(@"Callback from Invocation %@ %@ %@", arg1, arg2, arg3);
+	
+	[self notify:kGHUnitWaitStatusSuccess];
 }
 
 @end
