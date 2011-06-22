@@ -44,6 +44,9 @@
 		const char* propName = property_getName(propList[i]);
 		id propValue = [self valueForKey:[NSString stringWithCString:propName encoding:NSASCIIStringEncoding]];
 		
+        if (propValue == self)  // To prevent endless recursion, check for property values that are us!
+            continue;
+        
 		if (i > 0)
 			[target appendFormat:@"%c", ','];
 		

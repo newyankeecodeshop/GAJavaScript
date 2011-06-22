@@ -27,6 +27,7 @@
  */
 
 #import "GAScriptEngine.h"
+#import "GAScriptEnginePrivate.h"
 #import "GAScriptObject.h"
 #import "NSObject+GAJavaScript.h"
 
@@ -37,11 +38,6 @@
  * UIWebViewDelegate webViewDidFinishLoad: method.
  */
 - (void)loadScriptRuntime;
-
-/**
- * Saves (retains) the given argument if it's needed for an asynchronous callback.
- */
-- (void)retainCallArgumentIfNecessary:(id)argument;
 
 - (void)makeLotsaCalls;
 
@@ -125,8 +121,10 @@
 
 - (void)retainCallArgumentIfNecessary:(id)argument
 {
-	if ([argument isKindOfClass:[NSInvocation class]])
+	if ([argument isKindOfClass:[NSInvocation class]] || [argument isKindOfClass:[GAScriptBlockObject class]])
+    {
 		[m_invocations setObject:argument forKey:[NSNumber numberWithUnsignedInt:[argument hash]]];
+    }
 }
 
 - (void)makeLotsaCalls
@@ -151,11 +149,13 @@
 		}
 		else if (invName != nil)
 		{
-			NSInvocation* invocation = [m_invocations objectForKey:invName];			
+            // Will be an NSInvocation or GAScriptBlockObject
+            //
+			id invocation = [m_invocations objectForKey:invName];			
 			[invocation setArgumentsFromJavaScript:arguments];
 			[invocation invoke];
 			
-			[m_invocations removeObjectForKey:invName];
+//TODO			[m_invocations removeObjectForKey:invName];
 		}
     }    
 }
@@ -215,7 +215,7 @@
     }
     
 	// Let the delegate handle it if we have one.
-	if (m_delegate)
+	if ([m_delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
 		return [m_delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 	
     // TODO: Only YES for the inital HTML page
@@ -225,6 +225,48 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
 	[m_delegate webView:webView didFailLoadWithError:error];
+}
+
+@end
+
+#pragma mark -
+
+@implementation GAScriptBlockObject
+
+- (id)initWithBlock:(void (^)(NSArray *))block
+{
+    if ((self = [super init]))
+    {
+        _blockObject = Block_copy(block);        
+    }
+    
+    return self;
+}
+
+- (void)dealloc
+{
+    Block_release(_blockObject);
+    
+    [_arguments release];
+    
+    [super dealloc];
+}
+
+- (NSString *)stringForJavaScript
+{	
+	return [NSString stringWithFormat:@"function () { GAJavaScript.invocation(%u, arguments); }", [self hash]];	
+}
+
+- (void)setArgumentsFromJavaScript:(NSArray *)arguments
+{
+    [_arguments release];
+    _arguments = [arguments retain];
+}
+
+- (void)invoke
+{
+    void (^theBlock)(NSArray*) = _blockObject;
+    theBlock(_arguments);
 }
 
 @end

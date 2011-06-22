@@ -54,4 +54,9 @@ static NSMutableSet* s_classes = nil;
 	return nil;
 }
 
+- (id)item:(NSInteger)index
+{
+    return nil;
+}
+
 @end

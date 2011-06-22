@@ -28,6 +28,7 @@
 
 #import "GAScriptObject.h"
 #import "GAScriptMethodSignatures.h"
+#import "GAScriptEnginePrivate.h"
 #import "NSObject+GAJavaScript.h"
 
 typedef struct /* GAScriptObjectEnumState */
@@ -53,6 +54,8 @@ static NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
 - (NSArray *)arrayFromJavaScript:(NSString *)result reference:(NSString *)reference;
 
 - (NSError *)errorFromJavaScript:(NSString *)result;
+
+- (id)convertArgument:(NSInvocation *)invocation atIndex:(NSInteger)index;
 
 @end
 
@@ -231,6 +234,18 @@ static NSNumberFormatter* kNumFormatter = nil;
 	return nil;
 }
 
+#pragma mark Blocks
+
+- (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block
+{
+    GAScriptBlockObject* myBlock = [[GAScriptBlockObject alloc] initWithBlock:block];
+    
+    id scriptEngine = m_webView.delegate;
+	[scriptEngine retainCallArgumentIfNecessary:myBlock];
+
+    [self setValue:myBlock forKey:key];
+}
+
 #pragma mark Private
 
 - (id)convertScriptResult:(NSString *)result reference:(NSString *)reference
@@ -384,19 +399,16 @@ static NSNumberFormatter* kNumFormatter = nil;
     }
     else if (numberOfArgs == 3)
     {
-        id singleArg;   // TODO: Handle non-Object types
-        
-        [anInvocation getArgument:&singleArg atIndex:2];
+        id singleArg = [self convertArgument:anInvocation atIndex:2];
         retVal = [self callFunction:functionName withObject:singleArg];
     }
     else if (numberOfArgs > 3)
     {
-        id singleArg;
         NSMutableArray* arguments = [[NSMutableArray alloc] initWithCapacity:numberOfArgs];
         
         for (int i = 2; i < numberOfArgs; ++i)
         {
-            [anInvocation getArgument:&singleArg atIndex:i];
+            id singleArg = [self convertArgument:anInvocation atIndex:i];
             [arguments addObject:singleArg];
         }
         
@@ -408,6 +420,22 @@ static NSNumberFormatter* kNumFormatter = nil;
     //
     if ([methodSig methodReturnLength] > 0)
         [anInvocation setReturnValue:&retVal];
+}
+
+- (id)convertArgument:(NSInvocation *)invocation atIndex:(NSInteger)index
+{
+    void* argValue;
+    [invocation getArgument:&argValue atIndex:index];
+    
+    const char* type = [[invocation methodSignature] getArgumentTypeAtIndex:index];
+    
+    if (*type == 'c')
+        return [NSNumber numberWithBool:(int)argValue];
+    
+    if (*type == 'i')
+        return [NSNumber numberWithInt:(int)argValue];
+    
+    return (id) argValue;
 }
 
 @end

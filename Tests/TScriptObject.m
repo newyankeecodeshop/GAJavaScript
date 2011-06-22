@@ -224,9 +224,12 @@
     [jsObject addObject:@"foo2"];
     [jsObject addObject:@"foo3"];
     [jsObject addObject:@"foo4"];
-    
+        
     NSNumber* numObjects = [jsObject valueForKeyPath:@"stuff.length"];
     GHAssertTrue([numObjects intValue] == 4, @"Strings didn't get added.");
+
+    id value = [jsObject item:2];
+    GHAssertTrue([value isEqual:@"foo3"], @"Something");
 }
 
 @end

@@ -29,4 +29,6 @@
 
 - (id)getElementsByTagName:(NSString *)tagName;
 
+- (id)item:(NSInteger)index;
+
 @end

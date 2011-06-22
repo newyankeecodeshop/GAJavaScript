@@ -91,3 +91,11 @@ static NSString* const GAJavaScriptErrorDomain;
 - (id)valueForKeyPath:(NSString *)keyPath;
 
 @end
+
+#pragma mark -
+
+@interface GAScriptObject (Blocks)
+
+- (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block;
+
+@end

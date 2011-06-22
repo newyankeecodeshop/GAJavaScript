@@ -12,6 +12,10 @@
         CustomTestObject.prototype.addObject = function (add) {
             this.stuff.push(add);
         };
+        
+        CustomTestObject.prototype.item = function (number) {
+            return this.stuff[number];
+        }
     </script>
     <script type="text/javascript">
         

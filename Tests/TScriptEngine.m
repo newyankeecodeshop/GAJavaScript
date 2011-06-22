@@ -28,6 +28,7 @@
 
 #import "TScriptEngine.h"
 #import "GAScriptEngine.h"
+#import "GAScriptObject.h"
 
 @implementation TScriptEngine
 
@@ -81,6 +82,30 @@
 	[invocation setTarget:self];
 	[_engine callFunction:@"testCallbackAsArgument" withObject:invocation];
 	
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];
+}
+
+- (void)testCallbackWithBlock
+{
+	[self prepare];
+
+    __block id rightNow = nil;
+    
+	void (^nowBlock)(NSArray*) = ^ (NSArray* arguments)
+	{
+		rightNow = [NSDate date];
+//		NSLog(@"The date and time is %@", rightNow);
+        
+        [self notify:kGHUnitWaitStatusSuccess];
+	};	
+	
+	GAScriptObject* jsObject = [_engine newScriptObject];
+	
+	[jsObject setFunctionForKey:@"nowBlock" withBlock:nowBlock];
+    
+    [jsObject callFunction:@"nowBlock"];
+	[jsObject release];
+
 	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];
 }
 
