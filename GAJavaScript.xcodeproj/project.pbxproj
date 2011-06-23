@@ -12,8 +12,8 @@
 		2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D8500AC1381647F00758EA2 /* GAScriptEngine.h */; };
 		2D8500AF1381647F00758EA2 /* GAScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8500AD1381647F00758EA2 /* GAScriptEngine.m */; };
 		2D8500B213816B2100758EA2 /* TestWebViewContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D8500B113816B2100758EA2 /* TestWebViewContent.html */; };
+		2DC139A613B3AC5E0026D4D5 /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */; };
 		493383BB12B433F000FBE23C /* GHUnitIOSTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */; };
-		4933846812B4366E00FBE23C /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933846712B4366E00FBE23C /* GHUnitIOS.framework */; };
 		4933848612B4373600FBE23C /* TScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933848512B4373600FBE23C /* TScriptObject.m */; };
 		4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933848B12B437CD00FBE23C /* CoreGraphics.framework */; };
 		493385BA12B5559B00FBE23C /* libGAJavaScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC07E0554694100DB518D /* libGAJavaScript.a */; };
@@ -50,10 +50,10 @@
 		2D8500AC1381647F00758EA2 /* GAScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptEngine.h; path = Classes/GAScriptEngine.h; sourceTree = "<group>"; };
 		2D8500AD1381647F00758EA2 /* GAScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptEngine.m; path = Classes/GAScriptEngine.m; sourceTree = "<group>"; };
 		2D8500B113816B2100758EA2 /* TestWebViewContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = TestWebViewContent.html; path = Tests/TestWebViewContent.html; sourceTree = "<group>"; };
+		2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = ../../ThirdParty/GHUnitIOS.framework; sourceTree = "<group>"; };
 		4933839E12B4338200FBE23C /* GAJavaScriptTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAJavaScriptTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GAJavaScriptTests-Info.plist"; sourceTree = "<group>"; };
 		493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GHUnitIOSTestMain.m; path = Tests/GHUnitIOSTestMain.m; sourceTree = "<group>"; };
-		4933846712B4366E00FBE23C /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = "/Volumes/Disc-1/Users/andrew/Development/ThirdParty/GHUnitIOS.framework"; sourceTree = "<absolute>"; };
 		4933848412B4373600FBE23C /* TScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptObject.h; path = Tests/TScriptObject.h; sourceTree = "<group>"; };
 		4933848512B4373600FBE23C /* TScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptObject.m; path = Tests/TScriptObject.m; sourceTree = "<group>"; };
 		4933848B12B437CD00FBE23C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -81,9 +81,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4933846812B4366E00FBE23C /* GHUnitIOS.framework in Frameworks */,
-				4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */,
 				493385BA12B5559B00FBE23C /* libGAJavaScript.a in Frameworks */,
+				4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */,
+				2DC139A613B3AC5E0026D4D5 /* GHUnitIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,8 +125,8 @@
 			children = (
 				49F1DBE412A3F67A004C8736 /* UIKit.framework */,
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
-				4933846712B4366E00FBE23C /* GHUnitIOS.framework */,
 				4933848B12B437CD00FBE23C /* CoreGraphics.framework */,
+				2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -375,12 +375,12 @@
 		493383A112B4338300FBE23C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"\"$(SRCROOT)/../../ThirdParty\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -388,10 +388,6 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
 				INFOPLIST_FILE = "GAJavaScriptTests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/GHUnitIOS.framework\"",
-				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -408,23 +404,19 @@
 		493383A212B4338300FBE23C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"\"$(SRCROOT)/../../ThirdParty\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
 				INFOPLIST_FILE = "GAJavaScriptTests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/GHUnitIOS.framework\"",
-				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
