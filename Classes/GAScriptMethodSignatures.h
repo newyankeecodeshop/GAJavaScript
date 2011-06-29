@@ -23,12 +23,24 @@
  */
 + (NSMethodSignature *)findMethodSignatureForSelector:(SEL)aSelector;
 
+#pragma mark Common methods
+
+- (id)item:(NSInteger)index;
+
 #pragma mark DOM Methods
 
 - (id)getElementById:(NSString *)elementId;
 
 - (id)getElementsByTagName:(NSString *)tagName;
 
-- (id)item:(NSInteger)index;
+- (id)getElementsByClassName:(NSString *)className;
+
+- (id)querySelector:(NSString *)selector;
+
+- (id)querySelectorAll:(NSString *)selector;
+
+#pragma mark View methods
+
+- (id)getComputedStyle:(id)element;
 
 @end

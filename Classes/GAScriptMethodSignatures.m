@@ -42,6 +42,13 @@ static NSMutableSet* s_classes = nil;
     return nil;
 }
 
+#pragma mark Common methods
+
+- (id)item:(NSInteger)index
+{
+    return nil;
+}
+
 #pragma mark DOM Methods
 
 - (id)getElementById:(NSString *)elementId
@@ -54,9 +61,27 @@ static NSMutableSet* s_classes = nil;
 	return nil;
 }
 
-- (id)item:(NSInteger)index
+- (id)getElementsByClassName:(NSString *)className
 {
     return nil;
 }
+
+- (id)querySelector:(NSString *)selector
+{
+    return nil;
+}
+
+- (id)querySelectorAll:(NSString *)selector
+{
+    return nil;
+}
+
+#pragma mark View methods
+
+- (id)getComputedStyle:(id)element
+{
+    return nil;
+}
+
 
 @end
