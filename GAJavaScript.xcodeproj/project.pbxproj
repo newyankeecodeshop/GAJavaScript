@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D44767713BB3F8B00A2E101 /* GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D44767513BB3F8B00A2E101 /* GAViewStyling.h */; };
+		2D44767813BB3F8B00A2E101 /* GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D44767613BB3F8B00A2E101 /* GAViewStyling.m */; };
 		2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5994861382B0F0006B728D /* TScriptEngine.m */; };
 		2D81DF5F139D796900CA599F /* GAScriptEnginePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D81DF5D139D796900CA599F /* GAScriptEnginePrivate.h */; };
 		2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D8500AC1381647F00758EA2 /* GAScriptEngine.h */; };
 		2D8500AF1381647F00758EA2 /* GAScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8500AD1381647F00758EA2 /* GAScriptEngine.m */; };
 		2D8500B213816B2100758EA2 /* TestWebViewContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D8500B113816B2100758EA2 /* TestWebViewContent.html */; };
+		2DBE365513BDF04200E9AA11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBE365413BDF04200E9AA11 /* QuartzCore.framework */; };
+		2DBE365B13BDFC1A00E9AA11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBE365413BDF04200E9AA11 /* QuartzCore.framework */; };
+		2DBE365F13BDFCA700E9AA11 /* TViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBE365E13BDFCA700E9AA11 /* TViewStyling.m */; };
 		2DC139A613B3AC5E0026D4D5 /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */; };
+		2DC139F013B3CF4A0026D4D5 /* UIView+GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */; };
+		2DC139F113B3CF4A0026D4D5 /* UIView+GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */; };
 		493383BB12B433F000FBE23C /* GHUnitIOSTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */; };
 		4933848612B4373600FBE23C /* TScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933848512B4373600FBE23C /* TScriptObject.m */; };
 		4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933848B12B437CD00FBE23C /* CoreGraphics.framework */; };
@@ -44,13 +51,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D44767513BB3F8B00A2E101 /* GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAViewStyling.h; path = Classes/ViewStyling/GAViewStyling.h; sourceTree = "<group>"; };
+		2D44767613BB3F8B00A2E101 /* GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAViewStyling.m; path = Classes/ViewStyling/GAViewStyling.m; sourceTree = "<group>"; };
 		2D5994851382B0F0006B728D /* TScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptEngine.h; path = Tests/TScriptEngine.h; sourceTree = "<group>"; };
 		2D5994861382B0F0006B728D /* TScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptEngine.m; path = Tests/TScriptEngine.m; sourceTree = "<group>"; };
 		2D81DF5D139D796900CA599F /* GAScriptEnginePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptEnginePrivate.h; path = Classes/GAScriptEnginePrivate.h; sourceTree = "<group>"; };
 		2D8500AC1381647F00758EA2 /* GAScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptEngine.h; path = Classes/GAScriptEngine.h; sourceTree = "<group>"; };
 		2D8500AD1381647F00758EA2 /* GAScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptEngine.m; path = Classes/GAScriptEngine.m; sourceTree = "<group>"; };
 		2D8500B113816B2100758EA2 /* TestWebViewContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = TestWebViewContent.html; path = Tests/TestWebViewContent.html; sourceTree = "<group>"; };
+		2DBE365413BDF04200E9AA11 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2DBE365D13BDFCA700E9AA11 /* TViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TViewStyling.h; path = Tests/TViewStyling.h; sourceTree = "<group>"; };
+		2DBE365E13BDFCA700E9AA11 /* TViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TViewStyling.m; path = Tests/TViewStyling.m; sourceTree = "<group>"; };
 		2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = ../../ThirdParty/GHUnitIOS.framework; sourceTree = "<group>"; };
+		2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+GAViewStyling.h"; path = "Classes/ViewStyling/UIView+GAViewStyling.h"; sourceTree = "<group>"; };
+		2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+GAViewStyling.m"; path = "Classes/ViewStyling/UIView+GAViewStyling.m"; sourceTree = "<group>"; };
 		4933839E12B4338200FBE23C /* GAJavaScriptTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAJavaScriptTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GAJavaScriptTests-Info.plist"; sourceTree = "<group>"; };
 		493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GHUnitIOSTestMain.m; path = Tests/GHUnitIOSTestMain.m; sourceTree = "<group>"; };
@@ -84,6 +98,7 @@
 				493385BA12B5559B00FBE23C /* libGAJavaScript.a in Frameworks */,
 				4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */,
 				2DC139A613B3AC5E0026D4D5 /* GHUnitIOS.framework in Frameworks */,
+				2DBE365B13BDFC1A00E9AA11 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +107,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				2DBE365513BDF04200E9AA11 /* QuartzCore.framework in Frameworks */,
 				49F1DBE512A3F67A004C8736 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Classes */,
+				2DC139ED13B3CEDD0026D4D5 /* ViewStyling */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				493383BC12B4362F00FBE23C /* Tests */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
@@ -123,6 +140,7 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2DBE365413BDF04200E9AA11 /* QuartzCore.framework */,
 				49F1DBE412A3F67A004C8736 /* UIKit.framework */,
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
 				4933848B12B437CD00FBE23C /* CoreGraphics.framework */,
@@ -149,6 +167,26 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		2DBE365C13BDFC3500E9AA11 /* ViewStyling */ = {
+			isa = PBXGroup;
+			children = (
+				2DBE365D13BDFCA700E9AA11 /* TViewStyling.h */,
+				2DBE365E13BDFCA700E9AA11 /* TViewStyling.m */,
+			);
+			name = ViewStyling;
+			sourceTree = "<group>";
+		};
+		2DC139ED13B3CEDD0026D4D5 /* ViewStyling */ = {
+			isa = PBXGroup;
+			children = (
+				2D44767513BB3F8B00A2E101 /* GAViewStyling.h */,
+				2D44767613BB3F8B00A2E101 /* GAViewStyling.m */,
+				2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */,
+				2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */,
+			);
+			name = ViewStyling;
+			sourceTree = "<group>";
+		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +210,7 @@
 				4933870F12B58C5700FBE23C /* TWebView.m */,
 				493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */,
 				2D8500B113816B2100758EA2 /* TestWebViewContent.html */,
+				2DBE365C13BDFC3500E9AA11 /* ViewStyling */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -190,6 +229,8 @@
 				2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */,
 				498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */,
 				2D81DF5F139D796900CA599F /* GAScriptEnginePrivate.h in Headers */,
+				2DC139F013B3CF4A0026D4D5 /* UIView+GAViewStyling.h in Headers */,
+				2D44767713BB3F8B00A2E101 /* GAViewStyling.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +320,7 @@
 				4933871412B58C9E00FBE23C /* TWebView.m in Sources */,
 				4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */,
 				2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */,
+				2DBE365F13BDFCA700E9AA11 /* TViewStyling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +333,8 @@
 				493386AD12B582A300FBE23C /* NSObject+GAJavaScript.m in Sources */,
 				2D8500AF1381647F00758EA2 /* GAScriptEngine.m in Sources */,
 				498A2C5113928F6600B95CC9 /* GAScriptMethodSignatures.m in Sources */,
+				2DC139F113B3CF4A0026D4D5 /* UIView+GAViewStyling.m in Sources */,
+				2D44767813BB3F8B00A2E101 /* GAViewStyling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

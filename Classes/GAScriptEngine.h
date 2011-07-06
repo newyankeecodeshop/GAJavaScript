@@ -40,9 +40,27 @@
     UIWebView*				m_webView;
 	id<UIWebViewDelegate>	m_delegate;
     
+    GAScriptObject*         m_document;
+    GAScriptObject*         m_window;
+    
     NSMutableArray*			m_receivers;
 	NSMutableDictionary*	m_invocations;
 }
+
+/**
+ * The UIWebView that provides the JavaScript runtime for this script engine.
+ */
+@property (nonatomic, readonly) UIWebView*      webView;
+
+/**
+ * A reference to the "document" object for this UIWebView.
+ */
+@property (nonatomic, readonly) GAScriptObject* documentObject;
+
+/**
+ * A reference to the "window" object for thi UIWebView.
+ */
+@property (nonatomic, readonly) GAScriptObject* windowObject;
 
 /**
  * An array of objects that take callbacks from JavaScript code.
@@ -53,6 +71,13 @@
  * The designated initializer.
  */
 - (id)initWithWebView:(UIWebView *)webView;
+
+/**
+ * Initializer that creates a hidden UIWebView inside the provided view. Use this initializer
+ * if you don't care about how the webView is created. After this method, you should call one of the "load"
+ * methods to get an HTML document loaded.
+ */
+- (id)initWithSuperview:(UIView *)superview delegate:(id<UIWebViewDelegate>)delegate;
 
 /*
  * Creates a new (empty) object 

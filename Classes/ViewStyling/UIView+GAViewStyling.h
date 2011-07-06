@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class GAScriptEngine;
 
+/**
+ * Extension to UIViews for driving visual features via CSS.
+ */
 @interface UIView (GAViewStyling)
 
 - (NSString *)styleSelector;
 
-- (void)applyStylesFromWebView:(UIWebView *)webView;
+- (void)applyStylesWithScriptEngine:(GAScriptEngine *)engine;
 
 - (void)applyComputedStyles:(id)cssDeclaration;
 

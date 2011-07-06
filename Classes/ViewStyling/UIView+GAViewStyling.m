@@ -8,7 +8,7 @@
 
 #import "UIView+GAViewStyling.h"
 #import "GAViewStyling.h"
-#import "UIWebView+GAJavaScript.h"
+#import "GAScriptEngine.h"
 #import "NSObject+GAJavaScript.h"
 #import "GAScriptMethodSignatures.h"
 
@@ -24,21 +24,22 @@
     return [NSString stringWithFormat:@".%@", className];
 }
 
-- (void)applyStylesFromWebView:(UIWebView *)webView
+- (void)applyStylesWithScriptEngine:(GAScriptEngine *)engine
 {
     NSString* selector = [self styleSelector];
+    NSLog(@"GAViewStyling selector: %@", selector);
     
-    id element = [[webView documentObject] querySelector:selector];
+    id element = [[engine documentObject] querySelector:selector];
     
     if ([element isJavaScriptTrue])
     {
-        id cssDeclaration = [[webView windowObject] getComputedStyle:element];    
+        id cssDeclaration = [[engine windowObject] getComputedStyle:element];    
         [self applyComputedStyles:cssDeclaration];
     }
     
     for (UIView* childView in self.subviews)
     {
-        [childView applyStylesFromWebView:webView];
+        [childView applyStylesWithScriptEngine:engine];
     }
 }
 
@@ -58,7 +59,7 @@
     // -webkit-gradient(<type>, <point>, <point> [, <stop>]*)
     //
     if ([backgroundImage hasPrefix:@"-webkit-gradient(linear,"]
-        && [[self layer] isKindOfClass:NSClassFromString(@"CAGradientLayer")])
+        && [[self layer] isKindOfClass:[CAGradientLayer class]])
     {
         NSLog(@"TODO: Gradient: %@", backgroundImage);
     }
@@ -74,8 +75,8 @@
 {
     // String will be "rgb(r, g, b)" with numbers in base 10
     //
-    NSString* backgroundColor = [cssDeclaration valueForKey:@"background-color"];
-    self.tintColor = [UIColor colorWithCSSColor:backgroundColor];    
+    NSString* color = [cssDeclaration valueForKey:@"color"];
+    self.tintColor = [UIColor colorWithCSSColor:color];    
 }
 
 @end

@@ -17,22 +17,31 @@ static NSNumberFormatter* kNumFormat = nil;
     if (kNumFormat == nil)
         kNumFormat = [[NSNumberFormatter alloc] init];
     
-    // Strip off the "rgb(" and ")"
-    cssColor = [cssColor substringWithRange:NSMakeRange(4, [cssColor length] - 5)];
+    // Strip off the "rgb[a](" and ")"
+    //
+    NSRange parenRage = [cssColor rangeOfString:@"("];
+    cssColor = [cssColor substringWithRange:NSMakeRange(parenRage.location + 1, 
+                                                        [cssColor length] - (parenRage.location + 2))];
     
     NSArray* colorComponents = [cssColor componentsSeparatedByString:@", "];
     CGFloat r = [[kNumFormat numberFromString:[colorComponents objectAtIndex:0]] floatValue] / 255.0;
     CGFloat g = [[kNumFormat numberFromString:[colorComponents objectAtIndex:1]] floatValue] / 255.0;
     CGFloat b = [[kNumFormat numberFromString:[colorComponents objectAtIndex:2]] floatValue] / 255.0;
+    CGFloat a = 1.0;
     
-    // Optimize common colors
+    // Might have been rgba(...)
+    //
+    if ([colorComponents count] == 4)
+        a = [[kNumFormat numberFromString:[colorComponents objectAtIndex:3]] floatValue] / 255.0;
+    
+    // Optimize common colors (black, white, transparent)
     //
     if (r == 1.0 && g == 1.0 && b == 1.0)
-        return [UIColor whiteColor];
+        return [UIColor colorWithWhite:1.0 alpha:a];
     else if (r == 0.0 && g == 0.0 && b == 0.0)
-        return [UIColor blackColor];
+        return [UIColor colorWithWhite:0.0 alpha:a];
     
-    return [UIColor colorWithRed:r green:g blue:b alpha:1.0];
+    return [UIColor colorWithRed:r green:g blue:b alpha:a];
 }
 
 @end
@@ -64,8 +73,8 @@ static NSNumberFormatter* kNumFormat = nil;
     }
     
     NSString* cssFontSize = [cssDeclaration valueForKey:@"font-size"];
-    NSRange pxRange = [cssFontSize rangeOfString:@"px"];
-    CGFloat sizeInPixels = [[kNumFormat numberFromString:[cssFontSize substringToIndex:pxRange.location]] floatValue];
+    cssFontSize = [cssFontSize substringToIndex:[cssFontSize rangeOfString:@"px"].location];
+    CGFloat sizeInPixels = [[kNumFormat numberFromString:cssFontSize] floatValue];
     CGFloat fontSize = (sizeInPixels / 160.0) * 72;
     
     return [UIFont fontWithName:fontName size:fontSize];

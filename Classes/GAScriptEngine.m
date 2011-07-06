@@ -49,6 +49,7 @@
 
 @implementation GAScriptEngine
 
+@synthesize webView = m_webView;
 @synthesize receivers = m_receivers;
 
 - (id)initWithWebView:(UIWebView *)webView
@@ -59,21 +60,55 @@
 		m_delegate = [webView delegate];
         m_webView.delegate = self;
         
-        m_receivers = [[NSMutableArray alloc] initWithCapacity:4];
-		
+        m_receivers = [[NSMutableArray alloc] initWithCapacity:4];		
 		m_invocations = [[NSMutableDictionary alloc] initWithCapacity:4];
     }
     
     return self;
 }
 
+- (id)initWithSuperview:(UIView *)superview delegate:(id<UIWebViewDelegate>)delegate
+{
+    UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 0.0)];
+    webView.delegate = delegate;
+    webView.hidden = YES;
+    
+    // Setting these will hopefully reduce some memory and CPU consumption in the webview
+    //
+    webView.userInteractionEnabled = NO;
+    webView.dataDetectorTypes = UIDataDetectorTypeNone;
+    
+    [superview addSubview:webView];
+    [webView release];
+    
+    return [self initWithWebView:webView];
+}
+
 - (void)dealloc
 {
     [m_webView release];
+    [m_document release];
+    [m_window release];
     [m_receivers release];
 	[m_invocations release];
     
     [super dealloc];
+}
+
+- (GAScriptObject *)documentObject
+{
+    if (m_document == nil)
+        m_document = [[GAScriptObject alloc] initForReference:@"document" view:m_webView];
+    
+    return m_document;
+}
+
+- (GAScriptObject *)windowObject
+{
+    if (m_window == nil)
+        m_window = [[GAScriptObject alloc] initForReference:@"window" view:m_webView];
+    
+    return m_window;
 }
 
 - (GAScriptObject *)newScriptObject
@@ -187,7 +222,8 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-	[m_delegate webViewDidStartLoad:webView];
+    if ([m_delegate respondsToSelector:@selector(webViewDidStartLoad:)])
+        [m_delegate webViewDidStartLoad:webView];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
@@ -196,7 +232,8 @@
 	// want to use features of the library.
 	[self loadScriptRuntime];
 	
-	[m_delegate webViewDidFinishLoad:webView];
+    if ([m_delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
+        [m_delegate webViewDidFinishLoad:webView];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
@@ -224,7 +261,8 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-	[m_delegate webView:webView didFailLoadWithError:error];
+    if ([m_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
+        [m_delegate webView:webView didFailLoadWithError:error];
 }
 
 @end
