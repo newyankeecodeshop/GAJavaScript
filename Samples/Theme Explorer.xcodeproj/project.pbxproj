@@ -1,0 +1,369 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2D73F04D13BB8108009040D2 /* GAScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F03E13BB8108009040D2 /* GAScriptEngine.m */; };
+		2D73F04E13BB8108009040D2 /* GAScriptMethodSignatures.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F04113BB8108009040D2 /* GAScriptMethodSignatures.m */; };
+		2D73F04F13BB8108009040D2 /* GAScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F04313BB8108009040D2 /* GAScriptObject.m */; };
+		2D73F05013BB8108009040D2 /* NSObject+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F04513BB8108009040D2 /* NSObject+GAJavaScript.m */; };
+		2D73F05113BB8108009040D2 /* UIWebView+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F04713BB8108009040D2 /* UIWebView+GAJavaScript.m */; };
+		2D73F05213BB8108009040D2 /* GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F04A13BB8108009040D2 /* GAViewStyling.m */; };
+		2D73F05313BB8108009040D2 /* UIView+GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F04C13BB8108009040D2 /* UIView+GAViewStyling.m */; };
+		2DBE365713BDF13400E9AA11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBE365613BDF13400E9AA11 /* QuartzCore.framework */; };
+		2DC139B713B3ACE90026D4D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC139B613B3ACE90026D4D5 /* UIKit.framework */; };
+		2DC139B913B3ACE90026D4D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC139B813B3ACE90026D4D5 /* Foundation.framework */; };
+		2DC139BB13B3ACE90026D4D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC139BA13B3ACE90026D4D5 /* CoreGraphics.framework */; };
+		2DC139C113B3ACE90026D4D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2DC139BF13B3ACE90026D4D5 /* InfoPlist.strings */; };
+		2DC139C413B3ACE90026D4D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC139C313B3ACE90026D4D5 /* main.m */; };
+		2DC139C713B3ACE90026D4D5 /* ThemeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC139C613B3ACE90026D4D5 /* ThemeAppDelegate.m */; };
+		2DC139CA13B3ACE90026D4D5 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DC139C813B3ACE90026D4D5 /* MainWindow.xib */; };
+		2DC139CD13B3ACE90026D4D5 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC139CC13B3ACE90026D4D5 /* RootViewController.m */; };
+		2DC139D013B3ACE90026D4D5 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DC139CE13B3ACE90026D4D5 /* RootViewController.xib */; };
+		2DC139E913B3B8EF0026D4D5 /* ga-js-runtime.js in Resources */ = {isa = PBXBuildFile; fileRef = 2DC139E813B3B8EF0026D4D5 /* ga-js-runtime.js */; };
+		2DC139EB13B3CB0C0026D4D5 /* styles.html in Resources */ = {isa = PBXBuildFile; fileRef = 2DC139EA13B3CB0C0026D4D5 /* styles.html */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2D73F03D13BB8108009040D2 /* GAScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptEngine.h; sourceTree = "<group>"; };
+		2D73F03E13BB8108009040D2 /* GAScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAScriptEngine.m; sourceTree = "<group>"; };
+		2D73F03F13BB8108009040D2 /* GAScriptEnginePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptEnginePrivate.h; sourceTree = "<group>"; };
+		2D73F04013BB8108009040D2 /* GAScriptMethodSignatures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptMethodSignatures.h; sourceTree = "<group>"; };
+		2D73F04113BB8108009040D2 /* GAScriptMethodSignatures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAScriptMethodSignatures.m; sourceTree = "<group>"; };
+		2D73F04213BB8108009040D2 /* GAScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptObject.h; sourceTree = "<group>"; };
+		2D73F04313BB8108009040D2 /* GAScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAScriptObject.m; sourceTree = "<group>"; };
+		2D73F04413BB8108009040D2 /* NSObject+GAJavaScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+GAJavaScript.h"; sourceTree = "<group>"; };
+		2D73F04513BB8108009040D2 /* NSObject+GAJavaScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+GAJavaScript.m"; sourceTree = "<group>"; };
+		2D73F04613BB8108009040D2 /* UIWebView+GAJavaScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+GAJavaScript.h"; sourceTree = "<group>"; };
+		2D73F04713BB8108009040D2 /* UIWebView+GAJavaScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+GAJavaScript.m"; sourceTree = "<group>"; };
+		2D73F04913BB8108009040D2 /* GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAViewStyling.h; sourceTree = "<group>"; };
+		2D73F04A13BB8108009040D2 /* GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAViewStyling.m; sourceTree = "<group>"; };
+		2D73F04B13BB8108009040D2 /* UIView+GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+GAViewStyling.h"; sourceTree = "<group>"; };
+		2D73F04C13BB8108009040D2 /* UIView+GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GAViewStyling.m"; sourceTree = "<group>"; };
+		2DBE365613BDF13400E9AA11 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2DC139B213B3ACE90026D4D5 /* Theme Explorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Theme Explorer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DC139B613B3ACE90026D4D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2DC139B813B3ACE90026D4D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2DC139BA13B3ACE90026D4D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2DC139BE13B3ACE90026D4D5 /* Theme Explorer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Theme Explorer-Info.plist"; sourceTree = "<group>"; };
+		2DC139C013B3ACE90026D4D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2DC139C213B3ACE90026D4D5 /* Theme Explorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Theme Explorer-Prefix.pch"; sourceTree = "<group>"; };
+		2DC139C313B3ACE90026D4D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2DC139C513B3ACE90026D4D5 /* ThemeAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemeAppDelegate.h; sourceTree = "<group>"; };
+		2DC139C613B3ACE90026D4D5 /* ThemeAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThemeAppDelegate.m; sourceTree = "<group>"; };
+		2DC139C913B3ACE90026D4D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		2DC139CB13B3ACE90026D4D5 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		2DC139CC13B3ACE90026D4D5 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		2DC139CF13B3ACE90026D4D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
+		2DC139E813B3B8EF0026D4D5 /* ga-js-runtime.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "ga-js-runtime.js"; path = "../ga-js-runtime.js"; sourceTree = "<group>"; };
+		2DC139EA13B3CB0C0026D4D5 /* styles.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = styles.html; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2DC139AF13B3ACE90026D4D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DC139B713B3ACE90026D4D5 /* UIKit.framework in Frameworks */,
+				2DC139B913B3ACE90026D4D5 /* Foundation.framework in Frameworks */,
+				2DBE365713BDF13400E9AA11 /* QuartzCore.framework in Frameworks */,
+				2DC139BB13B3ACE90026D4D5 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2D73F03C13BB8108009040D2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				2D73F03D13BB8108009040D2 /* GAScriptEngine.h */,
+				2D73F03E13BB8108009040D2 /* GAScriptEngine.m */,
+				2D73F03F13BB8108009040D2 /* GAScriptEnginePrivate.h */,
+				2D73F04013BB8108009040D2 /* GAScriptMethodSignatures.h */,
+				2D73F04113BB8108009040D2 /* GAScriptMethodSignatures.m */,
+				2D73F04213BB8108009040D2 /* GAScriptObject.h */,
+				2D73F04313BB8108009040D2 /* GAScriptObject.m */,
+				2D73F04413BB8108009040D2 /* NSObject+GAJavaScript.h */,
+				2D73F04513BB8108009040D2 /* NSObject+GAJavaScript.m */,
+				2D73F04613BB8108009040D2 /* UIWebView+GAJavaScript.h */,
+				2D73F04713BB8108009040D2 /* UIWebView+GAJavaScript.m */,
+			);
+			name = Classes;
+			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		2D73F04813BB8108009040D2 /* ViewStyling */ = {
+			isa = PBXGroup;
+			children = (
+				2D73F04913BB8108009040D2 /* GAViewStyling.h */,
+				2D73F04A13BB8108009040D2 /* GAViewStyling.m */,
+				2D73F04B13BB8108009040D2 /* UIView+GAViewStyling.h */,
+				2D73F04C13BB8108009040D2 /* UIView+GAViewStyling.m */,
+			);
+			name = ViewStyling;
+			path = ../Classes/ViewStyling;
+			sourceTree = "<group>";
+		};
+		2DC139A713B3ACE80026D4D5 = {
+			isa = PBXGroup;
+			children = (
+				2DC139BC13B3ACE90026D4D5 /* Theme Explorer */,
+				2DC139D613B3B8D40026D4D5 /* GAJavaScript */,
+				2DC139B513B3ACE90026D4D5 /* Frameworks */,
+				2DC139B313B3ACE90026D4D5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2DC139B313B3ACE90026D4D5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2DC139B213B3ACE90026D4D5 /* Theme Explorer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2DC139B513B3ACE90026D4D5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2DBE365613BDF13400E9AA11 /* QuartzCore.framework */,
+				2DC139B613B3ACE90026D4D5 /* UIKit.framework */,
+				2DC139B813B3ACE90026D4D5 /* Foundation.framework */,
+				2DC139BA13B3ACE90026D4D5 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2DC139BC13B3ACE90026D4D5 /* Theme Explorer */ = {
+			isa = PBXGroup;
+			children = (
+				2DC139C513B3ACE90026D4D5 /* ThemeAppDelegate.h */,
+				2DC139C613B3ACE90026D4D5 /* ThemeAppDelegate.m */,
+				2DC139C813B3ACE90026D4D5 /* MainWindow.xib */,
+				2DC139CB13B3ACE90026D4D5 /* RootViewController.h */,
+				2DC139CC13B3ACE90026D4D5 /* RootViewController.m */,
+				2DC139CE13B3ACE90026D4D5 /* RootViewController.xib */,
+				2DC139EA13B3CB0C0026D4D5 /* styles.html */,
+				2DC139BD13B3ACE90026D4D5 /* Supporting Files */,
+			);
+			path = "Theme Explorer";
+			sourceTree = "<group>";
+		};
+		2DC139BD13B3ACE90026D4D5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2DC139BE13B3ACE90026D4D5 /* Theme Explorer-Info.plist */,
+				2DC139BF13B3ACE90026D4D5 /* InfoPlist.strings */,
+				2DC139C213B3ACE90026D4D5 /* Theme Explorer-Prefix.pch */,
+				2DC139C313B3ACE90026D4D5 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2DC139D613B3B8D40026D4D5 /* GAJavaScript */ = {
+			isa = PBXGroup;
+			children = (
+				2D73F03C13BB8108009040D2 /* Classes */,
+				2D73F04813BB8108009040D2 /* ViewStyling */,
+				2DC139E813B3B8EF0026D4D5 /* ga-js-runtime.js */,
+			);
+			name = GAJavaScript;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2DC139B113B3ACE90026D4D5 /* Theme Explorer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2DC139D313B3ACE90026D4D5 /* Build configuration list for PBXNativeTarget "Theme Explorer" */;
+			buildPhases = (
+				2DC139AE13B3ACE90026D4D5 /* Sources */,
+				2DC139AF13B3ACE90026D4D5 /* Frameworks */,
+				2DC139B013B3ACE90026D4D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Theme Explorer";
+			productName = "Theme Explorer";
+			productReference = 2DC139B213B3ACE90026D4D5 /* Theme Explorer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2DC139A913B3ACE90026D4D5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Wingspan Technology, Inc.";
+			};
+			buildConfigurationList = 2DC139AC13B3ACE90026D4D5 /* Build configuration list for PBXProject "Theme Explorer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2DC139A713B3ACE80026D4D5;
+			productRefGroup = 2DC139B313B3ACE90026D4D5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2DC139B113B3ACE90026D4D5 /* Theme Explorer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2DC139B013B3ACE90026D4D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DC139C113B3ACE90026D4D5 /* InfoPlist.strings in Resources */,
+				2DC139CA13B3ACE90026D4D5 /* MainWindow.xib in Resources */,
+				2DC139D013B3ACE90026D4D5 /* RootViewController.xib in Resources */,
+				2DC139E913B3B8EF0026D4D5 /* ga-js-runtime.js in Resources */,
+				2DC139EB13B3CB0C0026D4D5 /* styles.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2DC139AE13B3ACE90026D4D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DC139C413B3ACE90026D4D5 /* main.m in Sources */,
+				2DC139C713B3ACE90026D4D5 /* ThemeAppDelegate.m in Sources */,
+				2DC139CD13B3ACE90026D4D5 /* RootViewController.m in Sources */,
+				2D73F04D13BB8108009040D2 /* GAScriptEngine.m in Sources */,
+				2D73F04E13BB8108009040D2 /* GAScriptMethodSignatures.m in Sources */,
+				2D73F04F13BB8108009040D2 /* GAScriptObject.m in Sources */,
+				2D73F05013BB8108009040D2 /* NSObject+GAJavaScript.m in Sources */,
+				2D73F05113BB8108009040D2 /* UIWebView+GAJavaScript.m in Sources */,
+				2D73F05213BB8108009040D2 /* GAViewStyling.m in Sources */,
+				2D73F05313BB8108009040D2 /* UIView+GAViewStyling.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2DC139BF13B3ACE90026D4D5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2DC139C013B3ACE90026D4D5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2DC139C813B3ACE90026D4D5 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2DC139C913B3ACE90026D4D5 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		2DC139CE13B3ACE90026D4D5 /* RootViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2DC139CF13B3ACE90026D4D5 /* en */,
+			);
+			name = RootViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2DC139D113B3ACE90026D4D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2DC139D213B3ACE90026D4D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		2DC139D413B3ACE90026D4D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Theme Explorer/Theme Explorer-Prefix.pch";
+				INFOPLIST_FILE = "Theme Explorer/Theme Explorer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2DC139D513B3ACE90026D4D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Theme Explorer/Theme Explorer-Prefix.pch";
+				INFOPLIST_FILE = "Theme Explorer/Theme Explorer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2DC139AC13B3ACE90026D4D5 /* Build configuration list for PBXProject "Theme Explorer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DC139D113B3ACE90026D4D5 /* Debug */,
+				2DC139D213B3ACE90026D4D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2DC139D313B3ACE90026D4D5 /* Build configuration list for PBXNativeTarget "Theme Explorer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DC139D413B3ACE90026D4D5 /* Debug */,
+				2DC139D513B3ACE90026D4D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2DC139A913B3ACE90026D4D5 /* Project object */;
+}
