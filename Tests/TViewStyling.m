@@ -31,6 +31,36 @@
 
 @implementation TViewStyling
 
+- (void)testColorFromCSSDeclaration
+{
+    UIColor* color = [UIColor colorWithCSSColor:@"rgb(128, 128, 128)"];
+    
+    NSString* testColor = [color description];
+    GHAssertTrue([testColor rangeOfString:@"0.501961 0.501961 0.501961"].location != NSNotFound, @"Color not converted");
+    
+    color = [UIColor colorWithCSSColor:@"rgb(0, 0, 0)"];
+    
+    testColor = [color description];
+    GHAssertTrue([testColor rangeOfString:@"UIDeviceWhiteColorSpace 0"].location != NSNotFound, @"Color not converted");
+
+    color = [UIColor colorWithCSSColor:@"rgba(0, 0, 0, 0)"];
+    
+    testColor = [color description];
+    GHAssertTrue([testColor rangeOfString:@"UIDeviceWhiteColorSpace 0 0"].location != NSNotFound, @"Color not converted");
+
+    // Error handling...
+    //
+    color = [UIColor colorWithCSSColor:@"1, 2, 3, 4, 5"];
+    
+    testColor = [color description];
+    GHAssertTrue([testColor rangeOfString:@"UIDeviceWhiteColorSpace 0 0"].location != NSNotFound, @"Color not converted");
+
+    color = [UIColor colorWithCSSColor:nil];
+    
+    testColor = [color description];
+    GHAssertTrue([testColor rangeOfString:@"UIDeviceWhiteColorSpace 0 0"].location != NSNotFound, @"Color not converted");
+}
+
 - (void)testFontFromCSSDeclaration
 {
     MockCSSDeclaration* decl = [[MockCSSDeclaration alloc] init];

@@ -28,31 +28,30 @@
 
 #import "GAViewStyling.h"
 
-static NSNumberFormatter* kNumFormat = nil;
-
 @implementation UIColor (GAViewStyling)
 
 + (UIColor *)colorWithCSSColor:(NSString *)cssColor
-{
-    if (kNumFormat == nil)
-        kNumFormat = [[NSNumberFormatter alloc] init];
-    
-    // Strip off the "rgb[a](" and ")"
+{    
+    // Strip off the "rgb[a](" and ")". If there's no parens, just return a transparent color.
     //
     NSRange parenRage = [cssColor rangeOfString:@"("];
+    
+    if (parenRage.location == NSNotFound || [cssColor length] == 0)
+        return [UIColor clearColor];
+    
     cssColor = [cssColor substringWithRange:NSMakeRange(parenRage.location + 1, 
                                                         [cssColor length] - (parenRage.location + 2))];
     
     NSArray* colorComponents = [cssColor componentsSeparatedByString:@", "];
-    CGFloat r = [[kNumFormat numberFromString:[colorComponents objectAtIndex:0]] floatValue] / 255.0;
-    CGFloat g = [[kNumFormat numberFromString:[colorComponents objectAtIndex:1]] floatValue] / 255.0;
-    CGFloat b = [[kNumFormat numberFromString:[colorComponents objectAtIndex:2]] floatValue] / 255.0;
+    CGFloat r = [[colorComponents objectAtIndex:0] floatValue] / 255.0;
+    CGFloat g = [[colorComponents objectAtIndex:1] floatValue] / 255.0;
+    CGFloat b = [[colorComponents objectAtIndex:2] floatValue] / 255.0;
     CGFloat a = 1.0;
     
     // Might have been rgba(...)
     //
     if ([colorComponents count] == 4)
-        a = [[kNumFormat numberFromString:[colorComponents objectAtIndex:3]] floatValue] / 255.0;
+        a = [[colorComponents objectAtIndex:3] floatValue] / 255.0;
     
     // Optimize common colors (black, white, transparent)
     //
@@ -72,9 +71,6 @@ static NSNumberFormatter* kNumFormat = nil;
 
 + (UIFont *)fontWithCSSDeclaration:(id)cssDeclaration
 {
-    if (kNumFormat == nil)
-        kNumFormat = [[NSNumberFormatter alloc] init];
-
     NSString* cssFontFamily = [cssDeclaration valueForKey:@"font-family"];
     NSString* cssFontWeight = [cssDeclaration valueForKey:@"font-weight"];
     NSString* cssFontStyle = [cssDeclaration valueForKey:@"font-style"];
@@ -97,7 +93,6 @@ static NSNumberFormatter* kNumFormat = nil;
             family = @"Helvetica";
         
         candidateFontNames = [UIFont fontNamesForFamilyName:family];
-        NSLog(@"Font Family %@ has %@", family, candidateFontNames);
         
         if ([candidateFontNames count] > 0)
             break;
@@ -129,10 +124,10 @@ static NSNumberFormatter* kNumFormat = nil;
         }];
     }
     
+    // Font size is in pixels, and we must convert to points.
+    //
     NSString* cssFontSize = [cssDeclaration valueForKey:@"font-size"];
-    cssFontSize = [cssFontSize substringToIndex:[cssFontSize rangeOfString:@"px"].location];
-    CGFloat sizeInPixels = [[kNumFormat numberFromString:cssFontSize] floatValue];
-    CGFloat fontSize = (sizeInPixels / 160.0) * 72;
+    CGFloat fontSize = ([cssFontSize integerValue] / 160.0) * 72;
     
     return [UIFont fontWithName:fontName size:fontSize];
 }
