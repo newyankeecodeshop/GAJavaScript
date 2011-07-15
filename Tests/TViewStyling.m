@@ -33,7 +33,57 @@
 
 - (void)testFontFromCSSDeclaration
 {
+    MockCSSDeclaration* decl = [[MockCSSDeclaration alloc] init];
+    decl.fontFamily = @"Verdana, sans-serif";
+    decl.fontSize = @"24px";
+    decl.fontStyle = @"normal";
+    decl.fontWeight = @"normal";
     
+    UIFont* font = [UIFont fontWithCSSDeclaration:decl];
+    GHAssertTrue([font.familyName isEqualToString:@"Verdana"], @"Wrong font family");
+
+    // Test that we can get the Bold font
+    //
+    decl.fontWeight = @"bold";
+
+    font = [UIFont fontWithCSSDeclaration:decl];
+    GHAssertTrue([font.familyName isEqualToString:@"Verdana"], @"Wrong font family");
+    GHAssertTrue([font.fontName isEqualToString:@"Verdana-Bold"], @"Wrong font name");
+    
+    // Test that we skip over fonts that aren't installed
+    //
+    decl.fontFamily = @"MyFakeFont, Verdana, sans-serif";
+    
+    font = [UIFont fontWithCSSDeclaration:decl];
+    GHAssertTrue([font.familyName isEqualToString:@"Verdana"], @"Wrong font family");
+    GHAssertTrue([font.fontName isEqualToString:@"Verdana-Bold"], @"Wrong font name");
+
+    // Test that we can get the Italic font
+    //
+    decl.fontWeight = @"normal";
+    decl.fontStyle = @"italic";
+    
+    font = [UIFont fontWithCSSDeclaration:decl];
+    GHAssertTrue([font.familyName isEqualToString:@"Verdana"], @"Wrong font family");
+    GHAssertTrue([font.fontName isEqualToString:@"Verdana-Italic"], @"Wrong font name");
+
+    // Test that we can get the BoldItalic font
+    //
+    decl.fontWeight = @"bold";
+    decl.fontStyle = @"italic";
+    
+    font = [UIFont fontWithCSSDeclaration:decl];
+    GHAssertTrue([font.familyName isEqualToString:@"Verdana"], @"Wrong font family");
+    GHAssertTrue([font.fontName isEqualToString:@"Verdana-BoldItalic"], @"Wrong font name");
+
+    // Test that we skip over fonts that aren't installed
+    //
+    decl.fontFamily = @"MyFakeFont, Verdannnnnna, sans-serif";
+    decl.fontStyle = @"normal";
+    
+    font = [UIFont fontWithCSSDeclaration:decl];
+    GHAssertTrue([font.familyName isEqualToString:@"Helvetica"], @"Wrong font family");
+    GHAssertTrue([font.fontName isEqualToString:@"Helvetica-Bold"], @"Wrong font name");
 }
 
 @end
@@ -42,7 +92,7 @@
 
 @implementation MockCSSDeclaration
 
-@synthesize fontFamily = _fontFamily, fontStyle = _fontStyle, fontWeight = _fontWeight;
+@synthesize fontFamily = _fontFamily, fontSize = _fontSize, fontStyle = _fontStyle, fontWeight = _fontWeight;
 
 // Implement support for the real CSS property names, which would be supported by GAScriptObject
 //
@@ -51,6 +101,9 @@
     if ([key isEqualToString:@"font-family"])
         return self.fontFamily;
     
+    if ([key isEqualToString:@"font-size"])
+        return self.fontSize;
+
     if ([key isEqualToString:@"font-style"])
         return self.fontStyle;
 

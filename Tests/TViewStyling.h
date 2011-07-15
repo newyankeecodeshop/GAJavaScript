@@ -42,11 +42,13 @@
 {
 @private
     NSString*   _fontFamily;
+    NSString*   _fontSize;
     NSString*   _fontWeight;
     NSString*   _fontStyle;
 }
 
 @property (nonatomic, retain) NSString* fontFamily;
+@property (nonatomic, retain) NSString* fontSize;
 @property (nonatomic, retain) NSString* fontWeight;
 @property (nonatomic, retain) NSString* fontStyle;
 

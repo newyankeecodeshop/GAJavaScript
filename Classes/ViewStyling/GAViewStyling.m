@@ -76,20 +76,57 @@ static NSNumberFormatter* kNumFormat = nil;
         kNumFormat = [[NSNumberFormatter alloc] init];
 
     NSString* cssFontFamily = [cssDeclaration valueForKey:@"font-family"];
-    //    NSString* cssFontWeight = [cssDeclaration valueForKey:@"font-weight"];
-    //    NSString* cssFontStyle = [cssDeclaration valueForKey:@"font-style"];
+    NSString* cssFontWeight = [cssDeclaration valueForKey:@"font-weight"];
+    NSString* cssFontStyle = [cssDeclaration valueForKey:@"font-style"];
     
+    BOOL wantBold = [cssFontWeight isEqualToString:@"bold"];
+    BOOL wantItalic = [cssFontStyle isEqualToString:@"italic"];
+
     NSArray* families = [cssFontFamily componentsSeparatedByString:@", "];
-    NSString* fontName;
+    NSArray* candidateFontNames = nil;
     
+    // First, get the family we want...
+    //
     for (NSString* family in families)
     {        
-        NSArray* fontNames = [UIFont fontNamesForFamilyName:family];
+        // Handle the mapping of generic family names
+        //
+        if ([family caseInsensitiveCompare:@"serif"] == NSOrderedSame)
+            family = @"Times";
+        else if ([family caseInsensitiveCompare:@"sans-serif"] == NSOrderedSame)
+            family = @"Helvetica";
         
-        NSLog(@"Font Family %@ has %@", family, fontNames);
+        candidateFontNames = [UIFont fontNamesForFamilyName:family];
+        NSLog(@"Font Family %@ has %@", family, candidateFontNames);
         
-        fontName = [fontNames objectAtIndex:0];
-        break;
+        if ([candidateFontNames count] > 0)
+            break;
+    }
+    
+    // Sort the array so the plain font is first
+    //
+    candidateFontNames = [candidateFontNames sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) 
+    {
+        return [obj1 length] - [obj2 length];
+    }];
+                          
+    // Pick the first (plain) font to start with.
+    //
+    __block NSString* fontName = [candidateFontNames objectAtIndex:0];
+        
+    if (wantBold || wantItalic)
+    {
+        __block NSString* marker = (wantBold && !wantItalic) ? @"-Bold" 
+            : (wantItalic && !wantBold) ? @"-Italic" : @"-BoldItalic";
+        
+        [candidateFontNames enumerateObjectsUsingBlock:^void(id testFontName, NSUInteger idx, BOOL *stop) 
+        {
+            if ([testFontName rangeOfString:marker].location != NSNotFound)
+            {
+                fontName = testFontName;
+                *stop = YES;
+            }
+        }];
     }
     
     NSString* cssFontSize = [cssDeclaration valueForKey:@"font-size"];
