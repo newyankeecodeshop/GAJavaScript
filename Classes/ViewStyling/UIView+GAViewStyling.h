@@ -59,3 +59,11 @@
 
 @end
 
+#pragma mark -
+
+@interface UITableView (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration;
+
+@end
+

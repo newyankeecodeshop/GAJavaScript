@@ -36,9 +36,10 @@
 
 - (NSString *)styleSelector
 {
-    // TODO: Tags identify views within the hierarchy, so we'll use it if we can...
-//    if ([self tag] > 0)
-//        return [NSString stringWithFormat:@"#tag-%d", [self tag]];
+    // Tags identify views within the hierarchy, so we'll use it if we can...
+    //
+    if ([self tag] > 0)
+        return [NSString stringWithFormat:@"#tag-%d", [self tag]];
     
     NSString* className = NSStringFromClass([self class]);  
     return [NSString stringWithFormat:@".%@", className];
@@ -70,19 +71,19 @@
     NSString* backgroundColor = [cssDeclaration valueForKey:@"background-color"];
     self.backgroundColor = [UIColor colorWithCSSColor:backgroundColor];    
     
-    NSString* opacity = [cssDeclaration valueForKey:@"opacity"];
-    NSLog(@"TODO: View opacity %@", opacity);
-    
     NSString* backgroundImage = [cssDeclaration valueForKey:@"background-image"];
     
     // TODO: If this view's layer is a CAGradientLayer, we can use a webkit linear gradient
     // -webkit-gradient(<type>, <point>, <point> [, <stop>]*)
     //
     if ([backgroundImage hasPrefix:@"-webkit-gradient(linear,"]
-        && [[self layer] isKindOfClass:[CAGradientLayer class]])
+        && [self.layer isKindOfClass:[CAGradientLayer class]])
     {
         NSLog(@"TODO: Gradient: %@", backgroundImage);
     }
+
+    NSString* opacity = [cssDeclaration valueForKey:@"opacity"];
+    self.layer.opacity = [opacity floatValue];
 }
 
 @end
@@ -125,6 +126,42 @@
         self.textAlignment = UITextAlignmentCenter;
     else if ([textAlign isEqualToString:@"right"])
         self.textAlignment = UITextAlignmentRight;
+	
+	// Text Overflow
+	NSString* textOverflow = [cssDeclaration valueForKey:@"text-overflow"];
+	
+	if ([textOverflow isEqualToString:@"ellipsis"])
+		self.lineBreakMode = UILineBreakModeTailTruncation;
+	else if ([textOverflow isEqualToString:@"clip"])
+		self.lineBreakMode = UILineBreakModeClip;
 }
 
 @end
+
+#pragma mark -
+
+@implementation UITableView (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration
+{
+    [super applyComputedStyles:cssDeclaration];
+    
+    // Border (Separator) Color. We use "top" because it's the first color in TRBL.
+    //
+    NSString* borderColor = [cssDeclaration valueForKey:@"border-top-color"];
+    self.separatorColor = [UIColor colorWithCSSColor:borderColor];
+    
+    // Border (Separator) Style. We use "double" to indicate the etched look
+    //
+    NSString* borderStyle = [cssDeclaration valueForKey:@"border-top-style"];
+    
+    if ([borderStyle isEqualToString:@"none"])
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
+    else if ([borderStyle isEqualToString:@"double"])
+        self.separatorStyle = UITableViewCellSeparatorStyleSingleLineEtched;
+    else
+        self.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+}
+
+@end
+
