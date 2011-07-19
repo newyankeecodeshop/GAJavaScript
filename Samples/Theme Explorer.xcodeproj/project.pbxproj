@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D5C9AEF13D0B340001ED5B6 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5C9AED13D0B340001ED5B6 /* DetailViewController.m */; };
+		2D5C9AF013D0B340001ED5B6 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D5C9AEE13D0B340001ED5B6 /* DetailViewController.xib */; };
 		2D73F04D13BB8108009040D2 /* GAScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F03E13BB8108009040D2 /* GAScriptEngine.m */; };
 		2D73F04E13BB8108009040D2 /* GAScriptMethodSignatures.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F04113BB8108009040D2 /* GAScriptMethodSignatures.m */; };
 		2D73F04F13BB8108009040D2 /* GAScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73F04313BB8108009040D2 /* GAScriptObject.m */; };
@@ -29,6 +31,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D5C9AEC13D0B340001ED5B6 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		2D5C9AED13D0B340001ED5B6 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		2D5C9AEE13D0B340001ED5B6 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		2D73F03D13BB8108009040D2 /* GAScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptEngine.h; sourceTree = "<group>"; };
 		2D73F03E13BB8108009040D2 /* GAScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAScriptEngine.m; sourceTree = "<group>"; };
 		2D73F03F13BB8108009040D2 /* GAScriptEnginePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptEnginePrivate.h; sourceTree = "<group>"; };
@@ -147,6 +152,9 @@
 				2DC139CB13B3ACE90026D4D5 /* RootViewController.h */,
 				2DC139CC13B3ACE90026D4D5 /* RootViewController.m */,
 				2DC139CE13B3ACE90026D4D5 /* RootViewController.xib */,
+				2D5C9AEC13D0B340001ED5B6 /* DetailViewController.h */,
+				2D5C9AED13D0B340001ED5B6 /* DetailViewController.m */,
+				2D5C9AEE13D0B340001ED5B6 /* DetailViewController.xib */,
 				2DC139EA13B3CB0C0026D4D5 /* styles.html */,
 				2DC139BD13B3ACE90026D4D5 /* Supporting Files */,
 			);
@@ -229,6 +237,7 @@
 				2DC139D013B3ACE90026D4D5 /* RootViewController.xib in Resources */,
 				2DC139E913B3B8EF0026D4D5 /* ga-js-runtime.js in Resources */,
 				2DC139EB13B3CB0C0026D4D5 /* styles.html in Resources */,
+				2D5C9AF013D0B340001ED5B6 /* DetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +258,7 @@
 				2D73F05113BB8108009040D2 /* UIWebView+GAJavaScript.m in Sources */,
 				2D73F05213BB8108009040D2 /* GAViewStyling.m in Sources */,
 				2D73F05313BB8108009040D2 /* UIView+GAViewStyling.m in Sources */,
+				2D5C9AEF13D0B340001ED5B6 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

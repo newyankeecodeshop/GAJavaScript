@@ -8,6 +8,7 @@
         
         .UITableView {
             background-color: #330000;
+            border-style: solid;
         }
         
         .UITableViewCell {
@@ -22,10 +23,15 @@
             text-align: right;
         }
         
+        /* This class is used by UIKit for table cells in style "Value1" */
         .UITableViewLabel {
             font-family: Helvetica;
             font-size: 20pt;
             color: yellow;
+        }
+        
+        .UITableHeaderFooterView {
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -35,11 +41,13 @@
     <div class="UINavigationBar">
     </div>
     <div class="UITableView">
+        <div class="UITableHeaderFooterView">
+        </div>
     </div>
     <div class="UITableViewCell">
         <div class="UILabel">
         </div>
-        <div class="UITableViewLabel">
+        <div id="tag-2000" class="UITableViewLabel">
         </div>
     </div>
 </body>
