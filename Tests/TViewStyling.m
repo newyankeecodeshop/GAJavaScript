@@ -114,6 +114,8 @@
     font = [UIFont fontWithCSSDeclaration:decl];
     GHAssertTrue([font.familyName isEqualToString:@"Helvetica"], @"Wrong font family");
     GHAssertTrue([font.fontName isEqualToString:@"Helvetica-Bold"], @"Wrong font name");
+    
+    [decl release];
 }
 
 @end
