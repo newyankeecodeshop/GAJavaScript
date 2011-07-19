@@ -173,7 +173,7 @@
 	}
 	
 	[target appendString:@")"];
-	return target;
+	return [target autorelease];
 }
 
 @end
