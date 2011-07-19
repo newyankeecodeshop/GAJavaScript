@@ -230,6 +230,8 @@
 
     id value = [jsObject item:2];
     GHAssertTrue([value isEqual:@"foo3"], @"Something");
+    
+    [jsObject release];
 }
 
 @end
