@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010 Andrew Goodale. All rights reserved.
+ Copyright (c) 2010-2011 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -89,10 +89,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 
 - (void)releaseReference
 {
-	if ([m_objReference length] < 18)
-		return;
-	
-	if ([[m_objReference substringToIndex:17] isEqualToString:@"GAJavaScript.ref["])
+	if ([m_objReference hasPrefix:@"GAJavaScript.ref["])
 	{
 		NSString* js = [NSString stringWithFormat:@"delete %@", m_objReference];
 		[m_webView stringByEvaluatingJavaScriptFromString:js];
