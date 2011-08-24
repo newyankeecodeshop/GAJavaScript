@@ -33,10 +33,10 @@
 
 - (void)applyComputedStyles:(id)cssDeclaration
 {
-    // Since background-color is used for UIView backgroundColor, let's use foreground color.
+    // It doesn't make sense to set self.backgroundColor for a segmented control. The tintColor is what matters.
     //
-    NSString* color = [cssDeclaration valueForKey:@"color"];
-    self.tintColor = [UIColor colorWithCSSColor:color];    
+    NSString* backgroundColor = [cssDeclaration valueForKey:@"background-color"];
+    self.tintColor = [UIColor colorWithCSSColor:backgroundColor];    
 }
 
 @end

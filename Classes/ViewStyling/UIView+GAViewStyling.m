@@ -94,10 +94,34 @@
 
 - (void)applyComputedStyles:(id)cssDeclaration
 {
-    // String will be "rgb(r, g, b)" with numbers in base 10
+    // It doesn't make sense to set self.backgroundColor for toolbar views. The tintColor is what matters.
     //
-    NSString* color = [cssDeclaration valueForKey:@"color"];
-    self.tintColor = [UIColor colorWithCSSColor:color];    
+    NSString* backgroundColor = [cssDeclaration valueForKey:@"background-color"];
+    self.tintColor = [UIColor colorWithCSSColor:backgroundColor];    
+}
+
+@end
+
+#pragma mark -
+
+@implementation UISearchBar (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration
+{
+    NSString* backgroundColor = [cssDeclaration valueForKey:@"background-color"];
+    self.tintColor = [UIColor colorWithCSSColor:backgroundColor];    
+}
+
+@end
+
+#pragma mark -
+
+@implementation UIToolbar (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration
+{
+    NSString* backgroundColor = [cssDeclaration valueForKey:@"background-color"];
+    self.tintColor = [UIColor colorWithCSSColor:backgroundColor];    
 }
 
 @end

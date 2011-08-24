@@ -43,7 +43,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Bar styling
 
 @interface UINavigationBar (GAViewStyling)
 
@@ -51,7 +51,19 @@
 
 @end
 
-#pragma mark -
+@interface UISearchBar (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration;
+
+@end
+
+@interface UIToolbar (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration;
+
+@end
+
+#pragma mark - Text styling
 
 @interface UILabel (GAViewStyling)
 
@@ -59,7 +71,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Table styling
 
 @interface UITableView (GAViewStyling)
 
