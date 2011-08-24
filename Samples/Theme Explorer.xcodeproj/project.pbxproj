@@ -208,6 +208,7 @@
 		2DC139A913B3ACE90026D4D5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Wingspan Technology, Inc.";
 			};
 			buildConfigurationList = 2DC139AC13B3ACE90026D4D5 /* Build configuration list for PBXProject "Theme Explorer" */;
