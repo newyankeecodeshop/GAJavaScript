@@ -1,0 +1,1 @@
+This folder is where GAJavaScriptTests looks for the GHUnitIOS framework. Copy (or link) the framework here to run the unit tests. The library itself does not require any additional frameworks.
