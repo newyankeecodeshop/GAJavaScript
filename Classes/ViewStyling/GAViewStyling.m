@@ -127,9 +127,9 @@
     // Font size is in pixels, and we must convert to points.
     //
     NSString* cssFontSize = [cssDeclaration valueForKey:@"font-size"];
-    CGFloat fontSize = ([cssFontSize integerValue] / 160.0) * 72;
+    CGFloat sizeInPoints = [cssFontSize integerValue] / [[UIScreen mainScreen] scale];
     
-    return [UIFont fontWithName:fontName size:fontSize];
+    return [UIFont fontWithName:fontName size:sizeInPoints];
 }
 
 @end
