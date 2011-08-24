@@ -149,8 +149,13 @@
 - (void)loadScriptRuntime
 {
 	NSString* scriptFile = [[NSBundle mainBundle] pathForResource:@"ga-js-runtime" ofType:@"js"];
-	NSString* scriptData = [NSString stringWithContentsOfFile:scriptFile encoding:NSUTF8StringEncoding error:nil];
-	
+    NSAssert(scriptFile != nil, @"The main bundle is missing the file 'ga-js-runtime.js'!");
+    
+	NSString* scriptData = [NSString stringWithContentsOfFile:scriptFile 
+                                                     encoding:NSUTF8StringEncoding 
+                                                        error:nil];
+    NSAssert(scriptData != nil, @"The javascript code in ga-js-runtime.js could not be read");
+    
 	[m_webView stringByEvaluatingJavaScriptFromString:scriptData];	
 }
 
