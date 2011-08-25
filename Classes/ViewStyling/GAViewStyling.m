@@ -39,8 +39,9 @@
     if (parenRage.location == NSNotFound || [cssColor length] == 0)
         return [UIColor clearColor];
     
-    cssColor = [cssColor substringWithRange:NSMakeRange(parenRage.location + 1, 
-                                                        [cssColor length] - (parenRage.location + 2))];
+    parenRage.location += 1;
+    parenRage.length = [cssColor rangeOfString:@")"].location - parenRage.location;
+    cssColor = [cssColor substringWithRange:parenRage];
     
     NSArray* colorComponents = [cssColor componentsSeparatedByString:@", "];
     CGFloat r = [[colorComponents objectAtIndex:0] floatValue] / 255.0;

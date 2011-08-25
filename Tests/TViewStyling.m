@@ -48,6 +48,11 @@
     testColor = [color description];
     GHAssertTrue([testColor rangeOfString:@"UIDeviceWhiteColorSpace 0 0"].location != NSNotFound, @"Color not converted");
 
+    color = [UIColor colorWithCSSColor:@"rgb(240, 120, 0) 0px 1px"];     // Like a text-shadow decl
+    
+    testColor = [color description];
+    GHAssertTrue([testColor rangeOfString:@"0.941176 0.470588 0"].location != NSNotFound, @"Color not converted");
+
     // Error handling...
     //
     color = [UIColor colorWithCSSColor:@"1, 2, 3, 4, 5"];
