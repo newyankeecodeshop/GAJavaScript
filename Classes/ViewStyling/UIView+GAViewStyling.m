@@ -140,7 +140,7 @@
     self.textColor = [UIColor colorWithCSSColor:color];
     
     // Text Alignment
-    // UIKit doesn't support "justified" and "inherit" is about the rule
+    // UIKit doesn't support "justified"
     //
     NSString* textAlign = [cssDeclaration valueForKey:@"text-align"];
     
@@ -158,6 +158,19 @@
 		self.lineBreakMode = UILineBreakModeTailTruncation;
 	else if ([textOverflow isEqualToString:@"clip"])
 		self.lineBreakMode = UILineBreakModeClip;
+    
+    // Text Shadow
+    NSString* textShadow = [cssDeclaration valueForKey:@"text-shadow"];
+    
+    if ([textShadow isEqualToString:@"none"])
+        return;
+    
+    self.shadowColor = [UIColor colorWithCSSColor:textShadow];
+
+    // Compute the shadow offset, which comes after the color
+    // UIKit doesn't support the "blur" length, so it will be ignored
+    NSRange xRange = [textShadow rangeOfString:@") "];
+    self.shadowOffset = GASizeFromCSSLengths([textShadow substringFromIndex:xRange.location + 2]);
 }
 
 @end

@@ -50,3 +50,9 @@
 
 @end
 
+/**
+ * Returns a size from a CSS declaration that contains two lengths (i.e. "320px 240px").
+ * The first length is width (x), the second is height (y). If the string does not have at least two lengths,
+ * the function returns CGSizeZero.
+ */
+CGSize GASizeFromCSSLengths (NSString* cssString);

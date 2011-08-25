@@ -123,6 +123,21 @@
     [decl release];
 }
 
+- (void)testSizeFromCSSLengths
+{
+    NSString* lengths = @"100px 200px";
+    CGSize size = GASizeFromCSSLengths(lengths);
+    GHAssertTrue(size.width == 100 && size.height == 200, @"Wrong width or height!");
+
+    lengths = @"10.5px 20.75px";
+    size = GASizeFromCSSLengths(lengths);
+    GHAssertTrue(size.width == 10.5 && size.height == 20.75, @"Float values not handled!");
+
+    lengths = @"100 200";
+    size = GASizeFromCSSLengths(lengths);
+    GHAssertTrue(size.width == 0 && size.height == 0, @"Bad string not handled!");
+}
+
 @end
 
 #pragma mark -

@@ -134,3 +134,20 @@
 }
 
 @end
+
+/**
+ * The input string will be something like "NNNpx NNNpx [other chars]"
+ */
+CGSize GASizeFromCSSLengths (NSString* cssString)
+{
+    NSArray* lengths = [cssString componentsSeparatedByString:@"px "];  
+    
+    if ([lengths count] < 2)
+        return CGSizeZero;
+    
+    CGFloat x = [[lengths objectAtIndex:0] floatValue];
+    CGFloat y = [[lengths objectAtIndex:1] floatValue];
+
+    return CGSizeMake(x, y);
+}
+
