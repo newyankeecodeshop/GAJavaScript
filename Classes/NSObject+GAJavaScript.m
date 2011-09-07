@@ -46,11 +46,13 @@
 		
         if (propValue == self)  // To prevent endless recursion, check for property values that are us!
             continue;
+        else if (propValue == nil)
+            propValue = [NSNull null];
         
 		if (i > 0)
 			[target appendFormat:@"%c", ','];
 		
-		[target appendFormat:@"%s: %@", propName, [propValue stringForJavaScript]];
+		[target appendFormat:@" %s:%@", propName, [propValue stringForJavaScript]];
 	}
 	
 	free(propList);
@@ -117,6 +119,8 @@
 	
 	NSCharacterSet* charsToEscape = [NSCharacterSet escapeForJavaScriptSet];
 	
+    // Avoid creating an NSMutableString if we don't need to do any encoding.
+    //
 	if ([self rangeOfCharacterFromSet:charsToEscape].location == NSNotFound)
 		return [NSString stringWithFormat:@"'%@'", self];
 	
@@ -127,10 +131,20 @@
 	{
 		unichar ch = [self characterAtIndex:i];
 		
-		if ([charsToEscape characterIsMember:ch])
-			[target appendFormat:@"\\%C", ch];
-		else 
-			[target appendFormat:@"%C", ch];
+        switch (ch)
+        {
+            case '\'':
+            case '\"':
+            case '\\':
+                [target appendFormat:@"\\%C", ch]; 
+                break;
+            default:
+                if ([charsToEscape characterIsMember:ch])   // It's a control character
+                    [target appendFormat:@"\\u%04hX", ch];
+                else
+                    [target appendFormat:@"%C", ch]; 
+                break;
+        }
 	}
 	
 	[target appendFormat:@"%c", '\''];
@@ -243,12 +257,20 @@
 
 @implementation NSCharacterSet (GAJavaScript)
 
-static NSCharacterSet* kNeedsEscapingSet = nil;
-
 + (id)escapeForJavaScriptSet
 {
-	if (kNeedsEscapingSet == nil)
-		kNeedsEscapingSet = [[NSCharacterSet characterSetWithCharactersInString:@"\'\"\\"] retain];
+    static NSCharacterSet* kNeedsEscapingSet = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^(void)
+    {
+		NSMutableCharacterSet* newSet = [[NSMutableCharacterSet alloc] init];
+        [newSet addCharactersInString:@"\"\'\\"];
+        [newSet formUnionWithCharacterSet:[NSCharacterSet controlCharacterSet]];
+        
+        kNeedsEscapingSet = [newSet copy];  // Make an immutable NSCharacterSet
+        [newSet release];
+    });
 	
 	return kNeedsEscapingSet;
 }

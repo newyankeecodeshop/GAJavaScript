@@ -26,80 +26,20 @@
  or implied, of Andrew Goodale.
  */
 
-#import "GAScriptMethodSignatures.h"
+#import <GHUnitIOS/GHUnit.h>
 
-static NSMutableSet* s_classes = nil;
-static dispatch_once_t s_onceToken;
-static void(^s_initBlock)(void) = ^(void)
+@interface TObjectCategories : GHTestCase
+
+@end
+
+#pragma mark -
+
+@interface TestObject : NSObject 
 {
-    s_classes = [[NSMutableSet alloc] initWithCapacity:16];
-    [s_classes addObject:[GAScriptMethodSignatures class]];    
-};
-
-@implementation GAScriptMethodSignatures
-
-+ (void)addMethodSignaturesForClass:(Class)clazz
-{
-    dispatch_once(&s_onceToken, s_initBlock);
-	
-	[s_classes addObject:clazz];
 }
 
-+ (NSMethodSignature *)findMethodSignatureForSelector:(SEL)aSelector
-{
-    dispatch_once(&s_onceToken, s_initBlock);
-    
-    // If performance becomes a concern, we can build a cache of these mappings.
-    //
-    for (Class aClass in s_classes)
-    {
-        if ([aClass instancesRespondToSelector:aSelector])
-            return [aClass instanceMethodSignatureForSelector:aSelector];
-    }
-	
-    return nil;
-}
-
-#pragma mark Common methods
-
-- (id)item:(NSInteger)index
-{
-    return nil;
-}
-
-#pragma mark DOM Methods
-
-- (id)getElementById:(NSString *)elementId
-{
-	return nil;
-}
-
-- (id)getElementsByTagName:(NSString *)tagName
-{
-	return nil;
-}
-
-- (id)getElementsByClassName:(NSString *)className
-{
-    return nil;
-}
-
-- (id)querySelector:(NSString *)selector
-{
-    return nil;
-}
-
-- (id)querySelectorAll:(NSString *)selector
-{
-    return nil;
-}
-
-#pragma mark View methods
-
-- (id)getComputedStyle:(id)element
-{
-    return nil;
-}
-
+@property (nonatomic)           NSInteger intProp;
+@property (nonatomic, copy)     NSString* stringProp;
+@property (nonatomic, retain)   NSDate*   dateProp;
 
 @end

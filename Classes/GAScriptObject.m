@@ -73,8 +73,11 @@ static NSNumberFormatter* kNumFormatter = nil;
 		m_objReference = [reference retain];
 	}
 	
-	if (kNumFormatter == nil)
-		kNumFormatter = [[NSNumberFormatter alloc] init];
+	static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^(void)
+    {
+        kNumFormatter = [[NSNumberFormatter alloc] init];
+    });
 	
 	return self;
 }
@@ -392,6 +395,7 @@ static NSNumberFormatter* kNumFormatter = nil;
     
     if (numberOfArgs == 2)     // Really means zero, since "self" and "_cmd" are the first two.
     {
+        // TODO: Could be a property or a function. Need to call script engine...
         retVal = [self callFunction:functionName];
     }
     else if (numberOfArgs == 3)

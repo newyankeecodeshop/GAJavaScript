@@ -30,6 +30,7 @@
 		4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4983385E13782DFC0006B26A /* ApplicationDelegate.m */; };
 		498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		498A2C5113928F6600B95CC9 /* GAScriptMethodSignatures.m in Sources */ = {isa = PBXBuildFile; fileRef = 498A2C4F13928F6600B95CC9 /* GAScriptMethodSignatures.m */; };
+		49CB0D911417E6DC00C2C4F6 /* TObjectCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CB0D901417E6DC00C2C4F6 /* TObjectCategories.m */; };
 		49F0724F1405AC0D006E7A51 /* UIControl+GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F0724D1405AC0D006E7A51 /* UIControl+GAViewStyling.h */; };
 		49F072501405AC0D006E7A51 /* UIControl+GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F0724E1405AC0D006E7A51 /* UIControl+GAViewStyling.m */; };
 		49F1DBDE12A3F64A004C8736 /* GAScriptObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -81,6 +82,8 @@
 		4983385E13782DFC0006B26A /* ApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApplicationDelegate.m; path = Tests/ApplicationDelegate.m; sourceTree = "<group>"; };
 		498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptMethodSignatures.h; path = Classes/GAScriptMethodSignatures.h; sourceTree = "<group>"; };
 		498A2C4F13928F6600B95CC9 /* GAScriptMethodSignatures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptMethodSignatures.m; path = Classes/GAScriptMethodSignatures.m; sourceTree = "<group>"; };
+		49CB0D8F1417E6DC00C2C4F6 /* TObjectCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TObjectCategories.h; path = Tests/TObjectCategories.h; sourceTree = "<group>"; };
+		49CB0D901417E6DC00C2C4F6 /* TObjectCategories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TObjectCategories.m; path = Tests/TObjectCategories.m; sourceTree = "<group>"; };
 		49F0724D1405AC0D006E7A51 /* UIControl+GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIControl+GAViewStyling.h"; path = "Classes/ViewStyling/UIControl+GAViewStyling.h"; sourceTree = "<group>"; };
 		49F0724E1405AC0D006E7A51 /* UIControl+GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIControl+GAViewStyling.m"; path = "Classes/ViewStyling/UIControl+GAViewStyling.m"; sourceTree = "<group>"; };
 		49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptObject.h; path = Classes/GAScriptObject.h; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 			children = (
 				4983385D13782DFC0006B26A /* ApplicationDelegate.h */,
 				4983385E13782DFC0006B26A /* ApplicationDelegate.m */,
+				49CB0D8F1417E6DC00C2C4F6 /* TObjectCategories.h */,
+				49CB0D901417E6DC00C2C4F6 /* TObjectCategories.m */,
 				2D5994851382B0F0006B728D /* TScriptEngine.h */,
 				2D5994861382B0F0006B728D /* TScriptEngine.m */,
 				4933848412B4373600FBE23C /* TScriptObject.h */,
@@ -328,6 +333,7 @@
 				4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */,
 				2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */,
 				2DBE365F13BDFCA700E9AA11 /* TViewStyling.m in Sources */,
+				49CB0D911417E6DC00C2C4F6 /* TObjectCategories.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

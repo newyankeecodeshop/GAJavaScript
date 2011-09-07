@@ -76,8 +76,8 @@
 - (void)testKeyValueCoding
 {
 	NSArray* kTestValues = [NSArray arrayWithObjects:
-							@"abcd",							// String
-							@"string 'with' quotes",			// String that needs escaping
+							@"The quick brown fox jumped",		// String
+							@"string\n'with'\n\ttabs\t",		// String that needs escaping
 							[NSNumber numberWithInt:400000],	// Number (Integer)
 							[NSNumber numberWithFloat:0.55555],	// Number (Float)
 							[NSNull null],						// Null
@@ -109,8 +109,8 @@
 - (void)testKeyValueCodingWithArrays
 {
 	NSArray* kTestValues = [NSArray arrayWithObjects:
-							@"abcd",							// String
-							@"string 'with' quotes",			// String that needs escaping
+							@"The quick brown fox jumped",		// String
+							@"string\n'with'\nquotes",			// String that needs escaping
 							[NSNumber numberWithInt:400000],	// Number (Integer)
 							[NSNumber numberWithFloat:0.55555],	// Number (Float)
 							[NSNull null],						// Null
@@ -136,8 +136,9 @@
 - (void)testKeyValueCodingWithDictionary
 {
 	NSDictionary* kTestDict = [NSDictionary dictionaryWithObjectsAndKeys:
-							   @"abcd", @"string",							
+							   @"The quick brown fox jumped over the dog.", @"string",							
 							   @"string 'with' quotes", @"string_with_quotes",
+                               @"string with </script>", @"string_with_script_tag",
 							   [NSNumber numberWithInt:400000],	    @"integer",
 							   [NSNumber numberWithFloat:0.55555],	@"float",
 							   [NSNull null],						@"nullprop",
