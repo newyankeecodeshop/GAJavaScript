@@ -37,10 +37,13 @@ static NSString* const GAJavaScriptErrorDomain;
 	<NSFastEnumeration>
 {
 	/* The object used for relative references (e.g. "document"). */
-	NSString*	m_objReference;
+	NSString*       m_objReference;
 	
 	/* The javascript "engine" */
-	UIWebView*	m_webView;
+	UIWebView*      m_webView;
+    
+    /* Set of block objects for callbacks */
+    NSMutableSet*   m_blocks;
 }
 
 /*
@@ -89,13 +92,5 @@ static NSString* const GAJavaScriptErrorDomain;
  * Read a value from an object using a property path.
  */
 - (id)valueForKeyPath:(NSString *)keyPath;
-
-@end
-
-#pragma mark -
-
-@interface GAScriptObject (Blocks)
-
-- (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block;
 
 @end

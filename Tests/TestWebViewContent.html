@@ -30,6 +30,10 @@
             GAJavaScript.performSelector('callbackOneArg:', "Hello World");            
         }
         
+        function testCallbackTypedArgs () {
+            GAJavaScript.performSelector('callbackTypedArgs:boolArg:intArg:floatArg:', new Date(), true, 200000, 1.5);
+        }
+        
         function testMultipleCallbacks () {
             GAJavaScript.performSelector('callbackNoArgs');
             GAJavaScript.performSelector('callbackOneArg:', "2nd call in testMultipleCallbacks");                        

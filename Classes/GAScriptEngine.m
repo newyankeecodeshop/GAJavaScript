@@ -27,8 +27,8 @@
  */
 
 #import "GAScriptEngine.h"
-#import "GAScriptEnginePrivate.h"
 #import "GAScriptObject.h"
+#import "GAScriptBlockObject.h"
 #import "NSObject+GAJavaScript.h"
 
 @interface GAScriptEngine ()
@@ -61,7 +61,6 @@
         m_webView.delegate = self;
         
         m_receivers = [[NSMutableArray alloc] initWithCapacity:4];		
-		m_invocations = [[NSMutableDictionary alloc] initWithCapacity:4];
     }
     
     return self;
@@ -90,7 +89,6 @@
     [m_document release];
     [m_window release];
     [m_receivers release];
-	[m_invocations release];
     
     [super dealloc];
 }
@@ -134,14 +132,17 @@
 	return [jsObject autorelease];	
 }
 
+/**
+ * Call functions at global (window) scope.
+ */
 - (id)callFunction:(NSString *)functionName
 {
-	return [[self scriptObjectWithReference:@"window"] callFunction:functionName];
+	return [self.windowObject callFunction:functionName];
 }
 
 - (id)callFunction:(NSString *)functionName withObject:(id)argument
 {
-	return [[self scriptObjectWithReference:@"window"] callFunction:functionName withObject:argument];
+	return [self.windowObject callFunction:functionName withObject:argument];
 }
 
 #pragma mark Private
@@ -159,14 +160,6 @@
 	[m_webView stringByEvaluatingJavaScriptFromString:scriptData];	
 }
 
-- (void)retainCallArgumentIfNecessary:(id)argument
-{
-	if ([argument isKindOfClass:[NSInvocation class]] || [argument isKindOfClass:[GAScriptBlockObject class]])
-    {
-		[m_invocations setObject:argument forKey:[NSNumber numberWithUnsignedInt:[argument hash]]];
-    }
-}
-
 - (void)makeLotsaCalls
 {
     id calls = [self scriptObjectWithReference:@"GAJavaScript.calls"];
@@ -182,21 +175,20 @@
 		NSNumber* invName = [call valueForKey:@"inv"];
         NSArray* arguments = [call valueForKey:@"args"];
 		
-		if (selName != nil)
+		if (selName != nil && [selName isKindOfClass:[NSString class]])
 		{
 			SEL theSelector = NSSelectorFromString(selName);
 			[self callReceiversForSelector:theSelector withArguments:arguments];
 		}
-		else if (invName != nil)
+		else if (invName != nil && [invName isKindOfClass:[NSNumber class]])
 		{
-            // Will be an NSInvocation or GAScriptBlockObject
+            // Will be the address of a block
             //
-			id invocation = [m_invocations objectForKey:invName];			
-			[invocation setArgumentsFromJavaScript:arguments];
-			[invocation invoke];
-			
-//TODO			[m_invocations removeObjectForKey:invName];
-		}
+            GAScriptBlock theBlock = (GAScriptBlock) [invName unsignedLongLongValue];
+            
+            if (theBlock)
+                theBlock(arguments);
+        }
     }    
 }
 
@@ -268,48 +260,6 @@
 {
     if ([m_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
         [m_delegate webView:webView didFailLoadWithError:error];
-}
-
-@end
-
-#pragma mark -
-
-@implementation GAScriptBlockObject
-
-- (id)initWithBlock:(void (^)(NSArray *))block
-{
-    if ((self = [super init]))
-    {
-        _blockObject = Block_copy(block);        
-    }
-    
-    return self;
-}
-
-- (void)dealloc
-{
-    Block_release(_blockObject);
-    
-    [_arguments release];
-    
-    [super dealloc];
-}
-
-- (NSString *)stringForJavaScript
-{	
-	return [NSString stringWithFormat:@"function () { GAJavaScript.invocation(%u, arguments); }", [self hash]];	
-}
-
-- (void)setArgumentsFromJavaScript:(NSArray *)arguments
-{
-    [_arguments release];
-    _arguments = [arguments retain];
-}
-
-- (void)invoke
-{
-    void (^theBlock)(NSArray*) = _blockObject;
-    theBlock(_arguments);
 }
 
 @end

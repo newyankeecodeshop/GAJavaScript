@@ -27,8 +27,8 @@
 */ 
 
 #import "GAScriptObject.h"
+#import "GAScriptEngine.h"
 #import "GAScriptMethodSignatures.h"
-#import "GAScriptEnginePrivate.h"
 #import "NSObject+GAJavaScript.h"
 
 typedef struct /* GAScriptObjectEnumState */
@@ -70,7 +70,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 	if ((self = [super init]))
 	{
 		m_webView = webView;
-		m_objReference = [reference retain];
+		m_objReference = [reference copy];
 	}
 	
 	static dispatch_once_t onceToken;
@@ -86,6 +86,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 {
 	[self releaseReference];
 	[m_objReference release];
+    [m_blocks release];
 	
 	[super dealloc];
 }
@@ -169,10 +170,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 	NSString* js = [NSString stringWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, [%@])", 
 					m_objReference, functionName, m_objReference, [argument stringForJavaScript]];
 	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
-	
-	id scriptEngine = m_webView.delegate;
-	[scriptEngine retainCallArgumentIfNecessary:argument];
-	
+		
 	return [self convertScriptResult:result reference:m_objReference];
 }
 
@@ -232,18 +230,6 @@ static NSNumberFormatter* kNumFormatter = nil;
 - (id)valueForUndefinedKey:(NSString *)key
 {
 	return nil;
-}
-
-#pragma mark Blocks
-
-- (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block
-{
-    GAScriptBlockObject* myBlock = [[GAScriptBlockObject alloc] initWithBlock:block];
-    
-    id scriptEngine = m_webView.delegate;
-	[scriptEngine retainCallArgumentIfNecessary:myBlock];
-
-    [self setValue:myBlock forKey:key];
 }
 
 #pragma mark Private
@@ -424,19 +410,35 @@ static NSNumberFormatter* kNumFormatter = nil;
 }
 
 - (id)convertArgument:(NSInvocation *)invocation atIndex:(NSInteger)index
-{
-    void* argValue;
-    [invocation getArgument:&argValue atIndex:index];
-    
+{    
     const char* type = [[invocation methodSignature] getArgumentTypeAtIndex:index];
     
     if (*type == 'c')
-        return [NSNumber numberWithBool:(int)argValue];
+    {
+        BOOL boolVal;
+        [invocation getArgument:&boolVal atIndex:index];
+        return [NSNumber numberWithBool:boolVal];
+    }
+    else if (*type == 'i')
+    {
+        NSInteger intVal;
+        [invocation getArgument:&intVal atIndex:index];
+        return [NSNumber numberWithInt:intVal];
+    }
+    else if (*type == 'f')
+    {
+        float floatVal;
+        [invocation getArgument:&floatVal atIndex:index];
+        return [NSNumber numberWithFloat:floatVal];
+    }
+    else
+    {
+        id argObject;
+        [invocation getArgument:&argObject atIndex:index]; 
+        return argObject;
+    }
     
-    if (*type == 'i')
-        return [NSNumber numberWithInt:(int)argValue];
-    
-    return (id) argValue;
+    return nil;
 }
 
 @end

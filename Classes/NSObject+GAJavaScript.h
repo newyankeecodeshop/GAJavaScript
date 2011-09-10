@@ -111,11 +111,9 @@
 #pragma mark -
 
 /*
- * Returns a callback closure for this invocation.
+ * Adds support for population invocation arguments from an array of arguments marshaled from JavaScript.
  */
 @interface NSInvocation (GAJavaScript)
-
-- (NSString *)stringForJavaScript;
 
 - (void)setArgumentsFromJavaScript:(NSArray *)arguments;
 

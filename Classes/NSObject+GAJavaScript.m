@@ -223,21 +223,42 @@
 
 @implementation NSInvocation (GAJavaScript)
 
-- (NSString *)stringForJavaScript
-{	
-	return [NSString stringWithFormat:@"function () { GAJavaScript.invocation(%u, arguments); }", [self hash]];	
-}
-
 - (void)setArgumentsFromJavaScript:(NSArray *)arguments
 {
-	NSInteger argIndex = 2;
+    NSMethodSignature* methodSig = [self methodSignature];
+	NSInteger argIndex = 2; // Because target and _cmd are the first two arguments
 	
 	for (id arg in arguments)
 	{
-		// TODO: Need to get the address right based on types...
+		// Need to get the address right based on types...
 		//
-		[self setArgument:&arg atIndex:argIndex++];			
-	}
+        const char* argType = [methodSig getArgumentTypeAtIndex:argIndex];
+        
+        switch (*argType) 
+        {
+            case 'c':
+            {
+                BOOL boolArg = [arg boolValue];
+                [self setArgument:&boolArg atIndex:argIndex++];
+                break;
+            }
+            case 'i':
+            {
+                NSInteger intArg = [arg intValue];
+                [self setArgument:&intArg atIndex:argIndex++];
+                break;
+            }
+            case 'f':
+            {
+                float floatArg = [arg floatValue];
+                [self setArgument:&floatArg atIndex:argIndex++];
+                break;
+            }
+            default:
+                [self setArgument:&arg atIndex:argIndex++];
+                break;
+        }
+    }
 }
 
 @end

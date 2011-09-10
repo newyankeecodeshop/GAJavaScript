@@ -29,6 +29,7 @@
 #import "TScriptEngine.h"
 #import "GAScriptEngine.h"
 #import "GAScriptObject.h"
+#import "GAScriptBlockObject.h"
 
 @implementation TScriptEngine
 
@@ -44,6 +45,11 @@
     
     _engine = [appDelegate valueForKey:@"scriptEngine"];
     [_engine.receivers addObject:self];
+}
+
+- (void)tearDown
+{
+    [_engine.receivers removeObject:self];
 }
 
 - (void)testCallback
@@ -62,6 +68,14 @@
 	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];	
 }
 
+- (void)testCallbackTypedArgs
+{
+    [self prepare:@selector(callbackTypedArgs:boolArg:intArg:floatArg:)];
+    [_engine callFunction:@"testCallbackTypedArgs"];
+    
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];	
+}
+
 - (void)testMultipleCallbacks
 {
     // Multiple callbacks will be invoked, so I'm specifying the last one.
@@ -72,41 +86,50 @@
 	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];	
 }
 
+- (void)invocationCallback:(NSString *)arg1 andString:(NSString *)arg2 andDate:(NSDate *)arg3
+{
+//    GHTestLog(@"Callback from Invocation %@ %@ %@", arg1, arg2, arg3);
+	
+	[self notify:kGHUnitWaitStatusSuccess];
+}
+
 - (void)testCallbackAsArgument
 {
 	[self prepare:@selector(invocationCallback:andString:andDate:)];
-	
-	NSMethodSignature* sig = [self methodSignatureForSelector:@selector(invocationCallback:andString:andDate:)];
-	NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:sig];
-	[invocation setSelector:@selector(invocationCallback:andString:andDate:)];
-	[invocation setTarget:self];
-	[_engine callFunction:@"testCallbackAsArgument" withObject:invocation];
+	    
+	[_engine callFunction:@"testCallbackAsArgument" 
+               withObject:[GAScriptBlockObject scriptBlockWithBlock:^(NSArray* arguments) 
+    {
+        [self invocationCallback:[arguments objectAtIndex:0]
+                       andString:[arguments objectAtIndex:1]
+                         andDate:[arguments objectAtIndex:2]];
+    }]];
 	
 	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];
 }
 
-- (void)testCallbackWithBlock
+// We assign the block in a separate method so that our stack-based block will be out-of-scope when the 
+// callback happens. We want to test that we are properly copying the block and maintaining it on the heap.
+//
+- (void)assignBlockToObject:(GAScriptObject *)scriptObj
+{    
+	[scriptObj setFunctionForKey:@"theBlock" withBlock:^(NSArray *arguments) 
+     {         
+         [self notify:kGHUnitWaitStatusSuccess];
+     }]; 
+}
+
+- (void)testObjectWithBlock
 {
 	[self prepare];
 
-    __block id rightNow = nil;
-    
-	void (^nowBlock)(NSArray*) = ^ (NSArray* arguments)
-	{
-		rightNow = [NSDate date];
-//		NSLog(@"The date and time is %@", rightNow);
-        
-        [self notify:kGHUnitWaitStatusSuccess];
-	};	
-	
 	GAScriptObject* jsObject = [_engine newScriptObject];
-	
-	[jsObject setFunctionForKey:@"nowBlock" withBlock:nowBlock];
+    [self assignBlockToObject:jsObject];
     
-    [jsObject callFunction:@"nowBlock"];
-	[jsObject release];
+    [jsObject callFunction:@"theBlock"];
 
 	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];
+	[jsObject release];
 }
 
 - (void)callbackNoArgs
@@ -126,11 +149,19 @@
     [self notify:status];
 }
 
-- (void)invocationCallback:(NSString *)arg1 andString:(NSString *)arg2 andDate:(NSDate *)arg3
+- (void)callbackTypedArgs:(NSDate *)dateArg boolArg:(BOOL)boolArg intArg:(NSInteger)intArg floatArg:(CGFloat)floatArg
 {
-//	NSLog(@"Callback from Invocation %@ %@ %@", arg1, arg2, arg3);
-	
-	[self notify:kGHUnitWaitStatusSuccess];
+//    NSLog(@"Callback(%@, %c, %d, %f) from JavaScript", dateArg, boolArg, intArg, floatArg);
+
+    NSInteger status = kGHUnitWaitStatusSuccess;
+    
+    if (![dateArg isKindOfClass:[NSDate class]])
+        status = kGHUnitWaitStatusFailure;
+    
+    if (boolArg != YES || intArg != 200000 || floatArg != 1.5)
+        status = kGHUnitWaitStatusFailure;
+
+    [self notify:status];
 }
 
 @end

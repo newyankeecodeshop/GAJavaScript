@@ -10,7 +10,7 @@
 		2D44767713BB3F8B00A2E101 /* GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D44767513BB3F8B00A2E101 /* GAViewStyling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D44767813BB3F8B00A2E101 /* GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D44767613BB3F8B00A2E101 /* GAViewStyling.m */; };
 		2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5994861382B0F0006B728D /* TScriptEngine.m */; };
-		2D81DF5F139D796900CA599F /* GAScriptEnginePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D81DF5D139D796900CA599F /* GAScriptEnginePrivate.h */; settings = {ATTRIBUTES = (); }; };
+		2D81DF5F139D796900CA599F /* GAScriptBlockObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D81DF5D139D796900CA599F /* GAScriptBlockObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D8500AC1381647F00758EA2 /* GAScriptEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D8500AF1381647F00758EA2 /* GAScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8500AD1381647F00758EA2 /* GAScriptEngine.m */; };
 		2D8500B213816B2100758EA2 /* TestWebViewContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D8500B113816B2100758EA2 /* TestWebViewContent.html */; };
@@ -39,6 +39,7 @@
 		49F1DC8F12A3F7E2004C8736 /* UIWebView+GAJavaScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49F1DC9012A3F7E2004C8736 /* UIWebView+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F1DC8E12A3F7E2004C8736 /* UIWebView+GAJavaScript.m */; };
 		49F51D8412B6C64700F91142 /* ga-js-runtime.js in Resources */ = {isa = PBXBuildFile; fileRef = 49F51D8212B6BDFD00F91142 /* ga-js-runtime.js */; };
+		49FDB633141BC09000A5F1B4 /* GAScriptBlockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FDB632141BC09000A5F1B4 /* GAScriptBlockObject.m */; };
 		AA747D9F0F9514B9006C5449 /* GAJavaScript_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* GAJavaScript_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -58,7 +59,7 @@
 		2D44767613BB3F8B00A2E101 /* GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAViewStyling.m; path = Classes/ViewStyling/GAViewStyling.m; sourceTree = "<group>"; };
 		2D5994851382B0F0006B728D /* TScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptEngine.h; path = Tests/TScriptEngine.h; sourceTree = "<group>"; };
 		2D5994861382B0F0006B728D /* TScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptEngine.m; path = Tests/TScriptEngine.m; sourceTree = "<group>"; };
-		2D81DF5D139D796900CA599F /* GAScriptEnginePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptEnginePrivate.h; path = Classes/GAScriptEnginePrivate.h; sourceTree = "<group>"; };
+		2D81DF5D139D796900CA599F /* GAScriptBlockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptBlockObject.h; path = Classes/GAScriptBlockObject.h; sourceTree = "<group>"; };
 		2D8500AC1381647F00758EA2 /* GAScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptEngine.h; path = Classes/GAScriptEngine.h; sourceTree = "<group>"; };
 		2D8500AD1381647F00758EA2 /* GAScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptEngine.m; path = Classes/GAScriptEngine.m; sourceTree = "<group>"; };
 		2D8500B113816B2100758EA2 /* TestWebViewContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = TestWebViewContent.html; path = Tests/TestWebViewContent.html; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 		49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWebView+GAJavaScript.h"; path = "Classes/UIWebView+GAJavaScript.h"; sourceTree = "<group>"; };
 		49F1DC8E12A3F7E2004C8736 /* UIWebView+GAJavaScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+GAJavaScript.m"; path = "Classes/UIWebView+GAJavaScript.m"; sourceTree = "<group>"; };
 		49F51D8212B6BDFD00F91142 /* ga-js-runtime.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "ga-js-runtime.js"; sourceTree = "<group>"; };
+		49FDB632141BC09000A5F1B4 /* GAScriptBlockObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptBlockObject.m; path = Classes/GAScriptBlockObject.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* GAJavaScript_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAJavaScript_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libGAJavaScript.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGAJavaScript.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,7 +167,8 @@
 				49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */,
 				498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */,
 				498A2C4F13928F6600B95CC9 /* GAScriptMethodSignatures.m */,
-				2D81DF5D139D796900CA599F /* GAScriptEnginePrivate.h */,
+				2D81DF5D139D796900CA599F /* GAScriptBlockObject.h */,
+				49FDB632141BC09000A5F1B4 /* GAScriptBlockObject.m */,
 				493386AA12B582A300FBE23C /* NSObject+GAJavaScript.h */,
 				493386AB12B582A300FBE23C /* NSObject+GAJavaScript.m */,
 				49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */,
@@ -239,7 +242,7 @@
 				493386AC12B582A300FBE23C /* NSObject+GAJavaScript.h in Headers */,
 				2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */,
 				498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */,
-				2D81DF5F139D796900CA599F /* GAScriptEnginePrivate.h in Headers */,
+				2D81DF5F139D796900CA599F /* GAScriptBlockObject.h in Headers */,
 				2DC139F013B3CF4A0026D4D5 /* UIView+GAViewStyling.h in Headers */,
 				2D44767713BB3F8B00A2E101 /* GAViewStyling.h in Headers */,
 				49F0724F1405AC0D006E7A51 /* UIControl+GAViewStyling.h in Headers */,
@@ -349,6 +352,7 @@
 				2DC139F113B3CF4A0026D4D5 /* UIView+GAViewStyling.m in Sources */,
 				2D44767813BB3F8B00A2E101 /* GAViewStyling.m in Sources */,
 				49F072501405AC0D006E7A51 /* UIControl+GAViewStyling.m in Sources */,
+				49FDB633141BC09000A5F1B4 /* GAScriptBlockObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

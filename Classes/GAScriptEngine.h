@@ -44,7 +44,6 @@
     GAScriptObject*         m_window;
     
     NSMutableArray*			m_receivers;
-	NSMutableDictionary*	m_invocations;
 }
 
 /**
@@ -101,7 +100,7 @@
 - (id)callFunction:(NSString *)functionName;
 
 /*
- * Call a function on this object, with a single argument.
+ * Call a function at global scope with a single argument.
  */
 - (id)callFunction:(NSString *)functionName withObject:(id)argument;
 
