@@ -7,3 +7,4 @@
 *.pbxuser
 *.xcuserdatad
 *.xcworkspacedata
+ThirdParty/GHUnit*
