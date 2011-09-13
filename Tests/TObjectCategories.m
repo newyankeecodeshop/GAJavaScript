@@ -42,8 +42,9 @@
     test.dateProp = [[NSDate date] dateByAddingTimeInterval:60 * 60 * 24];
     
     NSString* jsText = [test stringForJavaScript];
-    GHAssertTrue([jsText hasPrefix:@"{ dateProp:new Date("], @"Date property not serialized");
-    GHAssertTrue([jsText hasSuffix:@"intProp:1024, stringProp:'Hello World'}"], @"Other props not serialized");
+    GHAssertTrue([jsText rangeOfString:@" dateProp:new Date("].location != NSNotFound, @"Date property not serialized");
+    GHAssertTrue([jsText rangeOfString:@" intProp:1024"].location != NSNotFound, @"Int property not serialized");
+    GHAssertTrue([jsText rangeOfString:@" stringProp:'Hello World'"].location != NSNotFound, @"String property not serialized");
     
     [test release];
 }
