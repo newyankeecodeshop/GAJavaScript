@@ -48,7 +48,9 @@
 - (void)applyStylesWithScriptEngine:(GAScriptEngine *)engine
 {
     NSString* selector = [self styleSelector];
+#if 1
     NSLog(@"GAViewStyling selector: %@", selector);
+#endif
     
     id element = [[engine documentObject] querySelector:selector];
     
@@ -73,13 +75,26 @@
     
     NSString* backgroundImage = [cssDeclaration valueForKey:@"background-image"];
     
-    // TODO: If this view's layer is a CAGradientLayer, we can use a webkit linear gradient
+    // If this view's layer is a CAGradientLayer, we can use a webkit linear gradient
     // -webkit-gradient(<type>, <point>, <point> [, <stop>]*)
     //
-    if ([backgroundImage hasPrefix:@"-webkit-gradient(linear,"]
-        && [self.layer isKindOfClass:[CAGradientLayer class]])
+    if ([backgroundImage hasPrefix:@"-webkit-gradient(linear,"])
     {
-        NSLog(@"TODO: Gradient: %@", backgroundImage);
+        CAGradientLayer* gradLayer = [self.layer.sublayers objectAtIndex:0];
+        
+        if (![gradLayer valueForKey:@"GAViewStylingID"])
+        {
+            gradLayer = [CAGradientLayer layer];
+            [gradLayer setValue:@"-webkit-gradient" forKey:@"GAViewStylingID"];
+
+            CGRect bounds = [self bounds];
+            [gradLayer setBounds:bounds];
+            [gradLayer setPosition:CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds))];
+
+            [self.layer insertSublayer:gradLayer atIndex:0];
+        }
+        
+        [gradLayer setValuesWithCSSGradient:backgroundImage];
     }
 
     NSString* opacity = [cssDeclaration valueForKey:@"opacity"];
@@ -180,7 +195,7 @@
 @implementation UITableView (GAViewStyling)
 
 - (void)applyComputedStyles:(id)cssDeclaration
-{
+{    
     [super applyComputedStyles:cssDeclaration];
     
     // Border (Separator) Color. We use "top" because it's the first color in TRBL.
@@ -202,3 +217,14 @@
 
 @end
 
+@implementation UITableViewCell (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration
+{
+    if (self.backgroundView)    // Don't apply background styles to this view
+        return;
+    
+    [super applyComputedStyles:cssDeclaration];
+}
+
+@end

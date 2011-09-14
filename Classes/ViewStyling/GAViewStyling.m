@@ -151,3 +151,37 @@ CGSize GASizeFromCSSLengths (NSString* cssString)
     return CGSizeMake(x, y);
 }
 
+#pragma mark -
+
+@implementation CAGradientLayer (GAViewStyling)
+
+/**
+ * Creates a gradient layer using the CSS specification from WebKit.
+ *
+ * Example: -webkit-gradient(linear, 0% 100%, 0% 0%, 
+ *                           color-stop(0.19, rgb(128, 22, 48)), color-stop(0.6, rgb(224, 36, 74)), color-stop(0.8, rgb(235, 52, 88)))
+ */
+- (void)setValuesWithCSSGradient:(NSString *)cssGradient
+{
+    if ([cssGradient length] == 0 || ![cssGradient hasPrefix:@"-webkit-gradient(linear,"])
+        return;
+        
+    NSArray* colorStops = [cssGradient componentsSeparatedByString:@", color-stop("];
+    NSMutableArray* colors = [[NSMutableArray alloc] initWithCapacity:[colorStops count]];
+    NSMutableArray* locations = [[NSMutableArray alloc] initWithCapacity:[colorStops count]];
+    
+    for (NSInteger i = 1; i < [colorStops count]; ++i)
+    {
+        NSString* colorStop = [colorStops objectAtIndex:i];
+        [locations addObject:[NSNumber numberWithFloat:[colorStop floatValue]]];
+        [colors addObject:(id)[UIColor colorWithCSSColor:colorStop].CGColor];
+    }
+    
+    [self setColors:colors];
+    [self setLocations:locations];
+    [colors release];
+    [locations release];
+}
+
+@end
+

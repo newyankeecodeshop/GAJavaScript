@@ -79,3 +79,10 @@
 
 @end
 
+@interface UITableViewCell (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration;
+
+@end
+
+

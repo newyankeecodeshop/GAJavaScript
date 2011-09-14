@@ -27,6 +27,7 @@
  */
 
 #import "TViewStyling.h"
+#import <QuartzCore/QuartzCore.h>
 #import "GAViewStyling.h"
 
 @implementation TViewStyling
@@ -136,6 +137,38 @@
     lengths = @"100 200";
     size = GASizeFromCSSLengths(lengths);
     GHAssertTrue(size.width == 0 && size.height == 0, @"Bad string not handled!");
+}
+
+- (void)testGradientLayer
+{
+    CAGradientLayer* layer = [CAGradientLayer layer];
+    
+    NSString* cssGradient = @"-webkit-gradient(linear, 100% 0%, 0% 100%, color-stop(0.19, rgb(128, 22, 48)), color-stop(0.6, rgb(224, 36, 74)), color-stop(0.8, rgb(235, 52, 88)))";
+    [layer setValuesWithCSSGradient:cssGradient];
+    
+    GHAssertNotNil(layer, @"Bad layer");
+    GHAssertTrue([layer.colors count] == 3, @"Wrong number of colors");
+    
+    CGColorRef color1 = (CGColorRef)[layer.colors objectAtIndex:0];
+    const CGFloat* pColors = CGColorGetComponents(color1);
+    GHAssertTrue(pColors[0] == 128/255.f && pColors[1] == 22/255.f && pColors[2] == 48/255.f, @"Bad colors");
+
+    CGColorRef color2 = (CGColorRef)[layer.colors objectAtIndex:1];
+    pColors = CGColorGetComponents(color2);
+    GHAssertTrue(pColors[0] == 224/255.f && pColors[1] == 36/255.f && pColors[2] == 74/255.f, @"Bad colors");
+
+    CGColorRef color3 = (CGColorRef)[layer.colors objectAtIndex:2];
+    pColors = CGColorGetComponents(color3);
+    GHAssertTrue(pColors[0] == 235/255.f && pColors[1] == 52/255.f && pColors[2] == 88/255.f, @"Bad colors");
+    
+    NSNumber* loc1 = [layer.locations objectAtIndex:0];
+    GHAssertTrue([loc1 floatValue] == 0.19f, @"Location wrong");
+
+    NSNumber* loc2 = [layer.locations objectAtIndex:1];
+    GHAssertTrue([loc2 floatValue] == 0.6f, @"Location wrong");
+
+    NSNumber* loc3 = [layer.locations objectAtIndex:2];
+    GHAssertTrue([loc3 floatValue] == 0.8f, @"Location wrong");
 }
 
 @end
