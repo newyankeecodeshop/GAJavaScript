@@ -111,6 +111,7 @@
 	NSArray* kTestValues = [NSArray arrayWithObjects:
 							@"The quick brown fox jumped",		// String
 							@"string\n'with'\nquotes",			// String that needs escaping
+                            @"string,with,commas",              // String with commas inside
 							[NSNumber numberWithInt:400000],	// Number (Integer)
 							[NSNumber numberWithFloat:0.55555],	// Number (Float)
 							[NSNull null],						// Null

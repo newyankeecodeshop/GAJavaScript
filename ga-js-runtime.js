@@ -95,7 +95,7 @@ GAJavaScript = {
 		
 		for (var i = 0; i < a.length; ++i) {
 			if (i > 0)
-				result += ',';
+				result += '\f';
 			
 			result += this.valueToString(a[i]);
 		}

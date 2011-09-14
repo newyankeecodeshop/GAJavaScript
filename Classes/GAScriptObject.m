@@ -284,7 +284,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 
 - (NSArray *)arrayFromJavaScript:(NSString *)result reference:(NSString *)reference
 {
-	NSArray* components = [result componentsSeparatedByString:@","];
+	NSArray* components = [result componentsSeparatedByString:@"\f"];
 	NSMutableArray* retVal = [NSMutableArray arrayWithCapacity:[components count]];
 	
 	for (NSString* jsvalue in components)
