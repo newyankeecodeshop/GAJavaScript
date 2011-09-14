@@ -28,6 +28,26 @@
 
 #import "UIControl+GAViewStyling.h"
 #import "GAViewStyling.h"
+#import "UIView+GAViewStyling.h"
+
+@implementation UIButton (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration
+{
+    UILabel* titleLabel = self.titleLabel;
+    
+    if (titleLabel)
+    {
+        [titleLabel applyComputedStyles:cssDeclaration];
+    }
+    
+    // Setting the background-color or background gradient image doesn't work
+    // right with round rects. Need to figure out a better way
+}
+
+@end
+
+#pragma mark -
 
 @implementation UISegmentedControl (GAViewStyling)
 

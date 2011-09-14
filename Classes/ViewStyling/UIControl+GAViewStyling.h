@@ -28,6 +28,16 @@
 
 #import <UIKit/UIKit.h>
 
+@interface UIButton (GAViewStyling) 
+
+/**
+ * Drive the styling of the titleLabel
+ */
+- (void)applyComputedStyles:(id)cssDeclaration;
+
+@end
+
+#pragma mark -
 
 @interface UISegmentedControl (GAViewStyling)
 
