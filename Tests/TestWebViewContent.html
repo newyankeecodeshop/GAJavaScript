@@ -42,6 +42,10 @@
 		function testCallbackAsArgument (callback) {			
 			callback('arg1', 'arg2', new Date());
 		}
+        
+        function testThrowException () {
+            return window.fake.object;  // Will throw a TypeError
+        }
     </script>
 </head>
 <body>

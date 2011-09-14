@@ -44,6 +44,9 @@ typedef struct /* GAScriptObjectEnumState */
 } GAScriptObjectEnumState;
 
 static NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
+static NSString* const GAJavaScriptErrorName   = @"JSErrorName";
+static NSString* const GAJavaScriptErrorSource = @"JSErrorSource";
+static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 
 @interface GAScriptObject ()
 
@@ -111,7 +114,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 	
 	if (object == [NSNull null])
 	{
-		NSString* js = [NSString stringWithFormat:@"%@ == null", m_objReference];
+		NSString* js = [NSString stringWithFormat:@"%@ === null", m_objReference];
 		NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
 		
 		return [result isEqualToString:@"true"];
@@ -125,7 +128,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 		// The references may be different string values, but still refer to the same object.
 		// For example, "document" and "window.document"
 		//
-		NSString* js = [NSString stringWithFormat:@"%@ == %@", m_objReference, [object stringForJavaScript]];
+		NSString* js = [NSString stringWithFormat:@"%@ === %@", m_objReference, [object stringForJavaScript]];
 		NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
 		
 		return [result isEqualToString:@"true"];		
@@ -221,6 +224,22 @@ static NSNumberFormatter* kNumFormatter = nil;
 	return [self convertScriptResult:result reference:keyPath];		
 }
 
+/**
+ * Override the default implementation because we can more efficiently let JavaScript dereference the objects.
+ * The default implementation would create a lot of temporary GAScriptObject instances as it fetched
+ * individual values.
+ */
+- (void)setValue:(id)value forKeyPath:(NSString *)keyPath
+{    
+	if (value == nil)
+		value = [[NSNull null] stringForJavaScript];		
+	else 
+		value = [value stringForJavaScript];
+	
+	NSString* js = [NSString stringWithFormat:@"%@.%@ = %@", m_objReference, keyPath, value];
+	[m_webView stringByEvaluatingJavaScriptFromString:js];    
+}
+
 /*
  * Return a true nil value for 'undefined', so that code like this can work:
  *
@@ -298,8 +317,11 @@ static NSNumberFormatter* kNumFormatter = nil;
 - (NSError *)errorFromJavaScript:(NSString *)result
 {
 	GAScriptObject* errObj = [[GAScriptObject alloc] initForReference:result view:m_webView];
-	NSArray* errProps = [NSArray arrayWithObjects:@"message", @"sourceURL", @"line", nil];
-	NSDictionary* dict = [errObj dictionaryWithValuesForKeys:errProps];
+	NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [errObj valueForKey:@"name"], GAJavaScriptErrorName,
+                          [errObj valueForKey:@"message"], NSLocalizedDescriptionKey,
+                          [errObj valueForKey:@"sourceURL"], GAJavaScriptErrorSource,
+                          [errObj valueForKey:@"line"], GAJavaScriptErrorLine, nil];
 	[errObj release];
 	
 	return [NSError errorWithDomain:GAJavaScriptErrorDomain code:101 userInfo:dict];	

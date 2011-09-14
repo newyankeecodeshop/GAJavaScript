@@ -33,6 +33,8 @@ GAJavaScript = {
 	},
     
     calls: [],
+    
+    err: null,
 	
 	typeOf: function (value) {
 		var t = typeof value;
@@ -107,8 +109,9 @@ GAJavaScript = {
 		try {
 			return this.valueToString(func.apply(scope, argsArray));
 		}
-		catch (err) {
-			return 'e:' + this.makeReference(err);
+		catch (ex) {
+            this.err = ex;
+			return 'e:GAJavaScript.err';
 		}
 	},
 	

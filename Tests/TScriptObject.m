@@ -236,4 +236,18 @@
     [jsObject release];
 }
 
+- (void)testThrowException
+{
+    [_engine.webView stringByEvaluatingJavaScriptFromString:@"window.fake.object()"];
+    
+    GAScriptObject* jsObject = [_engine scriptObjectWithReference:@"window"];
+    
+    id result = [jsObject callFunction:@"testThrowException"];
+    GHAssertTrue([result isKindOfClass:[NSError class]], @"Didn't get error back %@", result);
+    
+    NSError* error = result;
+    GHAssertTrue([[error domain] isEqualToString:@"GAJavaScriptException"], @"Wrong domain! %@", [error domain]);
+    GHAssertTrue([[error localizedDescription] hasPrefix:@"Result of expression 'window.fake'"], @"Missing error message");
+}
+
 @end
