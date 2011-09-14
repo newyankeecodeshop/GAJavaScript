@@ -1,0 +1,52 @@
+"ButtonsTitle" = "Buttons";
+"ButtonsExplain" = "Various uses of UIButton";
+"ControlsTitle" = "Controls";
+"ControlsExplain" = "Various uses of UIControl";
+"TextFieldTitle" = "TextFields";
+"TextFieldExplain" = "Uses of UITextField";
+"SearchBarTitle" = "SearchBar";
+"SearchBarExplain" = "Use of UISearchBar";
+"TextViewTitle" = "TextView";
+"TextViewExplain" = "Use of UITextField";
+"SegmentTitle" = "Segment";
+"SegmentExplain" = "Various uses of UISegmentedControl";
+"ToolbarTitle" = "Toolbar";
+"ToolbarExplain" = "Uses of UIToolbar";
+"PickerTitle" = "Pickers";
+"PickerExplain" = "Uses of UIDatePicker, UIPickerView";
+"ImagesTitle" = "Images";
+"ImagesExplain" = "Use of UIImageView";
+"WebTitle" = "Web";
+"WebExplain" = "Use of UIWebView";
+"AlertTitle" = "Alerts";
+"AlertExplain" = "Various uses of UIAlertView, UIActionSheet";
+"TransitionsTitle" = "Transitions";
+"TransitionsExplain" = "Shows UIViewAnimationTransitions";
+
+"StartTitle" = "Start";
+"StopTitle" = "Stop";
+
+"StyleTitle" = "Style";
+"ChooseStyleTitle" = "Choose a UIBarStyle for the bottom toolbar:";
+
+"FlipTitle" = "Flip Image";
+"CurlTitle" = "Curl Image";
+
+"LeftView" = "Left View:";
+
+"ArrowButton" = "Right pointing arrow";
+"MoreInfoButton" = "More info";
+"AddContactButton" = "Add contact";
+"StandardSwitch" = "Standard";
+"CustomSlider" = "Custom";
+"StandardSlider" = "Standard";
+"RoundedTextField" = "Rounded";
+"SecureTextField" = "Secure";
+"NormalTextField" = "Normal";
+"DurationSlider" = "Duration";
+"URLTextField" = "URL entry";
+"CheckMarkIcon" = "Check";
+"SearchIcon" = "Search";
+"ToolsIcon" = "Tools";
+"TintSwitch" = "Tinted";
+

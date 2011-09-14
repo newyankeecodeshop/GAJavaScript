@@ -30,15 +30,24 @@
 
 @class GAScriptEngine;
 
-@interface ThemeAppDelegate : NSObject <UIApplicationDelegate, UIWebViewDelegate> 
+@interface ThemeAppDelegate : NSObject 
+    <UIApplicationDelegate, UIWebViewDelegate, UINavigationControllerDelegate> 
 {
 @private
     GAScriptEngine*     _scriptEngine;
+    
+    BOOL                _themeChanged;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
 @property (nonatomic, retain) GAScriptEngine*   scriptEngine;
+
++ (ThemeAppDelegate *)sharedAppDelegate;
+
+- (IBAction)changeTheme:(id)sender;
+
+- (void)applyStylesToView:(UIView *)view;
 
 @end

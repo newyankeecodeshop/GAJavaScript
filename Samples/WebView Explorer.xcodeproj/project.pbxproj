@@ -8,11 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2D32209C13B3A88900002C4B /* ga-js-runtime.js in Resources */ = {isa = PBXBuildFile; fileRef = 2D32209B13B3A88900002C4B /* ga-js-runtime.js */; };
-		2D3220A913B3A8B900002C4B /* GAScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D32209F13B3A8B900002C4B /* GAScriptEngine.m */; };
-		2D3220AA13B3A8B900002C4B /* GAScriptMethodSignatures.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3220A213B3A8B900002C4B /* GAScriptMethodSignatures.m */; };
-		2D3220AB13B3A8B900002C4B /* GAScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3220A413B3A8B900002C4B /* GAScriptObject.m */; };
-		2D3220AC13B3A8B900002C4B /* NSObject+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3220A613B3A8B900002C4B /* NSObject+GAJavaScript.m */; };
-		2D3220AD13B3A8B900002C4B /* UIWebView+GAJavaScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3220A813B3A8B900002C4B /* UIWebView+GAJavaScript.m */; };
 		2D5A7854139C616F00335643 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5A7853139C616F00335643 /* UIKit.framework */; };
 		2D5A7856139C617000335643 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5A7855139C616F00335643 /* Foundation.framework */; };
 		2D5A7858139C617000335643 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5A7857139C617000335643 /* CoreGraphics.framework */; };
@@ -23,21 +18,12 @@
 		2D5A786A139C617000335643 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5A7869139C617000335643 /* DetailViewController.m */; };
 		2D5A786D139C617000335643 /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D5A786B139C617000335643 /* DetailView.xib */; };
 		2D5A7870139C617000335643 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5A786F139C617000335643 /* RootViewController.m */; };
+		2D76610D142022CD00FA33D5 /* libGAJavaScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D76610C142022CD00FA33D5 /* libGAJavaScript.a */; };
+		2D76610F142022E900FA33D5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D76610E142022E900FA33D5 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2D32209B13B3A88900002C4B /* ga-js-runtime.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "ga-js-runtime.js"; path = "../ga-js-runtime.js"; sourceTree = "<group>"; };
-		2D32209E13B3A8B900002C4B /* GAScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptEngine.h; sourceTree = "<group>"; };
-		2D32209F13B3A8B900002C4B /* GAScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAScriptEngine.m; sourceTree = "<group>"; };
-		2D3220A013B3A8B900002C4B /* GAScriptEnginePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptEnginePrivate.h; sourceTree = "<group>"; };
-		2D3220A113B3A8B900002C4B /* GAScriptMethodSignatures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptMethodSignatures.h; sourceTree = "<group>"; };
-		2D3220A213B3A8B900002C4B /* GAScriptMethodSignatures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAScriptMethodSignatures.m; sourceTree = "<group>"; };
-		2D3220A313B3A8B900002C4B /* GAScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAScriptObject.h; sourceTree = "<group>"; };
-		2D3220A413B3A8B900002C4B /* GAScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GAScriptObject.m; sourceTree = "<group>"; };
-		2D3220A513B3A8B900002C4B /* NSObject+GAJavaScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+GAJavaScript.h"; sourceTree = "<group>"; };
-		2D3220A613B3A8B900002C4B /* NSObject+GAJavaScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+GAJavaScript.m"; sourceTree = "<group>"; };
-		2D3220A713B3A8B900002C4B /* UIWebView+GAJavaScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+GAJavaScript.h"; sourceTree = "<group>"; };
-		2D3220A813B3A8B900002C4B /* UIWebView+GAJavaScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+GAJavaScript.m"; sourceTree = "<group>"; };
 		2D5A784F139C616F00335643 /* WebView Explorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WebView Explorer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D5A7853139C616F00335643 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2D5A7855139C616F00335643 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -54,6 +40,8 @@
 		2D5A786C139C617000335643 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DetailView.xib; sourceTree = "<group>"; };
 		2D5A786E139C617000335643 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		2D5A786F139C617000335643 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		2D76610C142022CD00FA33D5 /* libGAJavaScript.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libGAJavaScript.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D76610E142022E900FA33D5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +49,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D76610D142022CD00FA33D5 /* libGAJavaScript.a in Frameworks */,
 				2D5A7854139C616F00335643 /* UIKit.framework in Frameworks */,
 				2D5A7856139C617000335643 /* Foundation.framework in Frameworks */,
+				2D76610F142022E900FA33D5 /* QuartzCore.framework in Frameworks */,
 				2D5A7858139C617000335643 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,29 +60,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2D32209D13B3A8B900002C4B /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				2D32209E13B3A8B900002C4B /* GAScriptEngine.h */,
-				2D32209F13B3A8B900002C4B /* GAScriptEngine.m */,
-				2D3220A013B3A8B900002C4B /* GAScriptEnginePrivate.h */,
-				2D3220A113B3A8B900002C4B /* GAScriptMethodSignatures.h */,
-				2D3220A213B3A8B900002C4B /* GAScriptMethodSignatures.m */,
-				2D3220A313B3A8B900002C4B /* GAScriptObject.h */,
-				2D3220A413B3A8B900002C4B /* GAScriptObject.m */,
-				2D3220A513B3A8B900002C4B /* NSObject+GAJavaScript.h */,
-				2D3220A613B3A8B900002C4B /* NSObject+GAJavaScript.m */,
-				2D3220A713B3A8B900002C4B /* UIWebView+GAJavaScript.h */,
-				2D3220A813B3A8B900002C4B /* UIWebView+GAJavaScript.m */,
-			);
-			name = Classes;
-			path = ../Classes;
-			sourceTree = "<group>";
-		};
 		2D3BF76C139C6DF400EAFE77 /* GAJavaScript */ = {
 			isa = PBXGroup;
 			children = (
-				2D32209D13B3A8B900002C4B /* Classes */,
+				2D76610C142022CD00FA33D5 /* libGAJavaScript.a */,
 				2D32209B13B3A88900002C4B /* ga-js-runtime.js */,
 			);
 			name = GAJavaScript;
@@ -119,6 +90,7 @@
 		2D5A7852139C616F00335643 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D76610E142022E900FA33D5 /* QuartzCore.framework */,
 				2D5A7853139C616F00335643 /* UIKit.framework */,
 				2D5A7855139C616F00335643 /* Foundation.framework */,
 				2D5A7857139C617000335643 /* CoreGraphics.framework */,
@@ -222,11 +194,6 @@
 				2D5A7864139C617000335643 /* ExplorerAppDelegate.m in Sources */,
 				2D5A786A139C617000335643 /* DetailViewController.m in Sources */,
 				2D5A7870139C617000335643 /* RootViewController.m in Sources */,
-				2D3220A913B3A8B900002C4B /* GAScriptEngine.m in Sources */,
-				2D3220AA13B3A8B900002C4B /* GAScriptMethodSignatures.m in Sources */,
-				2D3220AB13B3A8B900002C4B /* GAScriptObject.m in Sources */,
-				2D3220AC13B3A8B900002C4B /* NSObject+GAJavaScript.m in Sources */,
-				2D3220AD13B3A8B900002C4B /* UIWebView+GAJavaScript.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

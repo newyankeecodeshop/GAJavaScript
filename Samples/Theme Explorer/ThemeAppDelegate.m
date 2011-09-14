@@ -37,6 +37,11 @@
 @synthesize navigationController = _navigationController;
 @synthesize scriptEngine = _scriptEngine;
 
++ (ThemeAppDelegate *)sharedAppDelegate
+{
+    return (ThemeAppDelegate *) [[UIApplication sharedApplication] delegate];
+}
+
 - (void)dealloc
 {
     [_window release];
@@ -46,18 +51,49 @@
     [super dealloc];
 }
 
+- (IBAction)changeTheme:(id)sender
+{
+    if (_themeChanged)
+    {
+#if 1
+        NSString* curTheme = [_scriptEngine.documentObject valueForKeyPath:@"body.className"];
+        
+        if ([curTheme isEqualToString:@"red_theme"])
+            curTheme = @"blue_theme";
+        else
+            curTheme = @"red_theme";
+        
+        [_scriptEngine.documentObject setValue:curTheme forKeyPath:@"body.className"];  
+#endif
+    }
+    
+    [_window applyStylesWithScriptEngine:_scriptEngine];
+    _themeChanged = YES;
+}
+
+- (void)applyStylesToView:(UIView *)view
+{
+    if (_themeChanged)
+    {
+        [view applyStylesWithScriptEngine:_scriptEngine];
+    }
+}
+
+#pragma mark UIApplicationDelegate
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     // Add the navigation controller's view to the window and display.
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyWindow];
-    [self.window setHidden:YES];    // Hide it until we are ready to apply styles
     
     _scriptEngine = [[GAScriptEngine alloc] initWithSuperview:self.window delegate:self];
     
     NSURL* htmlUrl = [[NSBundle mainBundle] URLForResource:@"styles" withExtension:@"html"];
     [_scriptEngine.webView loadRequest:[NSURLRequest requestWithURL:htmlUrl]];
+    
+    _themeChanged = NO;
     
     return YES;
 }
@@ -104,11 +140,19 @@
 #pragma mark UIWebViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    [self.window applyStylesWithScriptEngine:_scriptEngine];
-    [self.window setHidden:NO];
-    
+{    
     NSLog(@"WebView UA %@", [[_scriptEngine windowObject] valueForKeyPath:@"navigator.userAgent"]);
+}
+
+#pragma mark UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController 
+      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if (_themeChanged)
+    {        
+        [viewController.view applyStylesWithScriptEngine:_scriptEngine];
+    }
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "DetailViewController.h"
 #import "RootViewController.h"
 #import "GAScriptEngine.h"
-#import "GAScriptObject.h"
+#import "GAScriptBlockObject.h"
 #import "UIWebView+GAJavaScript.h"
 
 @interface DetailViewController ()
@@ -148,14 +148,26 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {   
-    _rootController.domElement = [webView documentObject];
+    NSString* js = [NSString stringWithFormat:@"window.alert('Hello from Objective-C')"];
+    NSString* result = [webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"UIWebView: %@", result);
     
-    [[_webView documentObject] setFunctionForKey:@"ontouchstart" withBlock:^ (NSArray* arguments)
-     {
-         id touchEvent = [arguments objectAtIndex:0];
-         
-         NSLog(@"TouchStart %@", touchEvent);
-     }];
+    NSDate* date = [NSDate date];
+    js = [NSString stringWithFormat:@"new Date(%.0f)", [date timeIntervalSince1970] * 1000];
+    result = [webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"UIWebView: %@", result);
+
+    js = [NSString stringWithFormat:@"new Date(%.0f).toString()", [date timeIntervalSince1970] * 1000];
+    result = [webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"UIWebView: %@", result);
+    
+    js = @"var arrayValue = [1000, 2000, 3000, 'String with a comma,', 5000]";
+    result = [webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"UIWebView: %@", result);
+
+    js = @"arrayValue.toString()";
+    result = [webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"UIWebView: %@", result);
 }
 
 @end
