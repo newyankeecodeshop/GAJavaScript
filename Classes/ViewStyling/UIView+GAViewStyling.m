@@ -32,6 +32,8 @@
 #import "NSObject+GAJavaScript.h"
 #import "GAScriptMethodSignatures.h"
 
+CAGradientLayer* GAGradientSubLayerForLayer (CALayer* layer);
+
 @implementation UIView (GAViewStyling)
 
 - (NSString *)styleSelector
@@ -80,18 +82,15 @@
     //
     if ([backgroundImage hasPrefix:@"-webkit-gradient(linear,"])
     {
-        CAGradientLayer* gradLayer = [self.layer.sublayers objectAtIndex:0];
+        CAGradientLayer* gradLayer;
         
-        if (![gradLayer valueForKey:@"GAViewStylingID"])
+        if ([self.layer isKindOfClass:[CAGradientLayer class]])
         {
-            gradLayer = [CAGradientLayer layer];
-            [gradLayer setValue:@"-webkit-gradient" forKey:@"GAViewStylingID"];
-
-            CGRect bounds = [self bounds];
-            [gradLayer setBounds:bounds];
-            [gradLayer setPosition:CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds))];
-
-            [self.layer insertSublayer:gradLayer atIndex:0];
+            gradLayer = (CAGradientLayer *)self.layer;
+        }
+        else
+        {
+            gradLayer = GAGradientSubLayerForLayer(self.layer);
         }
         
         [gradLayer setValuesWithCSSGradient:backgroundImage];
@@ -99,6 +98,28 @@
 
     NSString* opacity = [cssDeclaration valueForKey:@"opacity"];
     self.layer.opacity = [opacity floatValue];
+}
+
+/**
+ * Adds (or returns) a gradient sub-layer at position zero in the given layer.
+ */
+CAGradientLayer* GAGradientSubLayerForLayer (CALayer* layer)
+{
+    CAGradientLayer* gradLayer = [layer.sublayers objectAtIndex:0];
+    
+    if (![gradLayer valueForKey:@"GAViewStylingID"])
+    {
+        gradLayer = [CAGradientLayer layer];
+        [gradLayer setValue:@"-webkit-gradient" forKey:@"GAViewStylingID"];
+        
+        CGRect bounds = [layer bounds];
+        [gradLayer setBounds:bounds];
+        [gradLayer setPosition:CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds))];
+        
+        [layer insertSublayer:gradLayer atIndex:0];
+    }
+        
+    return gradLayer;
 }
 
 @end
