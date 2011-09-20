@@ -42,17 +42,14 @@ CAGradientLayer* GAGradientSubLayerForLayer (CALayer* layer);
     //
     if ([self tag] > 0)
         return [NSString stringWithFormat:@"#tag-%d", [self tag]];
-    
-    NSString* className = NSStringFromClass([self class]);  
-    return [NSString stringWithFormat:@".%@", className];
+     
+    return [NSString stringWithFormat:@".%@", NSStringFromClass([self class])];
 }
 
 - (void)applyStylesWithScriptEngine:(GAScriptEngine *)engine
 {
     NSString* selector = [self styleSelector];
-#if 1
-    NSLog(@"GAViewStyling selector: %@", selector);
-#endif
+    GADebugStr(@"GAViewStyling selector: %@", selector);
     
     id element = [[engine documentObject] querySelector:selector];
     
@@ -97,7 +94,7 @@ CAGradientLayer* GAGradientSubLayerForLayer (CALayer* layer);
     }
 
     NSString* opacity = [cssDeclaration valueForKey:@"opacity"];
-    self.layer.opacity = [opacity floatValue];
+    self.alpha = [opacity floatValue];
 }
 
 /**
@@ -165,6 +162,18 @@ CAGradientLayer* GAGradientSubLayerForLayer (CALayer* layer)
 #pragma mark -
 
 @implementation UILabel (GAViewStyling)
+
+- (NSString *)styleSelector
+{
+    if ([self tag] > 0)
+        return [NSString stringWithFormat:@"#tag-%d", [self tag]];
+
+    // For standard labels, use the parent view's class, since label styling is going to be tied to the view
+    // that hosts the labels. If this is a custom UILabel subclass, we'll use that class name instead.
+    //
+    Class clazz = ([self class] == [UILabel class]) ? [self.superview class] : [self class];
+    return [NSString stringWithFormat:@".%@", NSStringFromClass(clazz)];
+}
 
 - (void)applyComputedStyles:(id)cssDeclaration
 {

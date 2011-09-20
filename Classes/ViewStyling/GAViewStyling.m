@@ -28,38 +28,47 @@
 
 #import "GAViewStyling.h"
 
+static NSCharacterSet* kSkipSet;
+static dispatch_once_t s_onceToken;
+static void(^s_initBlock)(void) = ^(void)
+{
+    kSkipSet = [[NSCharacterSet characterSetWithCharactersInString:@", %"] retain];
+};
+
 @implementation UIColor (GAViewStyling)
 
 + (UIColor *)colorWithCSSColor:(NSString *)cssColor
 {    
-    // Strip off the "rgb[a](" and ")". If there's no parens, just return a transparent color.
-    //
-    NSRange parenRage = [cssColor rangeOfString:@"("];
+    dispatch_once(&s_onceToken, s_initBlock);
     
-    if (parenRage.location == NSNotFound || [cssColor length] == 0)
+    if (cssColor == nil || [cssColor length] == 0)
         return [UIColor clearColor];
     
-    parenRage.location += 1;
-    parenRage.length = [cssColor rangeOfString:@")"].location - parenRage.location;
-    cssColor = [cssColor substringWithRange:parenRage];
-    
-    NSArray* colorComponents = [cssColor componentsSeparatedByString:@", "];
-    CGFloat r = [[colorComponents objectAtIndex:0] floatValue] / 255.0;
-    CGFloat g = [[colorComponents objectAtIndex:1] floatValue] / 255.0;
-    CGFloat b = [[colorComponents objectAtIndex:2] floatValue] / 255.0;
-    CGFloat a = 1.0;
-    
-    // Might have been rgba(...)
+    // Look for "rgb[a](". If there's no match, just return a transparent color.
     //
-    if ([colorComponents count] == 4)
-        a = [[colorComponents objectAtIndex:3] floatValue] / 255.0;
+    NSScanner* scanner = [NSScanner scannerWithString:cssColor];
+    [scanner setCharactersToBeSkipped:kSkipSet];
     
+    if (![scanner scanString:@"rgb(" intoString:NULL] && ![scanner scanString:@"rgba(" intoString:NULL])
+        return [UIColor clearColor];
+
+    CGFloat r, g, b, a = 1.0f;
+    
+    if ([scanner scanFloat:&r])
+        r /= 255.f;
+    if ([scanner scanFloat:&g])
+        g /= 255.f;
+    if ([scanner scanFloat:&b])
+        b /= 255.f;
+    if ([scanner scanFloat:&a])     // Might have been rgba(...)
+        a /= 255.f;
+        
     // Optimize common colors (black, white, transparent)
     //
-    if (r == 1.0 && g == 1.0 && b == 1.0)
-        return [UIColor colorWithWhite:1.0 alpha:a];
-    else if (r == 0.0 && g == 0.0 && b == 0.0)
-        return [UIColor colorWithWhite:0.0 alpha:a];
+    if (r == 1.0f && g == 1.0f && b == 1.0f)
+        return [UIColor colorWithWhite:1.0f alpha:a];
+    else if (r == 0.0f && g == 0.0f && b == 0.0f)
+        return [UIColor colorWithWhite:0.0f alpha:a];
     
     return [UIColor colorWithRed:r green:g blue:b alpha:a];
 }
@@ -75,10 +84,15 @@
     NSString* cssFontFamily = [cssDeclaration valueForKey:@"font-family"];
     NSString* cssFontWeight = [cssDeclaration valueForKey:@"font-weight"];
     NSString* cssFontStyle = [cssDeclaration valueForKey:@"font-style"];
-    
+    NSString* cssFontSize = [cssDeclaration valueForKey:@"font-size"];
+
     BOOL wantBold = [cssFontWeight isEqualToString:@"bold"];
     BOOL wantItalic = [cssFontStyle isEqualToString:@"italic"];
 
+    // Font size is in pixels, and we must convert to points.
+    //
+    CGFloat sizeInPoints = [cssFontSize integerValue] / [[UIScreen mainScreen] scale];
+    
     NSArray* families = [cssFontFamily componentsSeparatedByString:@", "];
     NSArray* candidateFontNames = nil;
     
@@ -89,7 +103,7 @@
         // Handle the mapping of generic family names
         //
         if ([family caseInsensitiveCompare:@"serif"] == NSOrderedSame)
-            family = @"Times";
+            family = @"Times New Roman";
         else if ([family caseInsensitiveCompare:@"sans-serif"] == NSOrderedSame)
             family = @"Helvetica";
         
@@ -97,6 +111,11 @@
         
         if ([candidateFontNames count] > 0)
             break;
+    }
+    
+    if ([candidateFontNames count] == 0)
+    {
+        return [UIFont systemFontOfSize:sizeInPoints];
     }
     
     // Sort the array so the plain font is first
@@ -124,12 +143,7 @@
             }
         }];
     }
-    
-    // Font size is in pixels, and we must convert to points.
-    //
-    NSString* cssFontSize = [cssDeclaration valueForKey:@"font-size"];
-    CGFloat sizeInPoints = [cssFontSize integerValue] / [[UIScreen mainScreen] scale];
-    
+        
     return [UIFont fontWithName:fontName size:sizeInPoints];
 }
 
@@ -163,18 +177,52 @@ CGSize GASizeFromCSSLengths (NSString* cssString)
  */
 - (void)setValuesWithCSSGradient:(NSString *)cssGradient
 {
-    if ([cssGradient length] == 0 || ![cssGradient hasPrefix:@"-webkit-gradient(linear,"])
+    dispatch_once(&s_onceToken, s_initBlock);
+
+    if (cssGradient == nil || [cssGradient length] == 0)
         return;
-        
-    NSArray* colorStops = [cssGradient componentsSeparatedByString:@", color-stop("];
-    NSMutableArray* colors = [[NSMutableArray alloc] initWithCapacity:[colorStops count]];
-    NSMutableArray* locations = [[NSMutableArray alloc] initWithCapacity:[colorStops count]];
     
-    for (NSInteger i = 1; i < [colorStops count]; ++i)
+    NSScanner* scanner = [NSScanner scannerWithString:cssGradient];
+    [scanner setCharactersToBeSkipped:kSkipSet];
+
+    if (![scanner scanString:@"-webkit-gradient(linear" intoString:NULL])
+        return;
+    
+    // The start and end points come out of WebKit as percentages
+    //
+    CGPoint start = { .5f, 0.0f }, end = { .5f, 1.0f };
+    
+    if ([scanner scanFloat:&start.x])
+        start.x /= 100.0f;
+    if ([scanner scanFloat:&start.y])
+        start.y /= 100.0f;
+    if ([scanner scanFloat:&end.x])
+        end.x /= 100.0f;
+    if ([scanner scanFloat:&end.y])
+        end.y /= 100.0f;
+    
+    [self setStartPoint:start];
+    [self setEndPoint:end];
+    
+    NSMutableArray* colors = [[NSMutableArray alloc] initWithCapacity:4];
+    NSMutableArray* locations = [[NSMutableArray alloc] initWithCapacity:4];
+    
+    while (![scanner isAtEnd])
     {
-        NSString* colorStop = [colorStops objectAtIndex:i];
-        [locations addObject:[NSNumber numberWithFloat:[colorStop floatValue]]];
-        [colors addObject:(id)[UIColor colorWithCSSColor:colorStop].CGColor];
+        CGFloat location = 0.0f;
+        NSString* colorStop = nil;
+        
+        if (![scanner scanString:@"color-stop(" intoString:NULL])
+            break;
+
+        // Keep the color and location arrays the same length by testing both scans
+        //
+        if ([scanner scanFloat:&location] 
+            && [scanner scanUpToString:@"color-stop(" intoString:&colorStop])
+        {
+            [colors addObject:(id)[UIColor colorWithCSSColor:colorStop].CGColor];
+            [locations addObject:[NSNumber numberWithFloat:location]];
+        }
     }
     
     [self setColors:colors];
