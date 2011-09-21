@@ -16,13 +16,10 @@
         .red_theme .UITableViewCell {
             background-image: -webkit-gradient(linear, left top, left bottom,
                                                color-stop(0.19,rgb(235,52,88)),
-                                               color-stop(0.6, rgb(224,36,74)),
+                                               color-stop(0.6, rgb(184,36,64)),
                                                color-stop(0.8, rgb(128,22,48)));
             color: purple;
-        }
-        
-        .red_theme .UILabel {
-            font-family: Verdana;
+            font-family: Baskerville;
             /*font-size: 14pt;*/
             font-weight: bold;
             text-align: left;
@@ -30,7 +27,7 @@
         
         /* This class is used by UIKit for table cells in style "Value1" */
         .red_theme .UITableViewLabel {
-            font-family: Baskerville;
+            font-family: Verdana;
             font-style: italic;
             /*font-size: 12pt;*/
             color: yellow;
@@ -56,27 +53,24 @@
         
         .blue_theme .UITableView {
             background-color: #000033;
-            border: 2px solid white;
+            border: 0px;
         }
         
         .blue_theme .UITableViewCell {
             background-image: -webkit-gradient(linear, left top, left bottom,
-            color-stop(0.19,rgb(88,52,235)),
-            color-stop(0.6, rgb(74,36,224)),
-            color-stop(0.8, rgb(48,22,128)));
+                                                color-stop(0.19,rgb(88,52,235)),
+                                                color-stop(0.6, rgb(64,36,184)),
+                                                color-stop(0.8, rgb(48,22,128)));
             color: purple;
-        }
-        
-        .blue_theme .UILabel {
-            font-family: Verdana;
+            font-family: Baskerville;
             /*font-size: 14pt;*/
             font-weight: bold;
             text-align: left;
         }
-        
+                
         /* This class is used by UIKit for table cells in style "Value1" */
         .blue_theme .UITableViewLabel {
-            font-family: Baskerville;
+            font-family: Verdana;
             font-style: italic;
             /*font-size: 12pt;*/
             color: white;
@@ -95,8 +89,7 @@
     </div>
     <div class="UITableView">
         <div class="UITableViewCell">
-            <div class="UILabel">Some label text
-            </div>
+            Some label text in a table cell.
             <div id="tag-2000" class="UITableViewLabel">Label in a table view
             </div>
         </div>
