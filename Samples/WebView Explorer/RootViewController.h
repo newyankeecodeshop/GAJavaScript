@@ -12,12 +12,29 @@
 
 @interface RootViewController : UITableViewController 
 {
-    id      _domElement;
-    id      _childNodes;
+    id          _document;
+    NSArray*    _elements;
 }
 
 @property (nonatomic, retain) IBOutlet DetailViewController*   detailViewController;
 
-@property (nonatomic, retain) id   domElement;
+@property (nonatomic, retain) id   document;
+
+- (void)setRootNode:(id)rootNode;
+
+@end
+
+#pragma mark -
+
+@interface DOMTraversal : NSObject 
+{
+
+}
+
+- (id)createTreeWalker:(id)root whatToShow:(NSInteger)whatToShow;
+
+- (id)firstChild;
+
+- (id)nextSibling;
 
 @end

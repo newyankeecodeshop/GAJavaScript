@@ -20,6 +20,7 @@
 		2D5A7870139C617000335643 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5A786F139C617000335643 /* RootViewController.m */; };
 		2D76610D142022CD00FA33D5 /* libGAJavaScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D76610C142022CD00FA33D5 /* libGAJavaScript.a */; };
 		2D76610F142022E900FA33D5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D76610E142022E900FA33D5 /* QuartzCore.framework */; };
+		2DF677F41420867E00285058 /* HtmlElementTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF677F31420867E00285058 /* HtmlElementTableCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,8 @@
 		2D5A786F139C617000335643 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		2D76610C142022CD00FA33D5 /* libGAJavaScript.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libGAJavaScript.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D76610E142022E900FA33D5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2DF677F21420867E00285058 /* HtmlElementTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtmlElementTableCell.h; sourceTree = "<group>"; };
+		2DF677F31420867E00285058 /* HtmlElementTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HtmlElementTableCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 				2D5A786B139C617000335643 /* DetailView.xib */,
 				2D5A786E139C617000335643 /* RootViewController.h */,
 				2D5A786F139C617000335643 /* RootViewController.m */,
+				2DF677F21420867E00285058 /* HtmlElementTableCell.h */,
+				2DF677F31420867E00285058 /* HtmlElementTableCell.m */,
 				2D5A785A139C617000335643 /* Supporting Files */,
 			);
 			path = "WebView Explorer";
@@ -194,6 +199,7 @@
 				2D5A7864139C617000335643 /* ExplorerAppDelegate.m in Sources */,
 				2D5A786A139C617000335643 /* DetailViewController.m in Sources */,
 				2D5A7870139C617000335643 /* RootViewController.m in Sources */,
+				2DF677F41420867E00285058 /* HtmlElementTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

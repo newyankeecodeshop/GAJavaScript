@@ -10,7 +10,7 @@
 #import "RootViewController.h"
 #import "GAScriptEngine.h"
 #import "GAScriptBlockObject.h"
-#import "UIWebView+GAJavaScript.h"
+#import "GAScriptMethodSignatures.h"
 
 @interface DetailViewController ()
 
@@ -29,7 +29,37 @@
 @synthesize rootController = _rootController;
 @synthesize popoverController=_myPopoverController;
 
-#pragma mark - Managing the detail item
+- (IBAction)invokeJavaScript:(id)sender
+{
+    NSString* prompt = @"Hello from Objective-C";
+    NSString* js = [NSString stringWithFormat:@"window.prompt('%@')", prompt];
+    NSString* result = [self.webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"window prompt: %@", result);
+    
+    // The importance of escaping data
+    //
+    prompt = @"This is a javascript prompt";
+    js = [NSString stringWithFormat:@"window.proompt('%@')", prompt];
+//    js = [NSString stringWithFormat:@"try { %@; } catch (ex) { JSON.stringify(ex); }", js];
+    result = [self.webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"window prompt: %@", result);
+    
+    // Often you need to call toString() manually
+    //
+    js = [NSString stringWithFormat:@"new Date(%.0f)", [[NSDate date] timeIntervalSince1970] * 1000];
+    result = [self.webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"new Date: %@", result);
+    
+    js = [NSString stringWithFormat:@"new Date(%.0f).toString()", [[NSDate date] timeIntervalSince1970] * 1000];
+    result = [self.webView stringByEvaluatingJavaScriptFromString:js];
+    NSLog(@"new Date: %@", result);
+    
+    
+    // Can help with error detection
+//    js = [NSString stringWithFormat:@"try { %@; } catch (ex) { ex.toString(); }", js];
+}
+
+#pragma mark - UIViewController
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -88,6 +118,17 @@
     [super viewDidLoad];
     
     _scriptEngine = [[GAScriptEngine alloc] initWithWebView:_webView];
+    
+    // Add the methods for DOM Traversal
+    [GAScriptMethodSignatures addMethodSignaturesForClass:[DOMTraversal class]];
+
+    NSURL* url = [[NSUserDefaults standardUserDefaults] URLForKey:@"WebView URL"];
+    
+    if (url)
+    {
+        [_webView loadRequest:[NSURLRequest requestWithURL:url]];
+        [self.urlField setText:[url absoluteString]];
+    }
 }
 
 
@@ -137,6 +178,8 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
                                                  navigationType:(UIWebViewNavigationType)navigationType
 {
+    NSLog(@"DetailView will load %@", [request URL]);
+    
     return YES;
 }
 
@@ -148,26 +191,38 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {   
-    NSString* js = [NSString stringWithFormat:@"window.alert('Hello from Objective-C')"];
-    NSString* result = [webView stringByEvaluatingJavaScriptFromString:js];
-    NSLog(@"UIWebView: %@", result);
+    // Save the URL for future runs
+    [[NSUserDefaults standardUserDefaults] setURL:[webView.request URL] forKey:@"WebView URL"];
     
-    NSDate* date = [NSDate date];
-    js = [NSString stringWithFormat:@"new Date(%.0f)", [date timeIntervalSince1970] * 1000];
-    result = [webView stringByEvaluatingJavaScriptFromString:js];
-    NSLog(@"UIWebView: %@", result);
-
-    js = [NSString stringWithFormat:@"new Date(%.0f).toString()", [date timeIntervalSince1970] * 1000];
-    result = [webView stringByEvaluatingJavaScriptFromString:js];
-    NSLog(@"UIWebView: %@", result);
+    if (_rootController.document == nil)
+    {
+        [_rootController setDocument:[_scriptEngine documentObject]];
+        [_rootController setRootNode:[_scriptEngine documentObject]];
+    }
     
-    js = @"var arrayValue = [1000, 2000, 3000, 'String with a comma,', 5000]";
-    result = [webView stringByEvaluatingJavaScriptFromString:js];
-    NSLog(@"UIWebView: %@", result);
-
-    js = @"arrayValue.toString()";
-    result = [webView stringByEvaluatingJavaScriptFromString:js];
-    NSLog(@"UIWebView: %@", result);
+    [[_scriptEngine documentObject] setFunctionForKey:@"ontouchstart" withBlock:^ (NSArray* arguments)
+    {
+        id touchEvent = [arguments objectAtIndex:0];
+        [[_scriptEngine windowObject] callFunction:@"console.log" withObject:@"ontouchstart"];
+        
+        [_rootController setRootNode:[touchEvent valueForKey:@"target"]];
+    }];
+    
+    // Override the webview console to call us back so we can log to NSLog()
+    //
+    id console = [[_scriptEngine windowObject] valueForKey:@"console"];
+    
+    [console setFunctionForKey:@"log" withBlock:^ (NSArray* arguments)
+    {
+        if ([arguments count] == 2)
+        {
+            NSLog(@"WebView: %@ %@", [arguments objectAtIndex:0], [arguments objectAtIndex:1]);
+        }
+        else
+        {
+            NSLog(@"WebView: %@", [arguments objectAtIndex:0]);
+        }
+    }];
 }
 
 @end

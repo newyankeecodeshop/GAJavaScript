@@ -7,22 +7,33 @@
 //
 
 #import "RootViewController.h"
-#import "GAScriptMethodSignatures.h"
 #import "DetailViewController.h"
+#import "HtmlElementTableCell.h"
+#import "NSObject+GAJavaScript.h"
+
+#define SHOW_ELEMENT    0x00000001
 
 @implementation RootViewController
 		
 @synthesize detailViewController;
-@synthesize domElement = _domElement;
+@synthesize document = _document;
 
-- (void)setDomElement:(id)domElement
+- (void)setRootNode:(id)rootNode
 {
-    [_domElement release];
-    _domElement = [domElement retain];
+    // Create the tree walker
+    id treeWalker = [_document createTreeWalker:rootNode whatToShow:SHOW_ELEMENT];
     
-    [_childNodes release];
-    _childNodes = [[domElement valueForKey:@"childNodes"] retain];
+    NSMutableArray* elems = [[NSMutableArray alloc] initWithCapacity:16];
     
+    for (id child = [treeWalker firstChild]; [child isJavaScriptTrue]; child = [treeWalker nextSibling])
+    {
+        [elems addObject:child];
+    }
+    
+    [_elements release];
+    _elements = [elems retain];
+    [elems release];
+                         
     [self.tableView reloadData];
 }
 
@@ -30,7 +41,7 @@
 {
     [super viewDidLoad];
     
-    self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = YES;
     self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
     
     detailViewController.rootController = self;
@@ -53,6 +64,10 @@
 - (void)dealloc
 {
     [detailViewController release];
+    
+    [_document release];
+    [_elements release];
+    
     [super dealloc];
 }
 		
@@ -90,31 +105,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[_childNodes valueForKey:@"length"] intValue];
+    return [_elements count];
 }
 		
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"HtmlElementTableCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    HtmlElementTableCell* cell = (HtmlElementTableCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) 
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
-                                       reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[HtmlElementTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
+                                            reuseIdentifier:CellIdentifier] autorelease];
     }
 
     // Configure the cell.
-    id childNode = [_childNodes item:indexPath.row];
-    cell.textLabel.text = [childNode valueForKey:@"nodeName"];
-    
-    NSNumber* nodeType = [childNode valueForKey:@"nodeType"];
-    
-    if ([nodeType intValue] == 1)
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    else
-        cell.accessoryType = UITableViewCellAccessoryNone;
+    id childNode = [_elements objectAtIndex:indexPath.row];
+    cell.domElement = childNode;
     
     return cell;
 }
@@ -152,15 +160,39 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here -- for example, create and push another view controller.
-    //
-    id childNode = [_childNodes item:indexPath.row];
-
+    if ([[tableView cellForRowAtIndexPath:indexPath] accessoryType] != UITableViewCellAccessoryDisclosureIndicator)
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    
     RootViewController* nextController = [[RootViewController alloc] initWithStyle:self.tableView.style];
-    nextController.domElement = childNode;
+    nextController.document = self.document;
+    [nextController setRootNode:[_elements objectAtIndex:indexPath.row]];
     
     [self.navigationController pushViewController:nextController animated:YES];
     [nextController release];
+}
+
+@end
+
+#pragma mark -
+
+@implementation DOMTraversal
+
+- (id)createTreeWalker:(id)root whatToShow:(NSInteger)whatToShow
+{
+    return nil;
+}
+
+- (id)firstChild
+{
+    return nil;
+}
+
+- (id)nextSibling
+{
+    return nil;
 }
 
 @end

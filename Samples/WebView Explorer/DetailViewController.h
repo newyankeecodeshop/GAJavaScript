@@ -29,4 +29,6 @@
 @property (nonatomic, retain) GAScriptEngine*   scriptEngine;
 @property (nonatomic, assign) RootViewController *  rootController;
 
+- (IBAction)invokeJavaScript:(id)sender;
+
 @end
