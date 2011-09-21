@@ -55,7 +55,7 @@
 {
     if (_themeChanged)
     {
-#if 1
+        // TODO: change the theme color
         NSString* curTheme = [_scriptEngine.documentObject valueForKeyPath:@"body.className"];
         
         if ([curTheme isEqualToString:@"red_theme"])
@@ -64,7 +64,6 @@
             curTheme = @"red_theme";
         
         [_scriptEngine.documentObject setValue:curTheme forKeyPath:@"body.className"];  
-#endif
     }
     
     [_window applyStylesWithScriptEngine:_scriptEngine];
@@ -156,3 +155,16 @@
 }
 
 @end
+
+/*
+
+ NSString* curTheme = [_scriptEngine.documentObject valueForKeyPath:@"body.className"];
+ 
+ if ([curTheme isEqualToString:@"red_theme"])
+ curTheme = @"blue_theme";
+ else
+ curTheme = @"red_theme";
+ 
+ [_scriptEngine.documentObject setValue:curTheme forKeyPath:@"body.className"];  
+
+*/
