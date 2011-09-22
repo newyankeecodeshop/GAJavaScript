@@ -85,5 +85,27 @@ GAViewStyling uses a category on UIView and many UIKit view classes. Your own cu
 
 ## Example
 
-The "ThemeExplorer" app in the /Samples folder shows how CSS can style plain and grouped UITableViews and cells.
+The "ThemeExplorer" app in the /Samples folder shows how CSS can style various UIKit views and controls. It's built on the Apple "UICatalog" SDK sample, and it applies various (somewhat ugly) "themes" to the table views and various controls. It shows how you can change the overall styles "on the fly", while the app is running.
+
+## Categories
+
+Even if the view styling code is not what you need, you might find some of the categories which can create colors, fonts and gradients from CSS-style strings.
+
+	// Create a UIColor
+	UIColor* color = [UIColor colorWithCSSColor:@"rgb(255, 128, 0)"];
+	
+	// Create a UIFont
+    NSDictionary* decl = [NSDictionary dictionaryWithObjectsAndKeys:
+                          @"Verdana", @"font-family",
+                          @"24px", @"font-size",
+                          @"bold", @"font-weight", nil];
+    UIFont* font = [UIFont fontWithCSSDeclaration:decl];
+    
+    // Create a gradient layer
+    NSString* cssGradient = @"-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(217, 217, 217, 0)), to(rgba(0, 0, 0, 0.5)))";
+
+    CAGradientLayer* layer = [CAGradientLayer layer];
+    [layer setValuesWithCSSGradient:cssGradient];
+
+The above code uses the categories defined in `GAViewStyling.h`.
 
