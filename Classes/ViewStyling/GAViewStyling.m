@@ -52,7 +52,7 @@ static void(^s_initBlock)(void) = ^(void)
     if (![scanner scanString:@"rgb(" intoString:NULL] && ![scanner scanString:@"rgba(" intoString:NULL])
         return [UIColor clearColor];
 
-    CGFloat r, g, b, a = 1.0f;
+    CGFloat r, g, b, a;
     
     if ([scanner scanFloat:&r])
         r /= 255.f;
@@ -60,8 +60,8 @@ static void(^s_initBlock)(void) = ^(void)
         g /= 255.f;
     if ([scanner scanFloat:&b])
         b /= 255.f;
-    if ([scanner scanFloat:&a])     // Might have been rgba(...)
-        a /= 255.f;
+    if (![scanner scanFloat:&a])     // Might have been rgba(...)
+        a = 1.0f;
         
     // Optimize common colors (black, white, transparent)
     //
@@ -212,17 +212,33 @@ CGSize GASizeFromCSSLengths (NSString* cssString)
         CGFloat location = 0.0f;
         NSString* colorStop = nil;
         
-        if (![scanner scanString:@"color-stop(" intoString:NULL])
-            break;
-
-        // Keep the color and location arrays the same length by testing both scans
-        //
-        if ([scanner scanFloat:&location] 
-            && [scanner scanUpToString:@"color-stop(" intoString:&colorStop])
+        if ([scanner scanString:@"from(" intoString:NULL])
         {
-            [colors addObject:(id)[UIColor colorWithCSSColor:colorStop].CGColor];
-            [locations addObject:[NSNumber numberWithFloat:location]];
+            location = 0.0f;
         }
+        else if ([scanner scanString:@"to(" intoString:NULL])
+        {
+            location = 1.0f;
+        }
+        else if ([scanner scanString:@"color-stop(" intoString:NULL])
+        {
+            [scanner scanFloat:&location];
+        }
+        else
+        {
+            break;
+        }
+
+        if (![scanner scanUpToString:@"))" intoString:&colorStop])
+            break;
+        
+        // Keep the color and location arrays the same length
+        //
+        UIColor* color = [UIColor colorWithCSSColor:colorStop];
+        [colors addObject:(id)[color CGColor]];
+        [locations addObject:[NSNumber numberWithFloat:location]];
+        
+        [scanner scanString:@"))" intoString:NULL];
     }
     
     [self setColors:colors];
