@@ -21,7 +21,7 @@
 		2DC139A613B3AC5E0026D4D5 /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */; };
 		2DC139F013B3CF4A0026D4D5 /* UIView+GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2DC139F113B3CF4A0026D4D5 /* UIView+GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */; };
-		493383BB12B433F000FBE23C /* GHUnitIOSTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */; };
+		493383BB12B433F000FBE23C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 493383BA12B433F000FBE23C /* main.m */; };
 		4933848612B4373600FBE23C /* TScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933848512B4373600FBE23C /* TScriptObject.m */; };
 		4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933848B12B437CD00FBE23C /* CoreGraphics.framework */; };
 		493385BA12B5559B00FBE23C /* libGAJavaScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC07E0554694100DB518D /* libGAJavaScript.a */; };
@@ -73,7 +73,7 @@
 		2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+GAViewStyling.m"; path = "Classes/ViewStyling/UIView+GAViewStyling.m"; sourceTree = "<group>"; };
 		4933839E12B4338200FBE23C /* GAJavaScriptTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAJavaScriptTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GAJavaScriptTests-Info.plist"; sourceTree = "<group>"; };
-		493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GHUnitIOSTestMain.m; path = Tests/GHUnitIOSTestMain.m; sourceTree = "<group>"; };
+		493383BA12B433F000FBE23C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Tests/main.m; sourceTree = "<group>"; };
 		4933848412B4373600FBE23C /* TScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptObject.h; path = Tests/TScriptObject.h; sourceTree = "<group>"; };
 		4933848512B4373600FBE23C /* TScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptObject.m; path = Tests/TScriptObject.m; sourceTree = "<group>"; };
 		4933848B12B437CD00FBE23C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -205,7 +205,7 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				493383BA12B433F000FBE23C /* GHUnitIOSTestMain.m */,
+				493383BA12B433F000FBE23C /* main.m */,
 				AA747D9E0F9514B9006C5449 /* GAJavaScript_Prefix.pch */,
 				49F51D8212B6BDFD00F91142 /* ga-js-runtime.js */,
 			);
@@ -334,7 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				493383BB12B433F000FBE23C /* GHUnitIOSTestMain.m in Sources */,
+				493383BB12B433F000FBE23C /* main.m in Sources */,
 				4933848612B4373600FBE23C /* TScriptObject.m in Sources */,
 				4933871412B58C9E00FBE23C /* TWebView.m in Sources */,
 				4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */,
