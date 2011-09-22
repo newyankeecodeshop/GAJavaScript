@@ -140,13 +140,12 @@
 }
 
 - (void)testGradientLayer
-{
-    CAGradientLayer* layer = [CAGradientLayer layer];
-    
+{    
     NSString* cssGradient = @"-webkit-gradient(linear, 100% 0%, 0% 100%, color-stop(0.19, rgb(128, 22, 48)), color-stop(0.6, rgb(224, 36, 74)), color-stop(0.8, rgb(235, 52, 88)))";
+
+    CAGradientLayer* layer = [CAGradientLayer layer];
     [layer setValuesWithCSSGradient:cssGradient];
     
-    GHAssertNotNil(layer, @"Bad layer");
     GHAssertTrue([layer.colors count] == 3, @"Wrong number of colors");
     
     CGColorRef color1 = (CGColorRef)[layer.colors objectAtIndex:0];
@@ -169,6 +168,24 @@
 
     NSNumber* loc3 = [layer.locations objectAtIndex:2];
     GHAssertTrue([loc3 floatValue] == 0.8f, @"Location wrong");
+}
+
+- (void)testGradientToFromSyntax
+{
+    NSString* cssGradient = @"-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(217, 217, 217, 0)), to(rgba(0, 0, 0, 0.5)))";
+
+    CAGradientLayer* layer = [CAGradientLayer layer];
+    [layer setValuesWithCSSGradient:cssGradient];
+    
+    GHAssertTrue([layer.colors count] == 2, @"Wrong number of colors");
+
+    CGColorRef color1 = (CGColorRef)[layer.colors objectAtIndex:0];
+    const CGFloat* pColors = CGColorGetComponents(color1);
+    GHAssertTrue(pColors[0] == 0.850980401f && pColors[1] == 0.850980401f && pColors[2] == 0.850980401f, @"Bad colors");
+    
+    CGColorRef color2 = (CGColorRef)[layer.colors objectAtIndex:1];
+    pColors = CGColorGetComponents(color2);
+    GHAssertTrue(pColors[0] == 0.f && pColors[1] == 0.5f, @"Bad colors");
 }
 
 @end
