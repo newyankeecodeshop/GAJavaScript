@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D1445B9142BD32100465EB3 /* GAScriptEngine.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D8500AC1381647F00758EA2 /* GAScriptEngine.h */; };
+		2D1445BA142BD32400465EB3 /* GAScriptObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */; };
+		2D1445BB142BD32600465EB3 /* GAScriptMethodSignatures.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */; };
+		2D1445BC142BD32A00465EB3 /* NSObject+GAJavaScript.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 493386AA12B582A300FBE23C /* NSObject+GAJavaScript.h */; };
+		2D1445BD142BD32D00465EB3 /* UIWebView+GAJavaScript.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */; };
+		2D1445BE142BD33200465EB3 /* UIView+GAViewStyling.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */; };
+		2D1445BF142BD95D00465EB3 /* GAScriptBlockObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D81DF5D139D796900CA599F /* GAScriptBlockObject.h */; };
+		2D1445C0142BD98E00465EB3 /* GADebugMacros.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D9106E31427E5F0002062A1 /* GADebugMacros.h */; };
 		2D44767713BB3F8B00A2E101 /* GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D44767513BB3F8B00A2E101 /* GAViewStyling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D44767813BB3F8B00A2E101 /* GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D44767613BB3F8B00A2E101 /* GAViewStyling.m */; };
 		2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5994861382B0F0006B728D /* TScriptEngine.m */; };
@@ -54,6 +62,26 @@
 			remoteInfo = GAJavaScript;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2D1445B7142BD30A00465EB3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = GAJavaScript;
+			dstSubfolderSpec = 16;
+			files = (
+				2D1445B9142BD32100465EB3 /* GAScriptEngine.h in CopyFiles */,
+				2D1445BA142BD32400465EB3 /* GAScriptObject.h in CopyFiles */,
+				2D1445BF142BD95D00465EB3 /* GAScriptBlockObject.h in CopyFiles */,
+				2D1445BB142BD32600465EB3 /* GAScriptMethodSignatures.h in CopyFiles */,
+				2D1445BC142BD32A00465EB3 /* NSObject+GAJavaScript.h in CopyFiles */,
+				2D1445BD142BD32D00465EB3 /* UIWebView+GAJavaScript.h in CopyFiles */,
+				2D1445BE142BD33200465EB3 /* UIView+GAViewStyling.h in CopyFiles */,
+				2D1445C0142BD98E00465EB3 /* GADebugMacros.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2D44767513BB3F8B00A2E101 /* GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAViewStyling.h; path = Classes/ViewStyling/GAViewStyling.h; sourceTree = "<group>"; };
@@ -239,13 +267,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */,
 				AA747D9F0F9514B9006C5449 /* GAJavaScript_Prefix.pch in Headers */,
 				49F1DBDE12A3F64A004C8736 /* GAScriptObject.h in Headers */,
-				49F1DC8F12A3F7E2004C8736 /* UIWebView+GAJavaScript.h in Headers */,
-				493386AC12B582A300FBE23C /* NSObject+GAJavaScript.h in Headers */,
-				2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */,
-				498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */,
 				2D81DF5F139D796900CA599F /* GAScriptBlockObject.h in Headers */,
+				498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */,
+				493386AC12B582A300FBE23C /* NSObject+GAJavaScript.h in Headers */,
+				49F1DC8F12A3F7E2004C8736 /* UIWebView+GAJavaScript.h in Headers */,
 				2DC139F013B3CF4A0026D4D5 /* UIView+GAViewStyling.h in Headers */,
 				2D44767713BB3F8B00A2E101 /* GAViewStyling.h in Headers */,
 				49F0724F1405AC0D006E7A51 /* UIControl+GAViewStyling.h in Headers */,
@@ -281,6 +309,7 @@
 				D2AAC07A0554694100DB518D /* Headers */,
 				D2AAC07B0554694100DB518D /* Sources */,
 				D2AAC07C0554694100DB518D /* Frameworks */,
+				2D1445B7142BD30A00465EB3 /* CopyFiles */,
 			);
 			buildRules = (
 			);
