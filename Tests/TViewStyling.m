@@ -188,6 +188,24 @@
     GHAssertTrue(pColors[0] == 0.f && pColors[1] == 0.5f, @"Bad colors");
 }
 
+- (void)testImageFromCSSURL
+{
+    NSString* testUrl = @"url(file://blah/blah/logo.jpg)";
+    UIImage* testImage = [UIImage imageWithCSSURL:testUrl];
+    
+    GHAssertNotNil(testImage, @"Could not load image from bundle");
+    
+    testUrl = @"urrl(foo)";
+    testImage = [UIImage imageWithCSSURL:testUrl];
+    
+    GHAssertNil(testImage, @"Should not have an image now.");
+    
+    testUrl = @"url(data:image/gif;base64,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7)";
+    testImage = [UIImage imageWithCSSURL:testUrl];
+
+    GHAssertNotNil(testImage, @"Could not load image from data URL");
+}
+
 @end
 
 #pragma mark -

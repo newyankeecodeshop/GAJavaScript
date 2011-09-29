@@ -52,6 +52,20 @@
 
 #pragma mark -
 
+@interface UIImage (GAViewStyling)
+
+/**
+ * Create an image from the main resource bundle or a data URL. For example:
+ * url(<bundle_resource.jpg>)
+ * url(data:image/jpg;base64,<BASE_64_DATA>)
+ *
+ */
++ (UIImage *)imageWithCSSURL:(NSString *)cssUrl;
+
+@end
+
+#pragma mark -
+
 /**
  * Returns a size from a CSS declaration that contains two lengths (i.e. "320px 240px").
  * The first length is width (x), the second is height (y). If the string does not have at least two lengths,

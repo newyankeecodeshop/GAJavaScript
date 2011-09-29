@@ -63,6 +63,14 @@
 
 @end
 
+#pragma mark - Image styling
+
+@interface UIImageView (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration;
+
+@end
+
 #pragma mark - Text styling
 
 @interface UILabel (GAViewStyling)

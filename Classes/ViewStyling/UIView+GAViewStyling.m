@@ -161,6 +161,37 @@ CAGradientLayer* GAGradientSubLayerForLayer (CALayer* layer)
 
 #pragma mark -
 
+@implementation UIImageView (GAViewStyling)
+
+- (void)applyComputedStyles:(id)cssDeclaration
+{
+    [super applyComputedStyles:cssDeclaration];
+    
+    NSString* backgroundImage = [cssDeclaration valueForKey:@"background-image"];
+    
+    if ([backgroundImage isEqualToString:@"none"] || ![backgroundImage hasPrefix:@"url("])
+        return;
+    
+    self.image = [UIImage imageWithCSSURL:backgroundImage];
+    
+    // Default for background images is to put them in the top left (background-position: 0% 0%)
+    //
+    NSString* backgroundPos = [cssDeclaration valueForKey:@"background-position"];
+    
+    if ([backgroundPos isEqualToString:@"0% 0%"])
+        self.contentMode = UIViewContentModeTopLeft;
+    else if ([backgroundPos isEqualToString:@"50% 50%"])
+        self.contentMode = UIViewContentModeCenter;
+    else if ([backgroundPos isEqualToString:@"50% 100%"])
+        self.contentMode = UIViewContentModeBottom;
+    
+    // Note that we ignore background-repeat in this UIImageView category since it doesn't support that.
+}
+
+@end
+
+#pragma mark -
+
 @implementation UILabel (GAViewStyling)
 
 - (NSString *)styleSelector

@@ -29,6 +29,7 @@
 		2DC139A613B3AC5E0026D4D5 /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */; };
 		2DC139F013B3CF4A0026D4D5 /* UIView+GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2DC139F113B3CF4A0026D4D5 /* UIView+GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */; };
+		2DF837B414351B6C00281875 /* logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DF837B314351B6B00281875 /* logo.jpg */; };
 		493383BB12B433F000FBE23C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 493383BA12B433F000FBE23C /* main.m */; };
 		4933848612B4373600FBE23C /* TScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933848512B4373600FBE23C /* TScriptObject.m */; };
 		4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933848B12B437CD00FBE23C /* CoreGraphics.framework */; };
@@ -99,6 +100,7 @@
 		2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = ../../ThirdParty/GHUnitIOS.framework; sourceTree = "<group>"; };
 		2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+GAViewStyling.h"; path = "Classes/ViewStyling/UIView+GAViewStyling.h"; sourceTree = "<group>"; };
 		2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+GAViewStyling.m"; path = "Classes/ViewStyling/UIView+GAViewStyling.m"; sourceTree = "<group>"; };
+		2DF837B314351B6B00281875 /* logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = logo.jpg; path = Tests/logo.jpg; sourceTree = "<group>"; };
 		4933839E12B4338200FBE23C /* GAJavaScriptTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAJavaScriptTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GAJavaScriptTests-Info.plist"; sourceTree = "<group>"; };
 		493383BA12B433F000FBE23C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Tests/main.m; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			children = (
 				2DBE365D13BDFCA700E9AA11 /* TViewStyling.h */,
 				2DBE365E13BDFCA700E9AA11 /* TViewStyling.m */,
+				2DF837B314351B6B00281875 /* logo.jpg */,
 			);
 			name = ViewStyling;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 			files = (
 				49F51D8412B6C64700F91142 /* ga-js-runtime.js in Resources */,
 				2D8500B213816B2100758EA2 /* TestWebViewContent.html in Resources */,
+				2DF837B414351B6C00281875 /* logo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

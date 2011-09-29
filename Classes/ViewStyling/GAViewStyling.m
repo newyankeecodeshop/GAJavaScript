@@ -149,6 +149,42 @@ static void(^s_initBlock)(void) = ^(void)
 
 @end
 
+#pragma mark -
+
+@implementation UIImage (GAViewStyling)
+
++ (UIImage *)imageWithCSSURL:(NSString *)cssUrl
+{
+    // Make a NSURL by using everything inside the "url(...)" string
+    //
+    NSRange urlRange = NSMakeRange(4, [cssUrl length] - 5);
+    NSURL* theUrl = [NSURL URLWithString:[cssUrl substringWithRange:urlRange]];
+    
+    if ([[theUrl scheme] isEqualToString:NSURLFileScheme])
+    {
+        GADebugStr(@"Loading image named '%@'", [theUrl lastPathComponent]);
+        
+        return [UIImage imageNamed:[theUrl lastPathComponent]];
+    }
+    else if ([[theUrl scheme] isEqualToString:@"data"])
+    {
+        NSError* myErr = nil;
+        NSData* imgData = [NSData dataWithContentsOfURL:theUrl options:0 error:&myErr];
+        
+        if (myErr != nil)
+        {
+            NSLog(@"Could not make NSData from data URL: %@", myErr);
+            return nil;
+        }
+        
+        return [UIImage imageWithData:imgData];
+    }
+    
+    NSAssert(YES, @"Unsupported URL scheme for UIImage (GAViewStyling): %@", [theUrl scheme]);
+    return nil;
+}
+
+@end
 /**
  * The input string will be something like "NNNpx NNNpx [other chars]"
  */
