@@ -12,11 +12,8 @@
 		2D1445BB142BD32600465EB3 /* GAScriptMethodSignatures.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */; };
 		2D1445BC142BD32A00465EB3 /* NSObject+GAJavaScript.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 493386AA12B582A300FBE23C /* NSObject+GAJavaScript.h */; };
 		2D1445BD142BD32D00465EB3 /* UIWebView+GAJavaScript.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 49F1DC8D12A3F7E2004C8736 /* UIWebView+GAJavaScript.h */; };
-		2D1445BE142BD33200465EB3 /* UIView+GAViewStyling.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */; };
 		2D1445BF142BD95D00465EB3 /* GAScriptBlockObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D81DF5D139D796900CA599F /* GAScriptBlockObject.h */; };
 		2D1445C0142BD98E00465EB3 /* GADebugMacros.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D9106E31427E5F0002062A1 /* GADebugMacros.h */; };
-		2D44767713BB3F8B00A2E101 /* GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D44767513BB3F8B00A2E101 /* GAViewStyling.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2D44767813BB3F8B00A2E101 /* GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D44767613BB3F8B00A2E101 /* GAViewStyling.m */; };
 		2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5994861382B0F0006B728D /* TScriptEngine.m */; };
 		2D81DF5F139D796900CA599F /* GAScriptBlockObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D81DF5D139D796900CA599F /* GAScriptBlockObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D8500AE1381647F00758EA2 /* GAScriptEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D8500AC1381647F00758EA2 /* GAScriptEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,11 +22,7 @@
 		2D9106E41427E5F0002062A1 /* GADebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9106E31427E5F0002062A1 /* GADebugMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2DBE365513BDF04200E9AA11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBE365413BDF04200E9AA11 /* QuartzCore.framework */; };
 		2DBE365B13BDFC1A00E9AA11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBE365413BDF04200E9AA11 /* QuartzCore.framework */; };
-		2DBE365F13BDFCA700E9AA11 /* TViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBE365E13BDFCA700E9AA11 /* TViewStyling.m */; };
 		2DC139A613B3AC5E0026D4D5 /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */; };
-		2DC139F013B3CF4A0026D4D5 /* UIView+GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2DC139F113B3CF4A0026D4D5 /* UIView+GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */; };
-		2DF837B414351B6C00281875 /* logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DF837B314351B6B00281875 /* logo.jpg */; };
 		493383BB12B433F000FBE23C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 493383BA12B433F000FBE23C /* main.m */; };
 		4933848612B4373600FBE23C /* TScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933848512B4373600FBE23C /* TScriptObject.m */; };
 		4933848C12B437CD00FBE23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933848B12B437CD00FBE23C /* CoreGraphics.framework */; };
@@ -41,8 +34,6 @@
 		498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 498A2C4E13928F6600B95CC9 /* GAScriptMethodSignatures.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		498A2C5113928F6600B95CC9 /* GAScriptMethodSignatures.m in Sources */ = {isa = PBXBuildFile; fileRef = 498A2C4F13928F6600B95CC9 /* GAScriptMethodSignatures.m */; };
 		49CB0D911417E6DC00C2C4F6 /* TObjectCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CB0D901417E6DC00C2C4F6 /* TObjectCategories.m */; };
-		49F0724F1405AC0D006E7A51 /* UIControl+GAViewStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F0724D1405AC0D006E7A51 /* UIControl+GAViewStyling.h */; };
-		49F072501405AC0D006E7A51 /* UIControl+GAViewStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F0724E1405AC0D006E7A51 /* UIControl+GAViewStyling.m */; };
 		49F1DBDE12A3F64A004C8736 /* GAScriptObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49F1DBDF12A3F64A004C8736 /* GAScriptObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */; };
 		49F1DBE512A3F67A004C8736 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49F1DBE412A3F67A004C8736 /* UIKit.framework */; };
@@ -77,7 +68,6 @@
 				2D1445BB142BD32600465EB3 /* GAScriptMethodSignatures.h in CopyFiles */,
 				2D1445BC142BD32A00465EB3 /* NSObject+GAJavaScript.h in CopyFiles */,
 				2D1445BD142BD32D00465EB3 /* UIWebView+GAJavaScript.h in CopyFiles */,
-				2D1445BE142BD33200465EB3 /* UIView+GAViewStyling.h in CopyFiles */,
 				2D1445C0142BD98E00465EB3 /* GADebugMacros.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
@@ -85,8 +75,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2D44767513BB3F8B00A2E101 /* GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAViewStyling.h; path = Classes/ViewStyling/GAViewStyling.h; sourceTree = "<group>"; };
-		2D44767613BB3F8B00A2E101 /* GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAViewStyling.m; path = Classes/ViewStyling/GAViewStyling.m; sourceTree = "<group>"; };
 		2D5994851382B0F0006B728D /* TScriptEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TScriptEngine.h; path = Tests/TScriptEngine.h; sourceTree = "<group>"; };
 		2D5994861382B0F0006B728D /* TScriptEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TScriptEngine.m; path = Tests/TScriptEngine.m; sourceTree = "<group>"; };
 		2D81DF5D139D796900CA599F /* GAScriptBlockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptBlockObject.h; path = Classes/GAScriptBlockObject.h; sourceTree = "<group>"; };
@@ -95,12 +83,7 @@
 		2D8500B113816B2100758EA2 /* TestWebViewContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = TestWebViewContent.html; path = Tests/TestWebViewContent.html; sourceTree = "<group>"; };
 		2D9106E31427E5F0002062A1 /* GADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADebugMacros.h; path = Classes/GADebugMacros.h; sourceTree = "<group>"; };
 		2DBE365413BDF04200E9AA11 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		2DBE365D13BDFCA700E9AA11 /* TViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TViewStyling.h; path = Tests/TViewStyling.h; sourceTree = "<group>"; };
-		2DBE365E13BDFCA700E9AA11 /* TViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TViewStyling.m; path = Tests/TViewStyling.m; sourceTree = "<group>"; };
 		2DC139A513B3AC5D0026D4D5 /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = ../../ThirdParty/GHUnitIOS.framework; sourceTree = "<group>"; };
-		2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+GAViewStyling.h"; path = "Classes/ViewStyling/UIView+GAViewStyling.h"; sourceTree = "<group>"; };
-		2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+GAViewStyling.m"; path = "Classes/ViewStyling/UIView+GAViewStyling.m"; sourceTree = "<group>"; };
-		2DF837B314351B6B00281875 /* logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = logo.jpg; path = Tests/logo.jpg; sourceTree = "<group>"; };
 		4933839E12B4338200FBE23C /* GAJavaScriptTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAJavaScriptTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GAJavaScriptTests-Info.plist"; sourceTree = "<group>"; };
 		493383BA12B433F000FBE23C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Tests/main.m; sourceTree = "<group>"; };
@@ -117,8 +100,6 @@
 		498A2C4F13928F6600B95CC9 /* GAScriptMethodSignatures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptMethodSignatures.m; path = Classes/GAScriptMethodSignatures.m; sourceTree = "<group>"; };
 		49CB0D8F1417E6DC00C2C4F6 /* TObjectCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TObjectCategories.h; path = Tests/TObjectCategories.h; sourceTree = "<group>"; };
 		49CB0D901417E6DC00C2C4F6 /* TObjectCategories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TObjectCategories.m; path = Tests/TObjectCategories.m; sourceTree = "<group>"; };
-		49F0724D1405AC0D006E7A51 /* UIControl+GAViewStyling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIControl+GAViewStyling.h"; path = "Classes/ViewStyling/UIControl+GAViewStyling.h"; sourceTree = "<group>"; };
-		49F0724E1405AC0D006E7A51 /* UIControl+GAViewStyling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIControl+GAViewStyling.m"; path = "Classes/ViewStyling/UIControl+GAViewStyling.m"; sourceTree = "<group>"; };
 		49F1DBDA12A3F64A004C8736 /* GAScriptObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAScriptObject.h; path = Classes/GAScriptObject.h; sourceTree = "<group>"; };
 		49F1DBDB12A3F64A004C8736 /* GAScriptObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAScriptObject.m; path = Classes/GAScriptObject.m; sourceTree = "<group>"; };
 		49F1DBE412A3F67A004C8736 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -169,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Classes */,
-				2DC139ED13B3CEDD0026D4D5 /* ViewStyling */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				493383BC12B4362F00FBE23C /* Tests */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
@@ -210,29 +190,6 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		2DBE365C13BDFC3500E9AA11 /* ViewStyling */ = {
-			isa = PBXGroup;
-			children = (
-				2DBE365D13BDFCA700E9AA11 /* TViewStyling.h */,
-				2DBE365E13BDFCA700E9AA11 /* TViewStyling.m */,
-				2DF837B314351B6B00281875 /* logo.jpg */,
-			);
-			name = ViewStyling;
-			sourceTree = "<group>";
-		};
-		2DC139ED13B3CEDD0026D4D5 /* ViewStyling */ = {
-			isa = PBXGroup;
-			children = (
-				2D44767513BB3F8B00A2E101 /* GAViewStyling.h */,
-				2D44767613BB3F8B00A2E101 /* GAViewStyling.m */,
-				2DC139EE13B3CF4A0026D4D5 /* UIView+GAViewStyling.h */,
-				2DC139EF13B3CF4A0026D4D5 /* UIView+GAViewStyling.m */,
-				49F0724D1405AC0D006E7A51 /* UIControl+GAViewStyling.h */,
-				49F0724E1405AC0D006E7A51 /* UIControl+GAViewStyling.m */,
-			);
-			name = ViewStyling;
-			sourceTree = "<group>";
-		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,7 +215,6 @@
 				4933870F12B58C5700FBE23C /* TWebView.m */,
 				493383A012B4338200FBE23C /* GAJavaScriptTests-Info.plist */,
 				2D8500B113816B2100758EA2 /* TestWebViewContent.html */,
-				2DBE365C13BDFC3500E9AA11 /* ViewStyling */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -277,9 +233,6 @@
 				498A2C5013928F6600B95CC9 /* GAScriptMethodSignatures.h in Headers */,
 				493386AC12B582A300FBE23C /* NSObject+GAJavaScript.h in Headers */,
 				49F1DC8F12A3F7E2004C8736 /* UIWebView+GAJavaScript.h in Headers */,
-				2DC139F013B3CF4A0026D4D5 /* UIView+GAViewStyling.h in Headers */,
-				2D44767713BB3F8B00A2E101 /* GAViewStyling.h in Headers */,
-				49F0724F1405AC0D006E7A51 /* UIControl+GAViewStyling.h in Headers */,
 				2D9106E41427E5F0002062A1 /* GADebugMacros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,7 +309,6 @@
 			files = (
 				49F51D8412B6C64700F91142 /* ga-js-runtime.js in Resources */,
 				2D8500B213816B2100758EA2 /* TestWebViewContent.html in Resources */,
-				2DF837B414351B6C00281875 /* logo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +324,6 @@
 				4933871412B58C9E00FBE23C /* TWebView.m in Sources */,
 				4983385F13782DFC0006B26A /* ApplicationDelegate.m in Sources */,
 				2D5994871382B0F0006B728D /* TScriptEngine.m in Sources */,
-				2DBE365F13BDFCA700E9AA11 /* TViewStyling.m in Sources */,
 				49CB0D911417E6DC00C2C4F6 /* TObjectCategories.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,9 +337,6 @@
 				493386AD12B582A300FBE23C /* NSObject+GAJavaScript.m in Sources */,
 				2D8500AF1381647F00758EA2 /* GAScriptEngine.m in Sources */,
 				498A2C5113928F6600B95CC9 /* GAScriptMethodSignatures.m in Sources */,
-				2DC139F113B3CF4A0026D4D5 /* UIView+GAViewStyling.m in Sources */,
-				2D44767813BB3F8B00A2E101 /* GAViewStyling.m in Sources */,
-				49F072501405AC0D006E7A51 /* UIControl+GAViewStyling.m in Sources */,
 				49FDB633141BC09000A5F1B4 /* GAScriptBlockObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -245,7 +245,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Users/agoodale/Personal/Projects/GAJavaScript/Classes;
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -261,7 +261,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Users/agoodale/Personal/Projects/GAJavaScript/Classes;
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
@@ -272,16 +272,11 @@
 		2D5A7874139C617000335643 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebView Explorer/WebView Explorer-Prefix.pch";
 				INFOPLIST_FILE = "WebView Explorer/WebView Explorer-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -294,15 +289,10 @@
 		2D5A7875139C617000335643 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebView Explorer/WebView Explorer-Prefix.pch";
 				INFOPLIST_FILE = "WebView Explorer/WebView Explorer-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
