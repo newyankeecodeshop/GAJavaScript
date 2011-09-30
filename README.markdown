@@ -63,3 +63,6 @@ If you look in "GAScriptMethodSignatures.h", you'll see an object that defines a
 	// The above is the same as this, but nicer to read and write
 	id myElement2 = [document callFunction:@"getElementById" withObject:@"myelement"];
 	
+# GAViewStyling
+
+If you're looking for the code to style UIViews with CSS, it has moved to [another repository](https://github.com/newyankeecodeshop/GAViewStyling). 
