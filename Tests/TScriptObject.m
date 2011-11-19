@@ -247,7 +247,14 @@
     
     NSError* error = result;
     GHAssertTrue([[error domain] isEqualToString:@"GAJavaScriptException"], @"Wrong domain! %@", [error domain]);
-    GHAssertTrue([[error localizedDescription] hasPrefix:@"Result of expression 'window.fake'"], @"Missing error message");
+    
+    // The error message text changed on iOS 5, so we test for it by checking for the new UIWebView method.
+    //
+    if ([_engine.webView respondsToSelector:@selector(mediaPlaybackAllowsAirPlay)])
+        GHAssertTrue([[error localizedDescription] hasPrefix:@"'undefined' is not an object"], @"Missing error message");
+    else
+        GHAssertTrue([[error localizedDescription] hasPrefix:@"Result of expression 'window.fake'"], @"Missing error message");
+    
 }
 
 @end
