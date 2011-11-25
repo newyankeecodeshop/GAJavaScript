@@ -39,6 +39,8 @@
  */
 - (void)loadScriptRuntime;
 
+- (BOOL)scriptRuntimeIsLoaded;
+
 - (void)makeLotsaCalls;
 
 - (void)callReceiversForSelector:(SEL)theSelector withArguments:(NSArray *)arguments;
@@ -149,6 +151,9 @@
 
 - (void)loadScriptRuntime
 {
+    if ([self scriptRuntimeIsLoaded])   // Don't re-evaluate the runtime javascript, because it will destroy all existing object references.
+        return;
+        
 	NSString* scriptFile = [[NSBundle mainBundle] pathForResource:@"ga-js-runtime" ofType:@"js"];
     NSAssert(scriptFile != nil, @"The main bundle is missing the file 'ga-js-runtime.js'!");
     
@@ -158,6 +163,11 @@
     NSAssert(scriptData != nil, @"The javascript code in ga-js-runtime.js could not be read");
     
 	[m_webView stringByEvaluatingJavaScriptFromString:scriptData];	
+}
+
+- (BOOL)scriptRuntimeIsLoaded
+{
+    return [[m_webView stringByEvaluatingJavaScriptFromString:@"typeof GAJavaScript"] isEqualToString:@"object"];
 }
 
 - (void)makeLotsaCalls
