@@ -44,6 +44,8 @@ A simple way to get started is to:
 4. Load your HTML+JavaScript into the view. You should load an HTML document that contains/includes all the JavaScript you want to make available to Objective-C code.
 5. Now you can access the "document" or "window" object via the GAScriptEngine instance, or create your own objects using `[GAScriptEngine newScriptObject:]`.
 
+Note: If you are using GAJavaScript as a static library, remember to set the `-ObjC` and `-all_load` linker flags so that all the categories are loaded. (You can also use `-force_load` on just libGAJavaScript.a if you have other libraries that don't work well with forced loading.)
+
 ## Using your JavaScript
 
 If you have a namespace object in JavaScript (e.g. "mycompany.lib"), you can create a GAScriptObject wrapper for it by using the GAScriptEngine method: `[GAScriptEngine scriptObjectWithReference:@"mycompany.lib"]`.
