@@ -107,6 +107,9 @@ GAJavaScript = {
 	
 	callFunction: function (func, scope, argsArray) {
 		try {
+            if (typeof(func) !== 'function') {
+                return this.valueToString(func);
+            }
 			return this.valueToString(func.apply(scope, argsArray));
 		}
 		catch (ex) {

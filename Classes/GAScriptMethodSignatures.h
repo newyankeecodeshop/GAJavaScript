@@ -45,6 +45,8 @@
 
 #pragma mark Common methods
 
+- (NSUInteger)length;
+
 - (id)item:(NSInteger)index;
 
 #pragma mark DOM Methods

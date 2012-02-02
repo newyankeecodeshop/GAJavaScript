@@ -60,6 +60,8 @@ static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 
 - (id)convertArgument:(NSInvocation *)invocation atIndex:(NSInteger)index;
 
+- (void)setReturnValue:(NSInvocation *)invocation value:(id)retVal;
+
 @end
 
 #pragma mark -
@@ -403,7 +405,8 @@ static NSNumberFormatter* kNumFormatter = nil;
     
     if (numberOfArgs == 2)     // Really means zero, since "self" and "_cmd" are the first two.
     {
-        // TODO: Could be a property or a function. Need to call script engine...
+        // Could be a property or a function - GAJavaScript.callFunction() will handle that
+        //
         retVal = [self callFunction:functionName];
     }
     else if (numberOfArgs == 3)
@@ -425,10 +428,10 @@ static NSNumberFormatter* kNumFormatter = nil;
         [arguments release];
     }
     
-    //TODO: Handle non-Object types.
-    //
     if ([methodSig methodReturnLength] > 0)
-        [anInvocation setReturnValue:&retVal];
+    {
+        [self setReturnValue:anInvocation value:retVal];
+    }
 }
 
 - (id)convertArgument:(NSInvocation *)invocation atIndex:(NSInteger)index
@@ -443,9 +446,21 @@ static NSNumberFormatter* kNumFormatter = nil;
     }
     else if (*type == 'i')
     {
-        NSInteger intVal;
+        int intVal;
         [invocation getArgument:&intVal atIndex:index];
         return [NSNumber numberWithInt:intVal];
+    }
+    else if (*type == 'I')
+    {
+        unsigned int intVal;
+        [invocation getArgument:&intVal atIndex:index];
+        return [NSNumber numberWithUnsignedInt:intVal];
+    }
+    else if (*type == 'l')
+    {
+        long longVal;
+        [invocation getArgument:&longVal atIndex:index];
+        return [NSNumber numberWithLong:longVal];
     }
     else if (*type == 'f')
     {
@@ -461,6 +476,36 @@ static NSNumberFormatter* kNumFormatter = nil;
     }
     
     return nil;
+}
+
+- (void)setReturnValue:(NSInvocation *)invocation value:(id)retVal
+{
+    const char* type = [[invocation methodSignature] methodReturnType];
+    
+    if (*type == 'c')
+    {
+        BOOL boolVal = [retVal boolValue];
+        [invocation setReturnValue:&boolVal];
+    }
+    else if (*type == 'i' || *type == 'I')  // Signed/unsigned shouldn't matter since the var size is not different.
+    {
+        int intVal = [retVal intValue];
+        [invocation setReturnValue:&intVal];
+    }
+    else if (*type == 'l' || *type == 'L')
+    {
+        long longVal = [retVal longValue];
+        [invocation setReturnValue:&longVal];
+    }
+    else if (*type == 'f')
+    {
+        float floatVal = [retVal floatValue];
+        [invocation setReturnValue:&floatVal];
+    }
+    else if (*type == '@')
+    {
+        [invocation setReturnValue:&retVal];
+    }
 }
 
 @end

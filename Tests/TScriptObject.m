@@ -233,6 +233,9 @@
     id value = [jsObject item:2];
     GHAssertTrue([value isEqual:@"foo3"], @"Something");
     
+    NSUInteger jsLength = [jsObject length];
+    GHAssertTrue(jsLength == 29, @"Length selector is not happy!");
+    
     [jsObject release];
 }
 

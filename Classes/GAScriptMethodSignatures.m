@@ -62,6 +62,11 @@ static void(^s_initBlock)(void) = ^(void)
 
 #pragma mark Common methods
 
+- (NSUInteger)length
+{
+    return 0;
+}
+
 - (id)item:(NSInteger)index
 {
     return nil;
