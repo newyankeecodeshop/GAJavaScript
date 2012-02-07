@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010 Andrew Goodale. All rights reserved.
+ Copyright (c) 2010-2012 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -36,9 +36,14 @@
  */
 @interface UIWebView (GAJavaScript) 
 
-@property (nonatomic, readonly) GAScriptObject* documentObject;
+@property (nonatomic, readonly) GAScriptObject* documentJS;
 
-@property (nonatomic, readonly) GAScriptObject* windowObject;
+@property (nonatomic, readonly) GAScriptObject* windowJS;
 
+@property (nonatomic, readonly) GAScriptObject* locationJS;
+
+@property (nonatomic, readonly) GAScriptObject* localStorageJS;
+
+@property (nonatomic, readonly) GAScriptObject* navigatorJS;
 
 @end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010-2011 Andrew Goodale. All rights reserved.
+ Copyright (c) 2010-2012 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -29,6 +29,7 @@
 #import "GAScriptObject.h"
 #import "GAScriptEngine.h"
 #import "GAScriptMethodSignatures.h"
+#import "GAScriptBlockObject.h"
 #import "NSObject+GAJavaScript.h"
 
 typedef struct /* GAScriptObjectEnumState */
@@ -43,20 +44,9 @@ typedef struct /* GAScriptObjectEnumState */
     unsigned long	extra_4;
 } GAScriptObjectEnumState;
 
-static NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
-static NSString* const GAJavaScriptErrorName   = @"JSErrorName";
-static NSString* const GAJavaScriptErrorSource = @"JSErrorSource";
-static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
-
 @interface GAScriptObject ()
 
 - (void)releaseReference;
-
-- (id)convertScriptResult:(NSString *)result reference:(NSString *)reference;
-
-- (NSArray *)arrayFromJavaScript:(NSString *)result reference:(NSString *)reference;
-
-- (NSError *)errorFromJavaScript:(NSString *)result;
 
 - (id)convertArgument:(NSInvocation *)invocation atIndex:(NSInteger)index;
 
@@ -68,21 +58,13 @@ static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 
 @implementation GAScriptObject
 
-static NSNumberFormatter* kNumFormatter = nil;
-
-- (id)initForReference:(NSString *)reference view:(UIWebView *)webView
+- (id)initForReference:(NSString *)reference withEngine:(GAScriptEngine *)engine
 {
 	if ((self = [super init]))
 	{
-		m_webView = webView;
+		m_engine = engine;
 		m_objReference = [reference copy];
 	}
-	
-	static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^(void)
-    {
-        kNumFormatter = [[NSNumberFormatter alloc] init];
-    });
 	
 	return self;
 }
@@ -91,7 +73,6 @@ static NSNumberFormatter* kNumFormatter = nil;
 {
 	[self releaseReference];
 	[m_objReference release];
-    [m_blocks release];
 	
 	[super dealloc];
 }
@@ -100,8 +81,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 {
 	if ([m_objReference hasPrefix:@"GAJavaScript.ref["])
 	{
-		NSString* js = [NSString stringWithFormat:@"delete %@", m_objReference];
-		[m_webView stringByEvaluatingJavaScriptFromString:js];
+		[m_engine evalWithFormat:@"delete %@", m_objReference];
 	}
 }
 
@@ -116,8 +96,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 	
 	if (object == [NSNull null])
 	{
-		NSString* js = [NSString stringWithFormat:@"%@ === null", m_objReference];
-		NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
+		NSString* result = [m_engine evalWithFormat:@"%@ === null", m_objReference];
 		
 		return [result isEqualToString:@"true"];
 	}
@@ -130,8 +109,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 		// The references may be different string values, but still refer to the same object.
 		// For example, "document" and "window.document"
 		//
-		NSString* js = [NSString stringWithFormat:@"%@ === %@", m_objReference, [object stringForJavaScript]];
-		NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
+		NSString* result = [m_engine evalWithFormat:@"%@ === %@", m_objReference, [object stringForJavaScript]];
 		
 		return [result isEqualToString:@"true"];		
 	}
@@ -148,46 +126,42 @@ static NSNumberFormatter* kNumFormatter = nil;
 }
 
 - (NSArray *)allKeys
-{	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.propsOf(%@)", m_objReference];
-	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
-	//	NSLog(@"JS allKeys: %@", result);
-	
-	if ([result length] == 0)	// If the result is '', then we just return an empty array. 
-		return [NSArray array];
-	
-	// Will come back as a comma-delimited list of names
+{			
+	// Will come back as an array of names
 	//
-	return [result componentsSeparatedByString:@","];	
+	return [m_engine evalWithFormat:@"GAJavaScript.propsOf(%@)", m_objReference];	
 }
 
 - (id)callFunction:(NSString *)functionName
 {	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.callFunction(%@.%@, %@)", 
-					m_objReference, functionName, m_objReference];
-	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
-	
-	return [self convertScriptResult:result reference:m_objReference];
+	return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@.%@, %@)", 
+                        m_objReference, functionName, m_objReference];	
 }
 
 - (id)callFunction:(NSString *)functionName withObject:(id)argument
 {	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, [%@])", 
-					m_objReference, functionName, m_objReference, [argument stringForJavaScript]];
-	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
-		
-	return [self convertScriptResult:result reference:m_objReference];
+	return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, [%@])", 
+                        m_objReference, functionName, m_objReference, [argument stringForJavaScript]];
 }
 
 - (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments
+{	
+	return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, %@)", 
+                        m_objReference, functionName, m_objReference, [arguments stringForJavaScript]];	
+}
+
+- (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block
 {
-	NSString* strArgs = [arguments stringForJavaScript];	// "new Array(a,b,c)"
-	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, %@)", 
-					m_objReference, functionName, m_objReference, strArgs];
-	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];	
-	
-	return [self convertScriptResult:result reference:m_objReference];	
+    GAScriptBlockObject* theBlock = [[GAScriptBlockObject alloc] initWithBlock:block];
+    
+    [self setValue:theBlock forKey:key];
+    
+    // Save the block object so that we can keep the block alive while this object is used.
+    // The block might be stack-based, which would likely go out-of-scope before the callback
+    // is received.
+    //
+    [m_engine addBlockCallback:theBlock];
+    [theBlock release];
 }
 
 #pragma mark GAScriptObject (NSKeyValueCoding)
@@ -197,12 +171,8 @@ static NSNumberFormatter* kNumFormatter = nil;
  */
 - (id)valueForKey:(NSString *)key
 {	
-	key = [key stringForJavaScript];
-	
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@[%@])", m_objReference, key];
-	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
-	
-	return [self convertScriptResult:result reference:key];	
+	return [m_engine evalWithFormat:@"GAJavaScript.valueToString(%@[%@])", 
+            m_objReference, [key stringForJavaScript]];
 }
 
 - (void)setValue:(id)value forKey:(NSString *)key
@@ -214,16 +184,13 @@ static NSNumberFormatter* kNumFormatter = nil;
 	else 
 		value = [value stringForJavaScript];
 	
-	NSString* js = [NSString stringWithFormat:@"%@[%@] = %@", m_objReference, key, value];
-	[m_webView stringByEvaluatingJavaScriptFromString:js];
+	[m_engine evalWithFormat:@"%@[%@] = %@", m_objReference, key, value];
 }
 
 - (id)valueForKeyPath:(NSString *)keyPath
 {
-	NSString* js = [NSString stringWithFormat:@"GAJavaScript.valueToString(%@.%@)", m_objReference, keyPath];
-	NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:js];
-	
-	return [self convertScriptResult:result reference:keyPath];		
+	return [m_engine evalWithFormat:@"GAJavaScript.valueToString(%@.%@)", 
+            m_objReference, keyPath];
 }
 
 /**
@@ -238,8 +205,7 @@ static NSNumberFormatter* kNumFormatter = nil;
 	else 
 		value = [value stringForJavaScript];
 	
-	NSString* js = [NSString stringWithFormat:@"%@.%@ = %@", m_objReference, keyPath, value];
-	[m_webView stringByEvaluatingJavaScriptFromString:js];    
+	[m_engine evalWithFormat:@"%@.%@ = %@", m_objReference, keyPath, value];    
 }
 
 /*
@@ -251,82 +217,6 @@ static NSNumberFormatter* kNumFormatter = nil;
 - (id)valueForUndefinedKey:(NSString *)key
 {
 	return nil;
-}
-
-#pragma mark Private
-
-- (id)convertScriptResult:(NSString *)result reference:(NSString *)reference
-{
-	// An empty result means a syntax error or JS exception was thrown.
-	if ([result length] == 0)
-		return [NSError errorWithDomain:GAJavaScriptErrorDomain code:101 userInfo:nil];
-	
-	unichar jstype = [result characterAtIndex:0];
-	result = [result substringFromIndex:2];
-	
-	// Objects don't serialize to a string above.		
-	if (jstype == 'o')
-	{
-		GAScriptObject* subObj = [[GAScriptObject alloc] initForReference:result view:m_webView];
-		return [subObj autorelease];
-	}
-	else if (jstype == 'd')
-	{
-		NSNumber* millisecsSince1970 = [kNumFormatter numberFromString:result];
-		return [NSDate dateWithTimeIntervalSince1970:[millisecsSince1970 doubleValue] / 1000];
-	}
-	else if (jstype == 'n')
-	{
-		return [kNumFormatter numberFromString:result];
-	}
-	else if (jstype == 'b')
-	{
-		return [NSNumber numberWithBool:[result isEqualToString:@"true"]];
-	}
-	else if (jstype == 'a')
-	{		
-		return [self arrayFromJavaScript:result reference:reference];
-	}
-	else if (jstype == 'x')
-	{
-		return [NSNull null];	// Because 'nil' is for 'undefined'
-	}
-	else if (jstype == 'u')
-	{
-		return [self valueForUndefinedKey:result];
-	}
-	else if (jstype == 'e')		// JavaScript exception
-	{
-		return [self errorFromJavaScript:result];
-	}
-	
-	return result;	
-}
-
-- (NSArray *)arrayFromJavaScript:(NSString *)result reference:(NSString *)reference
-{
-	NSArray* components = [result componentsSeparatedByString:@"\f"];
-	NSMutableArray* retVal = [NSMutableArray arrayWithCapacity:[components count]];
-	
-	for (NSString* jsvalue in components)
-	{
-		[retVal addObject:[self convertScriptResult:jsvalue reference:reference]];
-	}
-	
-	return retVal;
-}
-
-- (NSError *)errorFromJavaScript:(NSString *)result
-{
-	GAScriptObject* errObj = [[GAScriptObject alloc] initForReference:result view:m_webView];
-	NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                          [errObj valueForKey:@"name"], GAJavaScriptErrorName,
-                          [errObj valueForKey:@"message"], NSLocalizedDescriptionKey,
-                          [errObj valueForKey:@"sourceURL"], GAJavaScriptErrorSource,
-                          [errObj valueForKey:@"line"], GAJavaScriptErrorLine, nil];
-	[errObj release];
-	
-	return [NSError errorWithDomain:GAJavaScriptErrorDomain code:101 userInfo:dict];	
 }
 
 #pragma mark NSFastEnumeration

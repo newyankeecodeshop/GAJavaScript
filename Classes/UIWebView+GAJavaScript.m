@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010 Andrew Goodale. All rights reserved.
+ Copyright (c) 2010-2012 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -28,19 +28,48 @@
 
 
 #import "UIWebView+GAJavaScript.h"
+#import "GAScriptEngine.h"
 #import "GAScriptObject.h"
 
 @implementation UIWebView (GAJavaScript)
 
-- (GAScriptObject *)documentObject
+- (GAScriptObject *)documentJS
 {
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"document" view:self];
+    GAScriptEngine* jsEngine = [GAScriptEngine scriptEngineForView:self];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"document" withEngine:jsEngine];
+	
+    return [jsObject autorelease];
+}
+
+- (GAScriptObject *)windowJS
+{
+    GAScriptEngine* jsEngine = [GAScriptEngine scriptEngineForView:self];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"window" withEngine:jsEngine];
+    
 	return [jsObject autorelease];
 }
 
-- (GAScriptObject *)windowObject
+- (GAScriptObject *)locationJS
 {
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"window" view:self];
+    GAScriptEngine* jsEngine = [GAScriptEngine scriptEngineForView:self];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"location" withEngine:jsEngine];
+    
+	return [jsObject autorelease];
+}
+
+- (GAScriptObject *)localStorageJS
+{
+    GAScriptEngine* jsEngine = [GAScriptEngine scriptEngineForView:self];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"localStorage" withEngine:jsEngine];
+    
+	return [jsObject autorelease];
+}
+
+- (GAScriptObject *)navigatorJS
+{
+    GAScriptEngine* jsEngine = [GAScriptEngine scriptEngineForView:self];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:@"navigator" withEngine:jsEngine];
+    
 	return [jsObject autorelease];
 }
 

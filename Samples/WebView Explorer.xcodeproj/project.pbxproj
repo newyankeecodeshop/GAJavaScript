@@ -156,7 +156,7 @@
 		2D5A7846139C616F00335643 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "Wingspan Technology, Inc.";
 			};
 			buildConfigurationList = 2D5A7849139C616F00335643 /* Build configuration list for PBXProject "WebView Explorer" */;
@@ -276,6 +276,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebView Explorer/WebView Explorer-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "WebView Explorer/WebView Explorer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -292,6 +293,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebView Explorer/WebView Explorer-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "WebView Explorer/WebView Explorer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",

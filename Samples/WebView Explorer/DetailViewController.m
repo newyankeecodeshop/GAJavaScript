@@ -9,8 +9,9 @@
 #import "DetailViewController.h"
 #import "RootViewController.h"
 #import "GAScriptEngine.h"
-#import "GAScriptBlockObject.h"
+#import "GAScriptObject.h"
 #import "GAScriptMethodSignatures.h"
+#import "UIWebView+GAJavaScript.h"
 
 @interface DetailViewController ()
 
@@ -196,21 +197,21 @@
     
     if (_rootController.document == nil)
     {
-        [_rootController setDocument:[_scriptEngine documentObject]];
-        [_rootController setRootNode:[_scriptEngine documentObject]];
+        [_rootController setDocument:[webView documentJS]];
+        [_rootController setRootNode:[webView documentJS]];
     }
     
-    [[_scriptEngine documentObject] setFunctionForKey:@"ontouchstart" withBlock:^ (NSArray* arguments)
+    [[webView documentJS] setFunctionForKey:@"ontouchstart" withBlock:^ (NSArray* arguments)
     {
         id touchEvent = [arguments objectAtIndex:0];
-        [[_scriptEngine windowObject] callFunction:@"console.log" withObject:@"ontouchstart"];
+        [_scriptEngine callFunction:@"console.log" withObject:@"ontouchstart"];
         
         [_rootController setRootNode:[touchEvent valueForKey:@"target"]];
     }];
     
     // Override the webview console to call us back so we can log to NSLog()
     //
-    id console = [[_scriptEngine windowObject] valueForKey:@"console"];
+    id console = [[webView windowJS] valueForKey:@"console"];
     
     [console setFunctionForKey:@"log" withBlock:^ (NSArray* arguments)
     {

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011 Andrew Goodale. All rights reserved.
+ Copyright (c) 2011-2012 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -28,6 +28,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString* const GAJavaScriptErrorDomain;
+
 @class GAScriptObject;
 
 /**
@@ -39,11 +41,11 @@
 @private
     UIWebView*				m_webView;
 	id<UIWebViewDelegate>	m_delegate;
-    
-    GAScriptObject*         m_document;
-    GAScriptObject*         m_window;
-    
+        
     NSMutableArray*			m_receivers;
+
+    /* A dictionary of NSString->Block */
+    NSMutableDictionary*    m_blocks;
 }
 
 /**
@@ -52,19 +54,14 @@
 @property (nonatomic, readonly) UIWebView*      webView;
 
 /**
- * A reference to the "document" object for this UIWebView.
- */
-@property (nonatomic, readonly) GAScriptObject* documentObject;
-
-/**
- * A reference to the "window" object for thi UIWebView.
- */
-@property (nonatomic, readonly) GAScriptObject* windowObject;
-
-/**
  * An array of objects that take callbacks from JavaScript code.
  */
 @property (nonatomic, retain) NSMutableArray*   receivers;
+
+/**
+ * Access the script engine attached to the given view
+ */
++ (GAScriptEngine *)scriptEngineForView:(UIWebView *)webView;
 
 /**
  * The designated initializer.
@@ -79,7 +76,7 @@
 - (id)initWithSuperview:(UIView *)superview delegate:(id<UIWebViewDelegate>)delegate;
 
 /*
- * Creates a new (empty) object 
+ * Creates a new Object instance. 
  */
 - (GAScriptObject *)newScriptObject;
 
@@ -90,7 +87,7 @@
 
 /*
  * Returns a script object bound to the given reference. The script object will have 
- * a "weak" reference to the JavaScript object
+ * a "weak" reference to the JavaScript object (i.e. it won't prevent the object from being collected).
  */
 - (GAScriptObject *)scriptObjectWithReference:(NSString *)reference;
 
@@ -103,5 +100,15 @@
  * Call a function at global scope with a single argument.
  */
 - (id)callFunction:(NSString *)functionName withObject:(id)argument;
+
+/*
+ * Call a function at global scope with multiple arguments.
+ */
+- (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments;
+
+/*
+ * Generic evaluation of script
+ */
+- (id)evalWithFormat:(NSString *)script, ...;
 
 @end

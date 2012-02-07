@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011 Andrew Goodale. All rights reserved.
+ Copyright (c) 2011-2012 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -27,18 +27,22 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "GAScriptObject.h"
+#import "GAScriptEngine.h"
 
 typedef void (^GAScriptBlock)(NSArray *);
 
 /**
- * Wraps a block so it can be called from JavaScript. Not public right now,
- * but it could be useful for allowing people to use in their own classes.
+ * Wraps a block so it can be called from JavaScript. This opbject can be used to pass
+ * blocks as arguments to JavaScript function calls.
  */
 @interface GAScriptBlockObject : NSObject
 {
-    GAScriptBlock   _blockObject;
+    NSString*       m_blockId;
+    GAScriptBlock   m_block;
 }
+
+@property (nonatomic, readonly) NSString*     blockId;
+@property (nonatomic, readonly) GAScriptBlock block;
 
 + (id)scriptBlockWithBlock:(GAScriptBlock)block;
 
@@ -52,13 +56,8 @@ typedef void (^GAScriptBlock)(NSArray *);
  * Add support for functions that are proxies to a block. When the function is called from JavaScript,
  * the block will be invoked.
  */
-@interface GAScriptObject (Blocks)
+@interface GAScriptEngine (Blocks)
 
-/**
- * Creates a JavaScript function that will invoke the given block when called. The block will be copied
- * and a reference managed by this script object instance. Make sure your block is on the heap if it's
- * needed after this script object is deallocated.
- */
-- (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block;
+- (void)addBlockCallback:(GAScriptBlockObject *)blockObject;
 
 @end

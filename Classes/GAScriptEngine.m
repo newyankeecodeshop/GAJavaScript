@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011 Andrew Goodale. All rights reserved.
+ Copyright (c) 2011-2012 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -31,7 +31,20 @@
 #import "GAScriptBlockObject.h"
 #import "NSObject+GAJavaScript.h"
 
+static NSNumberFormatter* kNumFormatter = nil;
+
+static NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
+static NSString* const GAJavaScriptErrorName   = @"JSErrorName";
+static NSString* const GAJavaScriptErrorSource = @"JSErrorSource";
+static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
+
 @interface GAScriptEngine ()
+
+- (id)convertScriptResult:(NSString *)result;
+
+- (NSArray *)arrayFromJavaScript:(NSString *)result;
+
+- (NSError *)errorFromJavaScript:(NSString *)result;
 
 /**
  * Loads the GAJavaScript runtime into this webview. This method should be called in the
@@ -54,6 +67,11 @@
 @synthesize webView = m_webView;
 @synthesize receivers = m_receivers;
 
++ (GAScriptEngine *)scriptEngineForView:(UIWebView *)webView
+{
+    return (GAScriptEngine *)webView.delegate;
+}
+
 - (id)initWithWebView:(UIWebView *)webView
 {
     if ((self = [super init]))
@@ -65,6 +83,12 @@
         m_receivers = [[NSMutableArray alloc] initWithCapacity:4];		
     }
     
+	static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^(void)
+    {
+        kNumFormatter = [[NSNumberFormatter alloc] init];
+    });
+	
     return self;
 }
 
@@ -88,34 +112,17 @@
 - (void)dealloc
 {
     [m_webView release];
-    [m_document release];
-    [m_window release];
     [m_receivers release];
-    
+    [m_blocks release];
+ 
     [super dealloc];
-}
-
-- (GAScriptObject *)documentObject
-{
-    if (m_document == nil)
-        m_document = [[GAScriptObject alloc] initForReference:@"document" view:m_webView];
-    
-    return m_document;
-}
-
-- (GAScriptObject *)windowObject
-{
-    if (m_window == nil)
-        m_window = [[GAScriptObject alloc] initForReference:@"window" view:m_webView];
-    
-    return m_window;
 }
 
 - (GAScriptObject *)newScriptObject
 {
 	NSString* objRef = [m_webView stringByEvaluatingJavaScriptFromString:@"GAJavaScript.makeReference(new Object())"];
 	
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:objRef view:m_webView];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:objRef withEngine:self];
 	return jsObject;	
 }
 
@@ -124,14 +131,33 @@
     NSString* js = [NSString stringWithFormat:@"GAJavaScript.makeReference(new %@())", constructorName];
 	NSString* objRef = [m_webView stringByEvaluatingJavaScriptFromString:js];
 	
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:objRef view:m_webView];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:objRef withEngine:self];
 	return jsObject;	
 }
 
 - (GAScriptObject *)scriptObjectWithReference:(NSString *)reference
 {
-	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:reference view:m_webView];
+	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:reference withEngine:self];
 	return [jsObject autorelease];	
+}
+
+- (id)evalWithFormat:(NSString *)format, ...
+{
+    va_list args;
+    
+    va_start(args, format);
+    NSString* script = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    
+    NSString* result = [m_webView stringByEvaluatingJavaScriptFromString:script];
+    [script release];
+    
+    if (![format hasPrefix:@"GAJavaScript."])
+        return result;
+    
+    // The result will be encoded using the scheme in GAJavaScript.valueToString()
+    //
+    return [self convertScriptResult:result];
 }
 
 /**
@@ -139,12 +165,114 @@
  */
 - (id)callFunction:(NSString *)functionName
 {
-	return [self.windowObject callFunction:functionName];
+	return [self evalWithFormat:@"GAJavaScript.callFunction(%@, window)", functionName];	
 }
 
 - (id)callFunction:(NSString *)functionName withObject:(id)argument
 {
-	return [self.windowObject callFunction:functionName withObject:argument];
+    if ([argument isKindOfClass:[GAScriptBlockObject class]])
+    {
+        [self addBlockCallback:argument];
+    }
+	return [self evalWithFormat:@"GAJavaScript.callFunction(%@, window, [%@])", 
+                        functionName, [argument stringForJavaScript]];	
+}
+
+- (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments
+{	
+    for (id arg in arguments)
+    {
+        if ([arg isKindOfClass:[GAScriptBlockObject class]])
+            [self addBlockCallback:arg];        
+    }
+	return [self evalWithFormat:@"GAJavaScript.callFunction(%@, window, %@)", 
+                        functionName, [arguments stringForJavaScript]];		
+}
+
+#pragma mark Data Conversion
+
+- (id)convertScriptResult:(NSString *)result 
+{
+	// An empty result means a syntax error or JS exception was thrown.
+	if ([result length] == 0)
+		return [NSError errorWithDomain:GAJavaScriptErrorDomain code:101 userInfo:nil];
+	    
+	unichar jstype = [result characterAtIndex:0];
+	result = [result substringFromIndex:2];
+	
+	// Objects don't serialize to a string above.		
+	if (jstype == 'o')
+	{
+		GAScriptObject* subObj = [[GAScriptObject alloc] initForReference:result withEngine:self];
+		return [subObj autorelease];
+	}
+	else if (jstype == 'd')
+	{
+		NSNumber* millisecsSince1970 = [kNumFormatter numberFromString:result];
+		return [NSDate dateWithTimeIntervalSince1970:[millisecsSince1970 doubleValue] / 1000];
+	}
+	else if (jstype == 'n')
+	{
+		return [kNumFormatter numberFromString:result];
+	}
+	else if (jstype == 'b')
+	{
+		return [NSNumber numberWithBool:[result isEqualToString:@"true"]];
+	}
+	else if (jstype == 'a')
+	{		
+		return [self arrayFromJavaScript:result];
+	}
+	else if (jstype == 'x')
+	{
+		return [NSNull null];	// Because 'nil' is for 'undefined'
+	}
+	else if (jstype == 'u')
+	{
+		return nil;
+	}
+	else if (jstype == 'e')		// JavaScript exception
+	{
+		return [self errorFromJavaScript:result];
+	}
+	
+	return result;	
+}
+
+- (NSArray *)arrayFromJavaScript:(NSString *)result
+{
+	NSArray* components = [result componentsSeparatedByString:@"\f"];
+	NSMutableArray* retVal = [NSMutableArray arrayWithCapacity:[components count]];
+	
+	for (NSString* jsvalue in components)
+	{
+		[retVal addObject:[self convertScriptResult:jsvalue]];
+	}
+	
+	return retVal;
+}
+
+- (NSError *)errorFromJavaScript:(NSString *)result
+{
+	GAScriptObject* errObj = [[GAScriptObject alloc] initForReference:result withEngine:self];
+	NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [errObj valueForKey:@"name"], GAJavaScriptErrorName,
+                          [errObj valueForKey:@"message"], NSLocalizedDescriptionKey,
+                          [errObj valueForKey:@"sourceURL"], GAJavaScriptErrorSource,
+                          [errObj valueForKey:@"line"], GAJavaScriptErrorLine, nil];
+	[errObj release];
+	
+	return [NSError errorWithDomain:GAJavaScriptErrorDomain code:101 userInfo:dict];	
+}
+
+#pragma mark Blocks
+
+- (void)addBlockCallback:(GAScriptBlockObject *)blockObject
+{
+    if (m_blocks == nil)
+        m_blocks = [[NSMutableDictionary alloc] initWithCapacity:8];
+    
+    [m_blocks setObject:blockObject.block forKey:blockObject.blockId];
 }
 
 #pragma mark Private
@@ -190,11 +318,11 @@
 			SEL theSelector = NSSelectorFromString(selName);
 			[self callReceiversForSelector:theSelector withArguments:arguments];
 		}
-		else if (invName != nil && [invName isKindOfClass:[NSNumber class]])
+		else if (invName != nil && [invName isKindOfClass:[NSString class]])
 		{
-            // Will be the address of a block
+            // Will be the ID of a block object
             //
-            GAScriptBlock theBlock = (GAScriptBlock) [invName unsignedLongLongValue];
+            GAScriptBlock theBlock = [m_blocks objectForKey:invName];
             
             if (theBlock)
                 theBlock(arguments);
@@ -262,7 +390,7 @@
 	if ([m_delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
 		return [m_delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 	
-    // TODO: Only YES for the inital HTML page
+    // Reloading is fine otherwise - we'll make sure the script engine is loaded in the new page.
     return YES;
 }
 

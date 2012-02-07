@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010 Andrew Goodale. All rights reserved.
+ Copyright (c) 2010-2012 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -49,20 +49,22 @@
 
 - (void)testDefaultObjects
 {
-	GAScriptObject* document = [m_webView documentObject];
+	GAScriptObject* document = [m_webView documentJS];
 	
 	NSString* title = [document valueForKey:@"title"];
 	
 	GHAssertTrue([title isEqualToString:@"Test Title"], @"Wrong title");
 	
-	GAScriptObject* window = [m_webView windowObject];
+	GAScriptObject* window = [m_webView windowJS];
 	
 	GHAssertTrue([document isEqual:[window valueForKey:@"document"]], @"window.document failed");
+    
+    GHAssertNotNil([[m_webView navigatorJS] valueForKey:@"userAgent"], @"navigator.userAgent failed");
 }
 
 - (void)testGetElements
 {
-	id document = [m_webView documentObject];
+	id document = [m_webView documentJS];
 
 	GAScriptObject* nodeList = [document getElementsByTagName:@"p"];
 	NSNumber* length = [nodeList valueForKey:@"length"];

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011 Andrew Goodale. All rights reserved.
+ Copyright (c) 2011-2012 Andrew Goodale. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
@@ -30,6 +30,9 @@
 
 @implementation GAScriptBlockObject
 
+@synthesize blockId = m_blockId,
+            block = m_block;
+
 + (id)scriptBlockWithBlock:(GAScriptBlock)block
 {
     return [[[GAScriptBlockObject alloc] initWithBlock:block] autorelease];
@@ -39,7 +42,8 @@
 {
     if ((self = [super init]))
     {
-        _blockObject = [block copy];
+        m_block = [block copy];
+        m_blockId = [[NSString alloc] initWithFormat:@"block-%u", [self hash]];
     }
     
     return self;
@@ -47,7 +51,8 @@
 
 - (void)dealloc
 {
-    [_blockObject release];
+    [m_blockId release];
+    [m_block release];
     
     [super dealloc];
 }
@@ -58,33 +63,11 @@
  */
 - (NSString *)stringForJavaScript
 {	
-    NSAssert(_blockObject, @"Block for callback cannot be NULL!");
-    //    NSLog(@"ScriptBlockObject: function () { GAJavaScript.invocation(%p, arguments); }", (void *)_blockObject);
+    NSAssert(m_block, @"Block for callback cannot be NULL!");
+    GADebugStr(@"ScriptBlockObject: function () { GAJavaScript.invocation('%@', arguments); }", m_blockId);
     
-	return [NSString stringWithFormat:@"function () { GAJavaScript.invocation(%p, arguments); }", (void *)_blockObject];	
+	return [NSString stringWithFormat:@"function () { GAJavaScript.invocation('%@', arguments); }", m_blockId];	
 }
 
 @end
 
-#pragma mark GAScriptObject (Blocks)
-
-@implementation GAScriptObject (Blocks)
-
-- (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block
-{
-    GAScriptBlockObject* myBlock = [[GAScriptBlockObject alloc] initWithBlock:block];
-    
-    [self setValue:myBlock forKey:key];
-    
-    // Save the block object so that we can keep the block alive while this object is used.
-    // The block might be stack-based, which would likely go out-of-scope before the callback
-    // is received.
-    //
-    if (m_blocks == nil)
-        m_blocks = [[NSMutableSet alloc] initWithCapacity:4];
-        
-        [m_blocks addObject:myBlock];
-    [myBlock release];
-}
-
-@end
