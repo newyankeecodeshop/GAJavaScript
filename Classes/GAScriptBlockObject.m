@@ -27,6 +27,7 @@
  */
 
 #import "GAScriptBlockObject.h"
+#import "GADebugMacros.h"
 
 @implementation GAScriptBlockObject
 
