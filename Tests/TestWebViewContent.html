@@ -43,6 +43,10 @@
 			callback('arg1', 'arg2', new Date());
 		}
         
+        function testCallbackWithArrays (callback) {
+            callback('arg1', [1, 2 ,3], new Date());
+        }
+        
         function testThrowException () {
             return window.fake.object;  // Will throw a TypeError
         }

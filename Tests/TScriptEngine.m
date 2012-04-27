@@ -108,6 +108,35 @@
 	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];
 }
 
+- (void)testCallbackWithArrays
+{
+	[self prepare:@selector(invocationCallback:andString:andDate:)];
+    
+	[_engine callFunction:@"testCallbackWithArrays" 
+               withObject:[GAScriptBlockObject scriptBlockWithBlock:^(NSArray* arguments) 
+    {
+        if ([arguments count] != 3)
+        {
+            [self notify:kGHUnitWaitStatusFailure];
+            return;
+        }
+       
+        id array = [arguments objectAtIndex:1];
+       
+        if ([[array valueForKey:@"length"] intValue] != 3)
+        {
+            [self notify:kGHUnitWaitStatusFailure];
+            return;                                   
+        }
+       
+        [self invocationCallback:[arguments objectAtIndex:0]
+                       andString:[array description]
+                         andDate:[arguments objectAtIndex:2]];
+    }]];
+	
+	[self waitForStatus:kGHUnitWaitStatusSuccess timeout:1.0];    
+}
+
 // We assign the block in a separate method so that our stack-based block will be out-of-scope when the 
 // callback happens. We want to test that we are properly copying the block and maintaining it on the heap.
 //

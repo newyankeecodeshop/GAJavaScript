@@ -111,6 +111,10 @@ static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 
 - (void)dealloc
 {
+    // Remove ourselves as delegate, as required by UIWebView docs
+    //
+    [m_webView setDelegate:m_delegate];
+    
     [m_webView release];
     [m_receivers release];
     [m_blocks release];
@@ -301,13 +305,13 @@ static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 - (void)makeLotsaCalls
 {
     id calls = [self scriptObjectWithReference:@"GAJavaScript.calls"];
-    NSNumber* numCalls = [calls valueForKey:@"length"];
-    calls = [calls callFunction:@"splice" 
-                  withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:0], numCalls, nil]];
+    NSInteger numCalls = [[calls valueForKey:@"length"] intValue];
     
-    for (NSInteger i = 0; i < [calls count]; ++i)
+    for (NSInteger i = 0; i < numCalls; ++i)
     {
-        id call = [calls objectAtIndex:i];
+        // Use Array.shift because we want execute calls in the order they were made (pushed) in script.
+        //
+        id call = [calls callFunction:@"shift"];
         
         NSString* selName = [call valueForKey:@"sel"];
 		NSNumber* invName = [call valueForKey:@"inv"];
@@ -320,12 +324,14 @@ static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 		}
 		else if (invName != nil && [invName isKindOfClass:[NSString class]])
 		{
-            // Will be the ID of a block object
+            // The 'inv' property will be the ID of a block object
             //
             GAScriptBlock theBlock = [m_blocks objectForKey:invName];
             
             if (theBlock)
+            {
                 theBlock(arguments);
+            }
         }
     }    
 }

@@ -60,7 +60,7 @@ GAJavaScript = {
 		return t;
 	},
 	
-	/*
+	/**
 	 * The JavaScript used for computing the "keys" for an object. 
 	 * These are the named properties that are not functions.
 	 */
@@ -75,34 +75,51 @@ GAJavaScript = {
 		return this.valueToString(a);
 	},
 		
+    /**
+     * Returns a value with a special prefix that GAScriptEngine can use to convert the value
+     * into the best matching Obj-C type.
+     */
 	valueToString: function (value) {
-		var type = this.typeOf(value);
+        var type = this.typeOf(value),
+            self = this;
 		
-		if (type === 'undefined')
+        function arrayToString (a) {
+            var result = '';
+            
+            for (var i = 0; i < a.length; ++i) {
+                if (i > 0) {
+                    result += '\f';
+                }
+                
+                // Return arrays inside arrays as objects, since the string syntax doesn't support nesting 
+                if (self.typeOf(a[i]) === 'array') {
+                    result += 'o:' + self.makeReference(a[i]);
+                }
+                else {
+                    result += self.valueToString(a[i]);
+                }
+            }
+            
+            return result;
+        }
+        		
+		if (type === 'undefined') {
 			return 'u:';
-		else if (type === 'date')
-			return 'd:' + value.getTime();
-		else if (type === 'array')
-			return 'a:' + this.arrayToString(value);
-		else if (type === 'object')
-			return 'o:' + this.makeReference(value);
-		else if (type === 'null')
-			return 'x:';
-		else
-			return type.charAt(0) + ':' + value;		
-	},
-	
-	arrayToString: function (a) {
-		var result = '';
-		
-		for (var i = 0; i < a.length; ++i) {
-			if (i > 0)
-				result += '\f';
-			
-			result += this.valueToString(a[i]);
 		}
-		
-		return result;
+        else if (type === 'date') {
+			return 'd:' + value.getTime();
+		}
+        else if (type === 'array') {
+			return 'a:' + arrayToString(value);
+		}
+        else if (type === 'object') {
+			return 'o:' + this.makeReference(value);
+		}
+        else if (type === 'null') {
+			return 'x:';
+		}
+        
+		return type.charAt(0) + ':' + value;		
 	},
 	
 	callFunction: function (func, scope, argsArray) {
@@ -129,7 +146,7 @@ GAJavaScript = {
         var newCall = {
             sel: selName,
             args: Array.prototype.slice.call(arguments)     // Converts it to a true Array
-        }
+        };
         this.calls.push(newCall);
         
         location.replace("ga-js:makeLotsaCalls");
@@ -139,7 +156,7 @@ GAJavaScript = {
         var newCall = {
 			inv: invocationHash,
 			args: Array.prototype.slice.call(callArguments)     // Converts it to a true Array
-        }
+        };
         this.calls.push(newCall);
 		
 		location.replace("ga-js:makeLotsaCalls");
