@@ -18,10 +18,6 @@ This class is the main interface to the library. It takes or creates a UIWebView
 
 Typically, an iOS application will have one GAScriptEngine instance. You can keep the instance in a globally accessible place, such as the UIApplication delegate, or keep it with the object/view that is managing the hidden UIWebView.
 
-## UIWebView+GAJavaScript
-
-This category adds accessors to access the "document" and "window" objects of the HTML document loaded in the WebView. You can then use any GAScriptObject functionality on them.
-
 ## GAScriptObject
 
 This object provides a wrapper around a JavaScript object in a UIWebView. It provides a KVC view for a JavaScript object, so that you can get and set the object's properties using `[NSObject valueForKey:]` and `[NSObject setValue:forKey:]`, as you would with other Objective-C classes. Only non-function properties are exposed via KVC. 
@@ -31,6 +27,16 @@ GAScriptObject handles marshaling of data between the languages. It will handle 
 There are three "callFunction" methods that can be used to call a Function on the object with either no arguments, one argument, or an array of arguments. All the data types supported by the KVC code are supported as function arguments and return types.
 
 GAScriptObject implements NSFastEnumeration so that you can write loops that iterate over the script object's property names and values. 
+
+## UIWebView+GAJavaScript
+
+This category adds accessors to expose several top-level browser objects to Objective-C, including:
+
+* document
+* window
+* location
+* navigator
+* localStorage
 
 # Using it
 
@@ -42,7 +48,7 @@ A simple way to get started is to:
 2. Create a hidden UIWebView. It can be parented to the app's UIWindow, or a view in a UIViewController.
 3. Create a GAScriptEngine and pass the UIWebView to `[GAScriptEngine initWithWebView:]`.
 4. Load your HTML+JavaScript into the view. You should load an HTML document that contains/includes all the JavaScript you want to make available to Objective-C code.
-5. Now you can access the "document" or "window" object via the GAScriptEngine instance, or create your own objects using `[GAScriptEngine newScriptObject:]`.
+5. Now you can access the "document" or "window" object via the UIWebView instance, or create your own objects using `[GAScriptEngine newScriptObject:]`.
 
 Note: If you are using GAJavaScript as a static library, remember to set the `-ObjC` and `-all_load` linker flags so that all the categories are loaded. (You can also use `-force_load` on just libGAJavaScript.a if you have other libraries that don't work well with forced loading.)
 
@@ -56,8 +62,8 @@ One interesting feature of GAJavaScript is the ability to convert arbitrary mess
 
 If you look in "GAScriptMethodSignatures.h", you'll see an object that defines a set of selectors for commonly-used JavaScript functions and DOM interfaces. If you include this header in your source that uses script objects, you can invoke these functions directly. For example, say you have a GAScriptObject instance that represents the HTML "document" object:
 
-	// Get the "document" object from the script engine
-	id document = [scriptEngine documentObject];
+	// Get the "document" object from the UIWebView
+	id document = [myWebView documentJS];
 	
 	// Get a GAScriptObject that represents the DOM element with id="myelement"
 	id myElement = [document getElementById:@"myelement"];
@@ -65,6 +71,73 @@ If you look in "GAScriptMethodSignatures.h", you'll see an object that defines a
 	// The above is the same as this, but nicer to read and write
 	id myElement2 = [document callFunction:@"getElementById" withObject:@"myelement"];
 	
+## Handling Errors
+
+GAJavaScript wraps JS function calls with a try/catch, and returns any exceptions as `NSError` objects. Extending the above example:
+
+	// Do something that will cause a JS Error
+	id myResult = [document callFunction:@"geetElementById" withObject:@"myelement"];
+	
+	// Instead of being a GAScriptObject, myResult will be an NSError
+	if ([myResult isKindOfClass:[NSError class]])
+	{
+		NSLog(@"JavaScript call failed: %@", myResult);
+	}
+	
+## Passing Data
+
+GAJavaScript adds a category to `NSObject` that provides a means for any object to implement how it should be serialized when passed into JavaScript. GAJavaScript implements serialization for the following classes:
+
+- `NSString`: Surrounds the string contents with single quotes, and escape single-quote, double-quote, backslash, and control characters.
+- `NSNumber`: If it contains a BOOL, the value is "true" or "false". For a number, it's `[NSNumber stringValue]`.
+- `NSDate`: Converts to a JS Date using the number of seconds since 1970.
+- `NSNull`: "null"
+- `NSArray`: Converts to a JS array and call `[NSObject stringForJavaScript]` on each object.
+- `NSDictionary`: Converts to a JS object hash with corresponding name/value dictionary pairs.
+
+For all other objects, a JS object is built using the names of the object's defined properties as dictated by the Objective-C runtime. For performance, you may want to implement `[NSObject stringForJavaScript]` on your own types and avoid the need to introspect the class. An easy way to do this is to create an `NSDictionary` with the data you want to pass to JS, and then return `[myDictionary stringForJavaScript]`.
+
+## Receiving Calls
+
+Like other UIWebView wrappers, GAJavaScript supports callbacks from JavaScript to Objective-C. This is accomplished in two ways: you can specify one or more "receiver" objects that can receive JS calls, or you can specify a block to act as a function property on an object.
+
+#### Objective-C
+	GAScriptEngine* scriptEngine = [self scriptEngine];
+	MyController* myController = [self myController];
+	
+	// Assuming MyController.h has a method - (void) doSomething:(NSString *)string
+	[scriptEngine.receivers addObject:myController];
+
+#### JavaScript
+	function callMyController (text) {
+		// Invoke [MyController doSomething:]
+		GAJavaScript.performSelector('doSomething:', text);
+		
+		text += ' second time';
+
+		// Invoke [MyController doSomething:] a second time
+		GAJavaScript.performSelector('doSomething:', text);		
+	}	
+	
+Note that the call is asynchronous, due to the limitations of UIWebView. So there's no return value to performSelector(). However, you can make multiple invocations, and they will be executed in order.
+
+And now with blocks:
+
+#### Objective-C
+	// Get a reference to window.console
+	id console = [myWebView.windowJS valueForKey:@"console"];
+	
+	// Let's hook "console.log" to call NSLog()
+	[console setFunctionForKey:@"log" withBlock:^(NSArray* arguments)
+	{
+		NSLog(@"UIWebView console: %@", [arguments objectAtIndex:0]);
+	}];
+	
+#### JavaScript
+	window.console('This message will go to NSLog');
+
+The above syntax is useful for setting callback functions on XHR objects too.
+
 # GAViewStyling
 
 If you're looking for the code to style UIViews with CSS, it has moved to [another repository](https://github.com/newyankeecodeshop/GAViewStyling). 
