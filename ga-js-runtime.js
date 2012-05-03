@@ -124,9 +124,6 @@ GAJavaScript = {
 	
 	callFunction: function (func, scope, argsArray) {
 		try {
-            if (typeof(func) !== 'function') {
-                return this.valueToString(func);
-            }
 			return this.valueToString(func.apply(scope, argsArray));
 		}
 		catch (ex) {
@@ -134,6 +131,12 @@ GAJavaScript = {
 			return 'e:GAJavaScript.err';
 		}
 	},
+    
+    callFunctionOrGetValue: function (obj, key) {
+        var v = obj[key];
+        
+        return (typeof v === 'function') ? this.callFunction(v, obj) : this.valueToString(v);
+    },
 	
 	makeReference: function (obj) {
 		var key = 'r' + this.ref.index++;

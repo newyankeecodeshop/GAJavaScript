@@ -28,7 +28,13 @@
 
 #import <UIKit/UIKit.h>
 
-static NSString* const GAJavaScriptErrorDomain;
+/* The domain for NSErrors from JavaScript exceptions */
+extern NSString* const GAJavaScriptErrorDomain;
+
+/* NSError userInfo properties */
+extern NSString* const GAJavaScriptErrorName;
+extern NSString* const GAJavaScriptErrorSource;
+extern NSString* const GAJavaScriptErrorLine;
 
 @class GAScriptObject;
 

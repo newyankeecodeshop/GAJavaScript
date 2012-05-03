@@ -33,10 +33,10 @@
 
 static NSNumberFormatter* kNumFormatter = nil;
 
-static NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
-static NSString* const GAJavaScriptErrorName   = @"JSErrorName";
-static NSString* const GAJavaScriptErrorSource = @"JSErrorSource";
-static NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
+NSString* const GAJavaScriptErrorDomain = @"GAJavaScriptException";
+NSString* const GAJavaScriptErrorName   = @"JSErrorName";
+NSString* const GAJavaScriptErrorSource = @"JSErrorSource";
+NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 
 @interface GAScriptEngine ()
 

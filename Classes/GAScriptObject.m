@@ -295,9 +295,9 @@ typedef struct /* GAScriptObjectEnumState */
     
     if (numberOfArgs == 2)     // Really means zero, since "self" and "_cmd" are the first two.
     {
-        // Could be a property or a function - GAJavaScript.callFunction() will handle that
+        // Could be a property or a function
         //
-        retVal = [self callFunction:functionName];
+        retVal = [m_engine evalWithFormat:@"GAJavaScript.callFunctionOrGetValue(%@, '%@')", m_objReference, functionName];
     }
     else if (numberOfArgs == 3)
     {

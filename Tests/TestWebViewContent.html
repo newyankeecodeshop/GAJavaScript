@@ -16,6 +16,11 @@
         CustomTestObject.prototype.item = function (number) {
             return this.stuff[number];
         }
+        
+        CustomTestObject.prototype.removeLastObject = function () {
+            this.stuff.pop();
+            this.length -= 1;
+        }
     </script>
     <script type="text/javascript">
         

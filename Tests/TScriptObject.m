@@ -192,6 +192,14 @@
 	id retVal = [jsObject callFunction:@"createElement" withObject:@"strong"];
 
 	GHAssertTrue([retVal isKindOfClass:[GAScriptObject class]], nil);
+
+    // Now test for errors
+    retVal = [jsObject callFunction:@"crateElement" withObject:@"strong"];   // mis-spelled
+    
+	GHAssertTrue([retVal isKindOfClass:[NSError class]], nil);
+    NSError* myErr = (NSError *)retVal;
+    GHAssertEquals([myErr domain], GAJavaScriptErrorDomain, @"Wrong error domain");
+    GHAssertEqualStrings([myErr localizedDescription], @"Result of expression 'func' [undefined] is not an object.", @"Wrong error message");
 }
 
 - (void)testJavaScriptTrue
@@ -235,6 +243,9 @@
     
     NSUInteger jsLength = [jsObject length];
     GHAssertTrue(jsLength == 29, @"Length selector is not happy!");
+    
+    [jsObject removeLastObject];
+    GHAssertTrue([jsObject length] == 28, @"removeLastObject() didn't get called");
     
     [jsObject release];
 }
