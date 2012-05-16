@@ -65,9 +65,9 @@
 - (NSString *)stringForJavaScript
 {	
     NSAssert(m_block, @"Block for callback cannot be NULL!");
-    GADebugStr(@"ScriptBlockObject: function () { GAJavaScript.invocation('%@', arguments); }", m_blockId);
+    GADebugStr(@"ScriptBlockObject: GAJavaScript.invocation('%@')", m_blockId);
     
-	return [NSString stringWithFormat:@"function () { GAJavaScript.invocation('%@', arguments); }", m_blockId];	
+	return [NSString stringWithFormat:@"GAJavaScript.invocation('%@')", m_blockId];	
 }
 
 @end

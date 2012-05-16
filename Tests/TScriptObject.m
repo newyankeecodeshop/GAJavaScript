@@ -199,7 +199,13 @@
 	GHAssertTrue([retVal isKindOfClass:[NSError class]], nil);
     NSError* myErr = (NSError *)retVal;
     GHAssertEquals([myErr domain], GAJavaScriptErrorDomain, @"Wrong error domain");
-    GHAssertEqualStrings([myErr localizedDescription], @"Result of expression 'func' [undefined] is not an object.", @"Wrong error message");
+
+	// The error message text changed on iOS 5, so we test for it by checking for the new UIWebView method.
+    //
+    if ([_engine.webView respondsToSelector:@selector(mediaPlaybackAllowsAirPlay)])
+        GHAssertEqualStrings([myErr localizedDescription], @"'undefined' is not an object", @"Wrong error message");
+    else
+		GHAssertEqualStrings([myErr localizedDescription], @"Result of expression 'func' [undefined] is not an object.", @"Wrong error message");
 }
 
 - (void)testJavaScriptTrue

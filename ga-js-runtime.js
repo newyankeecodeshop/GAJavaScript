@@ -26,8 +26,35 @@
  or implied, of Andrew Goodale.
  */ 
 
-GAJavaScript = {
+GAJavaScript = 
+function () {
 
+	/**
+	 * Uses an iframe navigation to cause the UIWebViewDelegate to be called.
+	 * The custom URL scheme identifies this request as the "trigger" to make Obj-C calls.
+	 * Note that call happens asynchronously, so a script can queue several calls that will be invoked in order when the run loop is ready.
+	 */
+	function callScriptEngine () {
+		var iframe = document.getElementById("gajavascript_frame");
+		
+		if (iframe === null) {
+			iframe = document.createElement("iframe");
+			iframe.id = "gajavascript_frame";
+			iframe.style = "display: none";
+			iframe.src = "ga-js:makeLotsaCalls";
+			
+			document.documentElement.appendChild(iframe);	// will make the callback happen
+		}
+		else {
+			iframe.src = iframe.src;	// a kind of "refresh"
+			
+			// Experimental: The two statements below would cause Obj-C to be invoked synchronously.
+//			document.documentElement.removeChild(iframe);
+//			document.documentElement.appendChild(iframe);
+		}
+	}
+	
+return {
 	ref: { 
 		index: 0
 	},
@@ -146,22 +173,24 @@ GAJavaScript = {
 	},
     
     performSelector: function (selName) {
-        var newCall = {
+        this.calls.push({
             sel: selName,
             args: Array.prototype.slice.call(arguments)     // Converts it to a true Array
-        };
-        this.calls.push(newCall);
-        
-        location.replace("ga-js:makeLotsaCalls");
+        });
+		
+        callScriptEngine();
     },
 	
-	invocation: function (invocationHash, callArguments) {
-        var newCall = {
-			inv: invocationHash,
-			args: Array.prototype.slice.call(callArguments)     // Converts it to a true Array
-        };
-        this.calls.push(newCall);
+	invocation: function (invocationHash) {
 		
-		location.replace("ga-js:makeLotsaCalls");
+		return function () {
+			GAJavaScript.calls.push({
+				inv: invocationHash,
+				args: Array.prototype.slice.call(arguments)     // Converts it to a true Array
+			});
+
+			callScriptEngine();
+		};
 	}
-};
+}
+}();
