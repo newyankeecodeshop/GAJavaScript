@@ -255,11 +255,8 @@ typedef struct /* GAScriptObjectEnumState */
         // or until we've provided as many items as the stack based buffer will hold.
         while((enumState->state < propCount) && (count < len))
         {
-            // For this sample, we generate the contents on the fly.
-            // A real implementation would likely just be copying objects from internal storage.
-            enumState->itemsPtr[count] = [enumState->propNames objectAtIndex:count];
+            enumState->itemsPtr[count++] = [enumState->propNames objectAtIndex:enumState->state];
             enumState->state++;
-            count++;
         }
     }
     else

@@ -184,6 +184,19 @@
 	}
 
 	GHAssertTrue(foundHostName, nil);
+	
+	// Test that the enumeration does not return duplicate property names. It was doing that for objects with
+	// more than 16 properties.
+	//
+	jsObject = [_engine scriptObjectWithReference:@"window"];
+	NSMutableArray *keyNames = [NSMutableArray array];
+	
+	for (id key in jsObject)
+	{
+		GHAssertFalse([keyNames containsObject:key], @"Enumeration is returning duplicates!");
+		
+		[keyNames addObject:key];
+	}
 }
 
 - (void)testCallFunction
