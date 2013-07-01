@@ -29,6 +29,7 @@
 #import "GAScriptEngine.h"
 #import "GAScriptObject.h"
 #import "GAScriptBlockObject.h"
+#import "GADebugMacros.h"
 #import "NSObject+GAJavaScript.h"
 
 static NSNumberFormatter* kNumFormatter = nil;
@@ -328,12 +329,14 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
             //
             GAScriptBlock theBlock = [m_blocks objectForKey:invName];
             
-            if (theBlock)
-            {
-                theBlock(arguments);
+            if (!theBlock) {
+                GADebugStr(@"No GAScriptBlock found for %@", invName);
+                continue;
             }
+            
+            theBlock(arguments);
         }
-    }    
+    }
 }
 
 - (void)callReceiversForSelector:(SEL)theSelector withArguments:(NSArray *)arguments

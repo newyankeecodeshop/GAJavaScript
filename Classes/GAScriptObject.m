@@ -139,14 +139,24 @@ typedef struct /* GAScriptObjectEnumState */
 }
 
 - (id)callFunction:(NSString *)functionName withObject:(id)argument
-{	
-	return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, [%@])", 
+{
+    if ([argument isKindOfClass:[GAScriptBlockObject class]]) {
+        [m_engine addBlockCallback:argument];
+    }
+
+	return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, [%@])",
                         m_objReference, functionName, m_objReference, [argument stringForJavaScript]];
 }
 
 - (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments
-{	
-	return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, %@)", 
+{
+    for (id arg in arguments) {
+        if ([arg isKindOfClass:[GAScriptBlockObject class]]) {
+            [m_engine addBlockCallback:arg];
+        }
+    }
+
+	return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@.%@, %@, %@)",
                         m_objReference, functionName, m_objReference, [arguments stringForJavaScript]];	
 }
 
