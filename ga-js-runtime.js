@@ -141,7 +141,9 @@ return {
 		}
         else if (type === 'object') {
 			return 'o:' + this.makeReference(value);
-		}
+		}else if (type === 'function') {
+            return 'f:' + this.makeReference(value);
+        }
         else if (type === 'null') {
 			return 'x:';
 		}

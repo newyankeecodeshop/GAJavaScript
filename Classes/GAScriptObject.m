@@ -132,6 +132,18 @@ typedef struct /* GAScriptObjectEnumState */
 	return [m_engine evalWithFormat:@"GAJavaScript.propsOf(%@)", m_objReference];	
 }
 
+-(id)callAsFunction
+{
+    return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@,window)",
+                        m_objReference];
+}
+
+-(id)callAsFunctionWithArguments:(NSArray*)arguments
+{
+    return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@,window,[%@])",
+                        m_objReference,[arguments stringForJavaScript]];
+}
+
 - (id)callFunction:(NSString *)functionName
 {	
 	return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@.%@, %@)", 

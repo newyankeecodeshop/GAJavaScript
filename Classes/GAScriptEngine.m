@@ -206,7 +206,7 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 	result = [result substringFromIndex:2];
 	
 	// Objects don't serialize to a string above.		
-	if (jstype == 'o')
+	if (jstype == 'o' || jstype == 'f')
 	{
 		GAScriptObject* subObj = [[GAScriptObject alloc] initForReference:result withEngine:self];
 		return [subObj autorelease];

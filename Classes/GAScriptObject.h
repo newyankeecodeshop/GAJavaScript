@@ -54,6 +54,16 @@
 - (NSArray *)allKeys;
 
 /**
+ * Call the object as function with no arguments on this object.
+ */
+-(id)callAsFunction;
+
+/**
+ * Call a function on this object, with arguments.
+ */
+-(id)callAsFunctionWithArguments:(NSArray*)arguments;
+
+/**
  * Call a function with no arguments on this object.
  */
 - (id)callFunction:(NSString *)functionName;
@@ -64,7 +74,7 @@
 - (id)callFunction:(NSString *)functionName withObject:(id)argument;
 
 /**
- * Call a function on this object, with a single argument.
+ * Call a function on this object, with arguments.
  */
 - (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments;
 
