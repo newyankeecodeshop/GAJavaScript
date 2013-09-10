@@ -40,8 +40,8 @@ function () {
 		if (iframe === null) {
 			iframe = document.createElement("iframe");
 			iframe.id = "gajavascript_frame";
-			iframe.style = "display: none";
 			iframe.src = "ga-js:makeLotsaCalls";
+            iframe.style.setProperty('display', 'none');
 			
 			document.documentElement.appendChild(iframe);	// will make the callback happen
 		}
