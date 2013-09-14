@@ -234,7 +234,7 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 	}
 	else if (jstype == 'u')
 	{
-		return nil;
+		return [NSNull null];
 	}
 	else if (jstype == 'e')		// JavaScript exception
 	{

@@ -71,7 +71,7 @@ typedef struct /* GAScriptObjectEnumState */
 
 - (void)dealloc
 {
-	[self releaseReference];
+    [self performSelectorOnMainThread:@selector(releaseReference) withObject:nil waitUntilDone:YES];
 	[m_objReference release];
 	
 	[super dealloc];
