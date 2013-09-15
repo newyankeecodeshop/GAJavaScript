@@ -169,8 +169,17 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     NSURL* url = [NSURL URLWithString:[textField text]];
+    
+    if ([url scheme] == nil)
+    {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", textField.text]];
+    }
+    
     [_webView loadRequest:[NSURLRequest requestWithURL:url]];
     
+    // Save the URL for future runs
+    [[NSUserDefaults standardUserDefaults] setURL:url forKey:@"WebView URL"];
+
     return YES;
 }
 
@@ -191,22 +200,21 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
-{   
-    // Save the URL for future runs
-    [[NSUserDefaults standardUserDefaults] setURL:[webView.request URL] forKey:@"WebView URL"];
-    
-    if (_rootController.document == nil)
-    {
-        [_rootController setDocument:[webView documentJS]];
-        [_rootController setRootNode:[webView documentJS]];
-    }
+{
+    // Put the document's URL into the text field
+    NSString *currentHref = [webView.locationJS valueForKey:@"href"];
+    [self.urlField setText:currentHref];
+
+    // Update the tree controller
+    [_rootController setDocument:[webView documentJS]];
+    [_rootController setRootNode:[[webView documentJS] valueForKey:@"body"]];
     
     [[webView documentJS] setFunctionForKey:@"ontouchstart" withBlock:^ (NSArray* arguments)
     {
         id touchEvent = [arguments objectAtIndex:0];
         [_scriptEngine callFunction:@"console.log" withObject:@"ontouchstart"];
         
-        [_rootController setRootNode:[touchEvent valueForKey:@"target"]];
+        [_rootController setRootNode:[touchEvent valueForKeyPath:@"target.parentElement"]];
     }];
     
     // Override the webview console to call us back so we can log to NSLog()
