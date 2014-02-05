@@ -140,7 +140,7 @@ typedef struct /* GAScriptObjectEnumState */
 
 -(id)callAsFunctionWithArguments:(NSArray*)arguments
 {
-    return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@,window,[%@])",
+    return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@,window,%@)",
                         m_objReference,[arguments stringForJavaScript]];
 }
 
