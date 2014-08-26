@@ -282,6 +282,21 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 
 #pragma mark Private
 
+- (NSString*)javascriptRunTimeFile{
+    return [[NSBundle mainBundle] pathForResource:@"ga-js-runtime" ofType:@"js"];
+}
+
+- (NSString*)htmlWithEngineInjected:(NSString*)html{
+    if ([self scriptRuntimeIsLoaded])   // Don't re-evaluate the runtime javascript, because it will destroy all existing object references.
+        return html;
+    
+    NSString *runtimeFile = [self javascriptRunTimeFile];
+    
+    NSString *injectedHtml = [html stringByReplacingOccurrencesOfString:@"</head>" withString:[NSString stringWithFormat:@"<script src=\"%@\"></script></head>",runtimeFile]];
+    
+    return injectedHtml;
+}
+
 - (void)loadScriptRuntime
 {
     if ([self scriptRuntimeIsLoaded])   // Don't re-evaluate the runtime javascript, because it will destroy all existing object references.

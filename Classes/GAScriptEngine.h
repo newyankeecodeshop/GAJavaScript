@@ -117,4 +117,7 @@ extern NSString* const GAJavaScriptErrorLine;
  */
 - (id)evalWithFormat:(NSString *)script, ...;
 
+- (NSString*)javascriptRunTimeFile;
+- (NSString*)htmlWithEngineInjected:(NSString*)html;
+
 @end
