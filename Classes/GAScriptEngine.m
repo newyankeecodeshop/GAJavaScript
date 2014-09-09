@@ -73,12 +73,12 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
     return (GAScriptEngine *)webView.delegate;
 }
 
-- (id)initWithWebView:(UIWebView *)webView
+- (id)initWithWebView:(UIWebView *)webView delegate:(id)_delegate
 {
     if ((self = [super init]))
     {
         m_webView = [webView retain];
-		m_delegate = [webView delegate];
+		m_delegate = _delegate;
         m_webView.delegate = self;
         
         m_receivers = [[NSMutableArray alloc] initWithCapacity:4];		
