@@ -71,10 +71,14 @@ typedef struct /* GAScriptObjectEnumState */
 
 - (void)dealloc
 {
-	[self releaseReference];
+    [self performSelectorOnMainThread:@selector(releaseReference) withObject:nil waitUntilDone:YES];
 	[m_objReference release];
 	
 	[super dealloc];
+}
+
+- (void)detachFromEngine {
+    m_engine = nil;
 }
 
 - (void)releaseReference
@@ -130,6 +134,18 @@ typedef struct /* GAScriptObjectEnumState */
 	// Will come back as an array of names
 	//
 	return [m_engine evalWithFormat:@"GAJavaScript.propsOf(%@)", m_objReference];	
+}
+
+-(id)callAsFunction
+{
+    return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@,window)",
+                        m_objReference];
+}
+
+-(id)callAsFunctionWithArguments:(NSArray*)arguments
+{
+    return [m_engine evalWithFormat:@"GAJavaScript.callFunction(%@,window,%@)",
+                        m_objReference,[arguments stringForJavaScript]];
 }
 
 - (id)callFunction:(NSString *)functionName

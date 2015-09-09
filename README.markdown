@@ -121,6 +121,16 @@ Like other UIWebView wrappers, GAJavaScript supports callbacks from JavaScript t
 	
 Note that the call is asynchronous, due to the limitations of UIWebView. So there's no return value to performSelector(). However, you can make multiple invocations, and they will be executed in order.
 
+A solution to the no-return-value problem is to use callback:
+#### Objective-C
+	-(void)getValueWithCallback:(GAScriptObject*)callback{
+		[callback callAsFunctionWithArguments:@[@"Hello"]];
+	}
+#### JavaScript
+	GAJavaScript.performSelector('getValueWithCallback:', function(value){
+		// value == "Hello"
+	});
+
 And now with blocks:
 
 #### Objective-C

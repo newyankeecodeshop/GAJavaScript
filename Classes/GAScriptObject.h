@@ -47,11 +47,21 @@
  * Designated initializer.
  */
 - (id)initForReference:(NSString *)reference withEngine:(GAScriptEngine *)engine;
-	
+
 /**
  * Array containing the names of all the JS properties.
  */
 - (NSArray *)allKeys;
+
+/**
+ * Call the object as function with no arguments on this object.
+ */
+-(id)callAsFunction;
+
+/**
+ * Call a function on this object, with arguments.
+ */
+-(id)callAsFunctionWithArguments:(NSArray*)arguments;
 
 /**
  * Call a function with no arguments on this object.
@@ -64,7 +74,7 @@
 - (id)callFunction:(NSString *)functionName withObject:(id)argument;
 
 /**
- * Call a function on this object, with a single argument.
+ * Call a function on this object, with arguments.
  */
 - (id)callFunction:(NSString *)functionName withArguments:(NSArray *)arguments;
 
@@ -74,6 +84,8 @@
  * needed after this script object is deallocated.
  */
 - (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block;
+
+- (void)detachFromEngine;
 
 @end
 

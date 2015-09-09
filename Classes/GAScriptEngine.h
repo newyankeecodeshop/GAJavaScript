@@ -72,7 +72,7 @@ extern NSString* const GAJavaScriptErrorLine;
 /**
  * The designated initializer.
  */
-- (id)initWithWebView:(UIWebView *)webView;
+- (id)initWithWebView:(UIWebView *)webView delegate:(id)_delegate;
 
 /**
  * Initializer that creates a hidden UIWebView inside the provided view. Use this initializer
@@ -116,5 +116,8 @@ extern NSString* const GAJavaScriptErrorLine;
  * Generic evaluation of script
  */
 - (id)evalWithFormat:(NSString *)script, ...;
+
+- (NSString*)javascriptRunTimeFile;
+- (NSString*)htmlWithEngineInjected:(NSString*)html;
 
 @end
