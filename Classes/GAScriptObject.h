@@ -47,7 +47,7 @@
  * Designated initializer.
  */
 - (id)initForReference:(NSString *)reference withEngine:(GAScriptEngine *)engine;
-	
+
 /**
  * Array containing the names of all the JS properties.
  */
@@ -84,6 +84,8 @@
  * needed after this script object is deallocated.
  */
 - (void)setFunctionForKey:(NSString *)key withBlock:(void(^)(NSArray* arguments))block;
+
+- (void)detachFromEngine;
 
 @end
 

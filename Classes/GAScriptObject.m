@@ -77,6 +77,10 @@ typedef struct /* GAScriptObjectEnumState */
 	[super dealloc];
 }
 
+- (void)detachFromEngine {
+    m_engine = nil;
+}
+
 - (void)releaseReference
 {
 	if ([m_objReference hasPrefix:@"GAJavaScript.ref["])

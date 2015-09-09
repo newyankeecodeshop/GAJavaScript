@@ -44,7 +44,7 @@
     if ((self = [super init]))
     {
         m_block = [block copy];
-        m_blockId = [[NSString alloc] initWithFormat:@"block-%u", [self hash]];
+        m_blockId = [[NSString alloc] initWithFormat:@"block-%lu", (unsigned long)[self hash]];
     }
     
     return self;

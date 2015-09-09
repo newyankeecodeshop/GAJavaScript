@@ -41,6 +41,8 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 
 @interface GAScriptEngine ()
 
+@property (nonatomic, retain) NSMutableSet *jsObjects;
+
 - (id)convertScriptResult:(NSString *)result;
 
 - (NSArray *)arrayFromJavaScript:(NSString *)result;
@@ -81,7 +83,8 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 		m_delegate = _delegate;
         m_webView.delegate = self;
         
-        m_receivers = [[NSMutableArray alloc] initWithCapacity:4];		
+        m_receivers = [[NSMutableArray alloc] initWithCapacity:4];
+        self.jsObjects = [NSMutableSet set];
     }
     
 	static dispatch_once_t onceToken;
@@ -107,7 +110,7 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
     [superview addSubview:webView];
     [webView release];
     
-    return [self initWithWebView:webView];
+    return [self initWithWebView:webView delegate:delegate];
 }
 
 - (void)dealloc
@@ -119,7 +122,12 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
     [m_webView release];
     [m_receivers release];
     [m_blocks release];
- 
+    
+    for (GAScriptObject *jsObject in self.jsObjects) {
+        [jsObject detachFromEngine];
+    }
+    self.jsObjects = nil;
+
     [super dealloc];
 }
 
@@ -128,6 +136,7 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 	NSString* objRef = [m_webView stringByEvaluatingJavaScriptFromString:@"GAJavaScript.makeReference(new Object())"];
 	
 	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:objRef withEngine:self];
+    [self.jsObjects addObject:jsObject];
 	return jsObject;	
 }
 
@@ -137,13 +146,15 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 	NSString* objRef = [m_webView stringByEvaluatingJavaScriptFromString:js];
 	
 	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:objRef withEngine:self];
-	return jsObject;	
+    [self.jsObjects addObject:jsObject];
+	return jsObject;
 }
 
 - (GAScriptObject *)scriptObjectWithReference:(NSString *)reference
 {
 	GAScriptObject* jsObject = [[GAScriptObject alloc] initForReference:reference withEngine:self];
-	return [jsObject autorelease];	
+    [self.jsObjects addObject:jsObject];
+	return [jsObject autorelease];
 }
 
 - (id)evalWithFormat:(NSString *)format, ...
@@ -209,6 +220,7 @@ NSString* const GAJavaScriptErrorLine   = @"JSErrorLine";
 	if (jstype == 'o' || jstype == 'f')
 	{
 		GAScriptObject* subObj = [[GAScriptObject alloc] initForReference:result withEngine:self];
+        [self.jsObjects addObject:subObj];
 		return [subObj autorelease];
 	}
 	else if (jstype == 'd')
