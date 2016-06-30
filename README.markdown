@@ -134,7 +134,7 @@ And now with blocks:
 	}];
 	
 #### JavaScript
-	window.console('This message will go to NSLog');
+	window.console.log('This message will go to NSLog');
 
 The above syntax is useful for setting callback functions on XHR objects too.
 
